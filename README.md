@@ -1,2 +1,2 @@
-PB138-Vyuka-XML
+PB138-XML-Exercises
 ===============
