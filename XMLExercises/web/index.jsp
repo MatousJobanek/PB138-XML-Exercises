@@ -10,14 +10,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 
-<style type="text/css">
-textarea {width:400px; height: 200px}
-h4 {margin: 5px;padding: 0px}
-.data {width: 340px; float:right;}
-.rect, .data { border:1px solid #ccc;  margin-bottom: 20px; padding: 5px}
-.send {cursor: pointer}
-#wraper { text-align:left; width:800px; margin: 20px auto 0 auto;}
-</style>
+<link rel="stylesheet" href="style.css" type="text/css" media="screen">
 
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="client.js"></script>
@@ -34,15 +27,15 @@ h4 {margin: 5px;padding: 0px}
   <div  id="tasktext" class="rect"></div>
 
   <div style="width:400px; float:left;">
-  <textarea id="solution"></textarea>
+  <textarea id="solution"><table></table></textarea>
   <button class="send">Spusť program</button>
   </div>
 
   <div class="data" > 
-   <h4>Testovací soubory:</h4>
+   <h4>Testovací data:</h4>
    <div id='xmldata'></div>
   </div>
-  <div class="data" >
+  <div class="rect" >
     <h4 >Výstup:</h4>
     <div id="result"></div>
   </div>

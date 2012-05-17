@@ -1,0 +1,43 @@
+/* 
+    Document   : style
+    Created on : May 17, 2012, 7:04:03 PM
+    Author     : slaweet
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+textarea {
+    width:400px; 
+    height: 200px
+}
+h4 {
+    margin: 5px;
+    padding: 0px
+}
+.data {
+    width: 340px; 
+    min-height: 200px; 
+    float:right;
+}
+.rect, .data {
+    border:1px solid #ccc;  
+    margin-bottom: 20px; 
+    padding: 5px
+}
+.rect {
+    width: 800px; 
+    float:right;
+}
+.send {
+    cursor: pointer
+}
+#wraper { 
+    text-align:left; 
+    width:800px; 
+    margin: 20px auto 0 auto;
+}
+td, th  { 
+    border:1px solid #ccc;
+}
+
+

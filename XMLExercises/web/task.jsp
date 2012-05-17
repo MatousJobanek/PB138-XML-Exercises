@@ -5,8 +5,8 @@
 --%>
 
 {
- "text": "Napi?te xpath výraz, který vybere v?chny bu?ky html tabulky s id 'sales'.",
- "type": "XPath",
- "solution": "//table[/@id=sales]//td",
- "data": "input1.xml, input2.xml, input3.xml, input4.xml"
+ "id": "${task.id}",
+ "text": "${task.text}",
+ "type": "${task.type}",
+ "data": "${task.data}"
 }

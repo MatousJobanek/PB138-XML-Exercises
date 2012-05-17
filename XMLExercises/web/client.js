@@ -6,13 +6,15 @@
 var XMLSolver = {
     // setting here
     serverUrl: 'http://localhost:8080/XMLExercises/',
-    evaluatorServletName: 'result.jsp',
-    taskServletName: 'task.jsp',
+    evaluatorServletName: 'Restult',
+    taskServletName: 'Task',
     init: function() {
         this.moveNumber = 0;
         this.lastTime = -1;
         //alert($('task').value);
-        var query = '';
+        var queryData = []
+        queryData.push("type=" + "xquery");
+        var query = queryData.join('&');
         $.get(this.serverUrl + this.taskServletName, query, function(data) {
             XMLSolver.loadTask(data);
         });
@@ -39,9 +41,10 @@ var XMLSolver = {
         $('#result').html("Probíhá vyhodnocování..");
         var queryData = []
         queryData.push("userSolution=" + $("#solution").val());
-        queryData.push("correctSolution=" + this.task.solution);
+        //queryData.push("correctSolution=" + this.task.solution);
         queryData.push("type=" + this.task.type);
-        queryData.push("data=" + this.task.data);
+        //queryData.push("data=" + this.task.data);
+        queryData.push("id=" + this.task.id);
 
         var query = queryData.join('&');
         this.logInfo = $("#solution").val();
