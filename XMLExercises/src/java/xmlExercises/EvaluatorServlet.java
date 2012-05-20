@@ -1,11 +1,12 @@
 package xmlExercises;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -36,9 +37,11 @@ public class EvaluatorServlet extends HttpServlet {
     static final String ACTION_TASK = "/Task";
     static final String ACTION_RESULT = "/Restult";
     static final String ATTRIBUTE_TASK = "task";
-    static final String ATTRIBUTE_RESULT = "result";
+    static final String ATTRIBUTE_RESULT = "results";
+    static final String ATTRIBUTE_ERROR = "errormessage";
     static final String JSP_TASK = "/task.jsp";
     static final String JSP_RESULT = "/result.jsp";
+    static final String JSP_ERROR = "/syntaxerror.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,23 +73,28 @@ public class EvaluatorServlet extends HttpServlet {
 
         Evaluator evaluator = Utils.getEvaluator(type);
         Task task = Utils.getTask(id, type);
-        Result result = new Result();
         ServletContext context = getServletContext();
         //String path = context.getContextPath() + "/" + type + "/" + id + "/data.xml";
         String path = id + "/data.xml";
+        List<Result> results = new ArrayList();
 
         try {
-            result.setCorrectSolution(evaluator.eval(task.getSolution(), path));
-            result.setUserSolution(evaluator.eval(userSolution, path));
-            result.setIsCorrect(evaluator.compare(result.getCorrectSolution(), result.getUserSolution()));
+            for (int i = 0; i < 5; i++) {
+                Result result = new Result();
+                result.setCorrectSolution(evaluator.eval(task.getSolution(), path));
+                result.setUserSolution(evaluator.eval(userSolution, path));
+                result.setIsCorrect(evaluator.compare(result.getCorrectSolution(), result.getUserSolution()));
+                //result.replaceTags();
+                results.add(result);
+            }
+            request.setAttribute(ATTRIBUTE_RESULT, results);
+            request.getRequestDispatcher(JSP_RESULT).forward(request, response);
+            
         } catch (SyntaxErorException ex) {
-            result.setUserSolution(ex.getMessage());
-            result.setIsCorrect(false);
-            Logger.getLogger(EvaluatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+            request.setAttribute(ATTRIBUTE_ERROR, ex.getMessage());
+            request.getRequestDispatcher(JSP_ERROR).forward(request, response);
         }
-        result.replaceTags();
-        request.setAttribute(ATTRIBUTE_RESULT, result);
-        request.getRequestDispatcher(JSP_RESULT).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

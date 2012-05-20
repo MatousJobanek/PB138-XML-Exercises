@@ -4,6 +4,7 @@
     Author     : slaweet
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <table>
     <tr>
@@ -17,15 +18,17 @@
             same?
         </th>
     </tr>
+  <c:forEach items="${results}" var="result" varStatus="loopStatus">
     <tr>
         <td>
-            ${result.userSolution}
+            <c:out value="${result.userSolution}"/>
         </td>
         <td>
-            ${result.correctSolution}
+            <c:out value="${result.correctSolution}"/>
         </td>
-        <td>
-            ${result.isCorrect}
+        <td class=''>
+            <c:out value='${result.isCorrect ? "OK":"X"}'/>
         </td>
     </tr>
+  </c:forEach>
 </table>

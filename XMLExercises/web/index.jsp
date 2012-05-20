@@ -36,7 +36,6 @@
    <div id='xmldata'></div>
   </div>
   <div class="rect" >
-    <h4 >Výstup:</h4>
     <div id="result"></div>
   </div>
 <br style="clear:both;">
