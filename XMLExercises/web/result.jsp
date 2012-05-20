@@ -15,7 +15,6 @@
             correct result:
         </th>
         <th>
-            same?
         </th>
     </tr>
   <c:forEach items="${results}" var="result" varStatus="loopStatus">
@@ -26,7 +25,7 @@
         <td>
             <c:out value="${result.correctSolution}"/>
         </td>
-        <td class=''>
+        <td class='${result.isCorrect ? "ok":"nok"}'>
             <c:out value='${result.isCorrect ? "OK":"X"}'/>
         </td>
     </tr>
