@@ -61,7 +61,7 @@ var XMLSolver = {
     send: function() {
         var time = (new Date()).getTime()/1000;
         if (this.lastTime != -1 && time < this.lastTime + 5) {
-            $("#result").html("<b>Ještě neuplynulo 5 vteřin od posledního pokusu.</b>"); 
+            $("#result").html("<b>You have to wait at least 5 seconds between two attempts.</b>"); 
             return
         }
         this.lastTime = time;

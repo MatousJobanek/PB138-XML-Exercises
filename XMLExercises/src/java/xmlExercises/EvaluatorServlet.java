@@ -85,7 +85,7 @@ public class EvaluatorServlet extends HttpServlet {
         List<Result> results = new ArrayList();
 
         try {
-            for (int i = 1; i < 5; i++) {
+            for (int i = 1; i <= task.getData().size(); i++) {
                 Result result = new Result();
                 String file = path  + "data" + i +".xml";
                 result.setCorrectSolution(evaluator.eval(task.getSolution(), file));
