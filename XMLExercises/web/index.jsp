@@ -11,11 +11,11 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 
         <link rel="stylesheet" href="style.css" type="text/css" media="screen">
-        <link type="text/css" href="jquery-ui-1.8.20.custom.css" rel="stylesheet" />
+        <link type="text/css" href="css/smoothness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
 
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript" src="client.js"></script>
-        <script type="text/javascript" src="jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="js/client.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
         <script type="text/javascript">
 
 
@@ -43,8 +43,8 @@
                 <div id='xmldata'></div>
             </div>
 
-            <div style="width:400px; float:left;">
-                <textarea id="solution"><table></table></textarea>
+            <div style="width:410px; float:left;" class="rect ui-corner-all">
+                <textarea id="solution"></textarea>
                 <button class="send">Run</button>
             </div>
 
