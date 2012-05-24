@@ -6,33 +6,44 @@
         Purpose of the stylesheet follows.
 */
 
+body {
+    font-family: Verdana,Arial,sans-serif;
+}
 textarea {
     width:400px; 
     height: 200px;
     font-weight: normal;
     font-size: 12px;
 }
+.data textarea {
+    padding: 5px; 
+    height: 250px;
+}
+.ui-widget textarea {  
+    font-size: 12px; 
+}
 h4 {
     margin: 5px;
     padding: 0px
 }
 .data {
+    margin-top: 10px; 
     width: 450px; 
     min-height: 200px; 
     float:right;
-}
-.rect, .data {
-    margin-bottom: 20px; 
-    padding: 5px
-}
-.rect {
     border:1px solid #ccc;  
-    width: 880px; 
+    padding: 5px;
+}
+
+.rect {
+    margin-top: 10px; 
+    padding: 5px;
+    border:1px solid #ccc;  
+    width: 890px; 
     float:right;
 }
 #tasktext {
-    width: 410px; 
-    float: left;
+    padding: 5px;
 }
 .send {
     cursor: pointer

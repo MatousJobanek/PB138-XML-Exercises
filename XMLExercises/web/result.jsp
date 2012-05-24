@@ -12,10 +12,10 @@
             #
         </th>
         <th>
-            your result
+            Your result
         </th>
         <th>
-            correct result
+            Correct result
         </th>
         <th>
         </th>
@@ -31,7 +31,7 @@
         <td>
             <c:out value="${result.correctSolution}"/>
         </td>
-        <td class='${result.isCorrect ? "ok":"nok"}'>
+        <td class="${result.isCorrect ? "ok":"nok"}">
             <c:out value='${result.isCorrect ? "OK":"X"}'/>
         </td>
     </tr>

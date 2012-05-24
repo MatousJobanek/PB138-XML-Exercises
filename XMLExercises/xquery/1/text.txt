@@ -1,2 +1,2 @@
-Write XQuery program that extracts all prices of books from file "text.xml". 
+Write XQuery program that extracts all prices of books from file "test.xml". 
 Price of book is defined as element "price" that is child of element "book".

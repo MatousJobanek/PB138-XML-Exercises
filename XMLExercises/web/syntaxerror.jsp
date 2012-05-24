@@ -10,10 +10,15 @@
         <th>
             There is an error in your code:
         </th>
+        <th>
+        </th>
     </tr>
     <tr>
         <td>
             ${errormessage}
+        </td>
+        <td class="nok">
+            X
         </td>
     </tr>
 </table>

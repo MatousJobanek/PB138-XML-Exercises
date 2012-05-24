@@ -28,6 +28,10 @@ var XMLSolver = {
         $.get(this.serverUrl + this.taskServletName, query, function(data) {
             XMLSolver.taskLoaded(data);
         });
+        $("#tasktext").html("Loading...");
+        $("#xmldata").html("Loading...");
+        $('#result').html("");
+        $("#solution").html("");
     },
     taskLoaded: function(task) {
         //alert(task)
@@ -46,7 +50,7 @@ var XMLSolver = {
             divs += '<div id="tabs-'+i+'"><textarea readonly >'+file +'</textarea></div>';
         }
     
-        $("#xmldata").html("<div id='tabs'><h4>Testing data:</h4><ul>" + list + "</ul>"+ divs+ "</div>");
+        $("#xmldata").html("<div id='tabs'><ul>" + list + "</ul>"+ divs+ "</div>");
         $( "#tabs" ).tabs();
     },
     setupServer: function (url, task, evaluator) {
@@ -75,15 +79,14 @@ var XMLSolver = {
 
         $.get(this.serverUrl + this.evaluatorServletName, query, function(data) {
             //XMLSolver.tutorLog();
-            if (data.slice(1,4) == "WIN") {
-                data = data.slice(4);
-                XMLSolver.win()
-            }
             $('#result').html(data);
+            if (data.indexOf('class="nok"') == -1) {
+                XMLSolver.win();
+            }
         });
     },
     win: function() {
-        alert('správně!!');
+        alert('You won!!');
         /*
         var q = "session_id="+session_id+"&session_hash="+check_hash+"&move_number="+this.moveNumber+"&win=1";
         sendDataToInterface(q);
