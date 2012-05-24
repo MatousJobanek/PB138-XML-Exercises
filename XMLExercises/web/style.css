@@ -8,33 +8,41 @@
 
 textarea {
     width:400px; 
-    height: 200px
+    height: 200px;
+    font-weight: normal;
+    font-size: 12px;
 }
 h4 {
     margin: 5px;
     padding: 0px
 }
 .data {
-    width: 340px; 
+    width: 450px; 
     min-height: 200px; 
     float:right;
 }
 .rect, .data {
-    border:1px solid #ccc;  
     margin-bottom: 20px; 
     padding: 5px
 }
 .rect {
-    width: 800px; 
+    border:1px solid #ccc;  
+    width: 880px; 
     float:right;
+}
+#tasktext {
+    width: 400px; 
+    float: left;
 }
 .send {
     cursor: pointer
 }
 #wraper { 
+    border:1px solid #ccc;  
     text-align:left; 
-    width:800px; 
+    width:900px; 
     margin: 20px auto 0 auto;
+    padding: 10px;
 }
 td, th  { 
     border:1px solid #ccc;

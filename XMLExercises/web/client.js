@@ -11,20 +11,43 @@ var XMLSolver = {
     init: function() {
         this.moveNumber = 0;
         this.lastTime = -1;
+        $(".rand").click(function() {XMLSolver.loadTask()});
         //alert($('task').value);
-        var queryData = []
-        queryData.push("type=" + "xquery");
+    },
+    loadTask: function(type) {
+        if (type === undefined && this.type !== undefined) {
+            type = this.type;
+        }
+        if (type == "none" || type === undefined) {
+            return;
+        }
+        this.type = type;
+        var queryData = [];
+        queryData.push("type=" + type);
         var query = queryData.join('&');
         $.get(this.serverUrl + this.taskServletName, query, function(data) {
-            XMLSolver.loadTask(data);
+            XMLSolver.taskLoaded(data);
         });
     },
-    loadTask: function(task) {
+    taskLoaded: function(task) {
+        //alert(task)
         this.task = eval("(" + task + ")");
-        $("#xmldata").html(this.task.data);
-        $("#tasktext").html(this.task.text);
+        this.tabs(this.task.data)
+        $("#tasktext").html(this.task.text.replace(/\n/g, "\n<br>"));
         $("#solution").focus();
         $(".send").click(function() {XMLSolver.send()});
+    },
+    tabs: function(data) {
+        var list = "";
+        var divs = "";
+        for(var i in data) {
+            var file = data[i];//.replace(/\n/g, "\n<br>").replace(/ /g, "&nbsp;");
+            list += '<li><a href="#tabs-'+i+'">'+(i-0+1)+'</a></li>';
+            divs += '<div id="tabs-'+i+'"><textarea readonly >'+file +'</textarea></div>';
+        }
+    
+        $("#xmldata").html("<div id='tabs'><h4>Testing data:</h4><ul>" + list + "</ul>"+ divs+ "</div>");
+        $( "#tabs" ).tabs();
     },
     setupServer: function (url, task, evaluator) {
         this.serverUrl = url;

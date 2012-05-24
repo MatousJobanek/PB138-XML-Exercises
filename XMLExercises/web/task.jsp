@@ -4,9 +4,14 @@
     Author     : slaweet
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 {
- "id": "${task.id}",
- "text": "${task.text}",
- "type": "${task.type}",
- "data": "${task.data}"
+ "id": "<c:out value="${task.id}"/>",
+ "text": "<c:out value="${task.text}"/>",
+ "type": "<c:out value="${task.type}"/>",
+ "data": { 
+ <c:forEach items="${task.data}" var="file" varStatus="loopStatus">
+     ${loopStatus.index == 0 ? "" : ","} "${loopStatus.index}": "<c:out value="${file}"/>"
+ </c:forEach>
+ }
 }

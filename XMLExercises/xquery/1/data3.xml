@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <title>TCP/IP Illustrated</title>
+        <source>cheaper.store.com</source>
+        <price>59.95</price>
+    </book>
+    <book>
+        <title>TCP/IP Illustrated</title>
+        <source>cheapest.store.com</source>
+	<another-info>
+            <price>49.95</price>
+	</another-info>
+    </book>
+</books>

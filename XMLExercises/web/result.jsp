@@ -9,16 +9,22 @@
 <table>
     <tr>
         <th>
-            your result:
+            #
         </th>
         <th>
-            correct result:
+            your result
+        </th>
+        <th>
+            correct result
         </th>
         <th>
         </th>
     </tr>
   <c:forEach items="${results}" var="result" varStatus="loopStatus">
     <tr>
+        <td>
+            ${loopStatus.index+1}
+        </td>
         <td>
             <c:out value="${result.userSolution}"/>
         </td>

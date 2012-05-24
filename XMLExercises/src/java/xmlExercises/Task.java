@@ -1,17 +1,20 @@
 package xmlExercises;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.ArrayList;
+import java.util.List;
 
+/*
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
+ */
 /**
  *
  * @author slaweet
  */
 public class Task {
+
     private int id;
-    private String data;
+    private List<String> data;
     private String solution;
     private String text;
     private String type;
@@ -24,11 +27,11 @@ public class Task {
         this.type = type;
     }
 
-    public String getData() {
+    public List<String> getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(List<String> data) {
         this.data = data;
     }
 
@@ -58,8 +61,16 @@ public class Task {
 
     public Task() {
     }
-        
+
     public void replaceTags() {
-        data = Utils.replaceTags(data);
+        //data = Utils.replaceTags(data);
+        List<String> data = new ArrayList<String>();
+        for (String file : this.data) {
+            file = file.replace("\"", "\\\"");
+            file = file.replace("\n", "\\n");
+            data.add(file);
+        }
+        this.data = data;
+        text = text.replace("\n", "\\n");
     }
 }

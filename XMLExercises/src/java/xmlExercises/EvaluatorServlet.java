@@ -7,6 +7,7 @@ package xmlExercises;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -42,6 +43,7 @@ public class EvaluatorServlet extends HttpServlet {
     static final String JSP_TASK = "/task.jsp";
     static final String JSP_RESULT = "/result.jsp";
     static final String JSP_ERROR = "/syntaxerror.jsp";
+    static final String RESOURCES_DIR = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,7 +61,11 @@ public class EvaluatorServlet extends HttpServlet {
     }
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Task task = Utils.getTask(1, request.getParameter("type"));
+        String type = request.getParameter("type");
+        List<String> tasks = Utils.scanDirectoryStructure(RESOURCES_DIR + type);
+        Random randomGenerator = new Random();
+        int id = Integer.parseInt(tasks.get(randomGenerator.nextInt(tasks.size())));
+        Task task = Utils.getTask(id, type);
         task.replaceTags();
         request.setAttribute(ATTRIBUTE_TASK, task);
         request.getRequestDispatcher(JSP_TASK).forward(request, response);
@@ -75,14 +81,15 @@ public class EvaluatorServlet extends HttpServlet {
         Task task = Utils.getTask(id, type);
         ServletContext context = getServletContext();
         //String path = context.getContextPath() + "/" + type + "/" + id + "/data.xml";
-        String path = id + "/data.xml";
+        String path = RESOURCES_DIR + type+"/"+id+"/";
         List<Result> results = new ArrayList();
 
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i < 5; i++) {
                 Result result = new Result();
-                result.setCorrectSolution(evaluator.eval(task.getSolution(), path));
-                result.setUserSolution(evaluator.eval(userSolution, path));
+                String file = path  + "data" + i +".xml";
+                result.setCorrectSolution(evaluator.eval(task.getSolution(), file));
+                result.setUserSolution(evaluator.eval(userSolution, file));
                 result.setIsCorrect(evaluator.compare(result.getCorrectSolution(), result.getUserSolution()));
                 //result.replaceTags();
                 results.add(result);

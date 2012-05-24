@@ -28,7 +28,7 @@ public class XQueryEvaluator implements Evaluator {
 
     public String eval(String expresion, String fileName) throws SyntaxErorException {
 
-        String dataDir = "xquery/";
+        String dataDir = "";
         expresion = expresion.replaceAll("test.xml", dataDir + fileName);
         
         Configuration config = new Configuration();
