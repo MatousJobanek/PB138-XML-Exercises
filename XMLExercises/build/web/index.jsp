@@ -41,6 +41,8 @@
             <div class="data ui-corner-all" > 
                 <h4>Testing data:</h4>
                 <div id='xmldata'></div>
+                <div id='htmloutput'></div>
+                <div id='stringoutput'></div>
             </div>
 
             <div style="width:410px; float:left;" class="rect ui-corner-all">
