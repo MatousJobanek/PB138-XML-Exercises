@@ -13,7 +13,11 @@ public class Assignment {
 
     private String level;
 
-    private Document xml;
+    private String type;
+    
+    private Document xmlDocument;
+    
+    private String xml;
 
     private String assignmentText;
 
@@ -21,9 +25,10 @@ public class Assignment {
 
     private String htmlOutputAsString;
 
-    public Assignment(String name, String level, Document xml, String assignmentText, String htmlOutput, String htmlOutputAsString) {
+    public Assignment(String name, String level, Document xmlDocument, String xml, String assignmentText, String htmlOutput, String htmlOutputAsString) {
         this.name = name;
         this.level = level;
+        this.xmlDocument = xmlDocument;
         this.xml = xml;
         this.assignmentText = assignmentText;
         this.htmlOutput = htmlOutput;
@@ -70,12 +75,29 @@ public class Assignment {
         this.name = name;
     }
 
-    public Document getXml() {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getXml() {
         return xml;
     }
 
-    public void setXml(Document xml) {
+    public void setXml(String xml) {
         this.xml = xml;
     }
+
+    public Document getXmlDocument() {
+        return xmlDocument;
+    }
+
+    public void setXmlDocument(Document xmlDocument) {
+        this.xmlDocument = xmlDocument;
+    }
+   
     
 }
