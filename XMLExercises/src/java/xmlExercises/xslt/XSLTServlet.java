@@ -56,7 +56,8 @@ public class XSLTServlet extends HttpServlet {
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Assignment assignment = getAssignment();
-        request.setAttribute(Constants.TASK, assignment);
+//        System.err.println();
+        request.setAttribute(Assignment.class.getSimpleName(), assignment);
         request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
     }
 
@@ -151,7 +152,7 @@ public class XSLTServlet extends HttpServlet {
         Assignment assignment = scanDirectory(Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + name);
 
         try {
-            Document transformed = transform(assignment.getXml(), newXSL, false);
+            Document transformed = transform(assignment.getXmlDocument(), newXSL, false);
 
             boolean equal =
                     testForEquality(formatOutput(assignment.getHtmlOutput()),
@@ -327,8 +328,9 @@ public class XSLTServlet extends HttpServlet {
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
-                        assignmentBuffer.toString(),
-                        htmlOutput.toXML(),
+                        xmlDocument.toXML().replace("\n", "\\n"),
+                        assignmentBuffer.toString().replace("\n", "\\n"),
+                        htmlOutput.toXML().replace("\n", "\\n"),
                         htmlOuput.replace("\n", "\\n"));
             }
 
