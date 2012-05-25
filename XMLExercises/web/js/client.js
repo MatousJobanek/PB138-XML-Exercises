@@ -6,8 +6,8 @@
 var XMLSolver = {
     // setting here
     serverUrl: 'http://localhost:8080/XMLExercises/',
-    evaluatorServletName: 'Restult',
-    taskServletName: 'Task',
+    evaluatorServletName: 'restult',
+    taskServletName: 'task',
     init: function() {
         this.moveNumber = 0;
         this.lastTime = -1;
@@ -25,7 +25,7 @@ var XMLSolver = {
         var queryData = [];
         //queryData.push("type=" + type);
         var query = queryData.join('&');
-        $.get(this.serverUrl + type + this.taskServletName, query, function(data) {
+        $.get(this.serverUrl + this.taskServletName + type, query, function(data) {
             XMLSolver.taskLoaded(data);
         });
         $("#tasktext").html("Loading...");
@@ -77,7 +77,7 @@ var XMLSolver = {
         this.logInfo = $("#solution").val();
         this.moveNumber++;
 
-        $.get(this.serverUrl + this.task.type + this.evaluatorServletName, query, function(data) {
+        $.get(this.serverUrl + this.evaluatorServletName + this.task.type, query, function(data) {
             //XMLSolver.tutorLog();
             $('#result').html(data);
             if (data.indexOf('class="nok"') == -1) {

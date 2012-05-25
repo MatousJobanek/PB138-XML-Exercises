@@ -30,11 +30,11 @@
             <div id="header">
                 <select onchange="XMLSolver.loadTask(this.options[this.selectedIndex].value)">
                     <option selected value="none" > Choose type </option>
-                    <option value="XQuery" > XQuery </option>
-                    <option value="XSLT" > XSLT </option>
-                    <option value="XPath" > XPath </option>
-                    <option value="XMLShema" > XML Schema </option>
-                    <option value="DTD" > DTD </option>
+                    <option value="/xquery" > XQuery </option>
+                    <option value="/xslt" > XSLT </option>
+                    <option value="/xpath" > XPath </option>
+                    <option value="/xmlshema" > XML Schema </option>
+                    <option value="/dtd" > DTD </option>
                 </select>
                 <button class="rand">Get random</button>
             </div>

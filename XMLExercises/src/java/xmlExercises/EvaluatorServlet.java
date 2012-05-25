@@ -39,16 +39,16 @@ public class EvaluatorServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    static final String ACTION_TASK = "Task";
-    static final String ACTION_RESULT = "Restult";
-    static final String ACTION_TASK_XQUERY = "/XQueryTask";
-    static final String ACTION_RESULT_XQUERY = "/XQueryRestult";
-    static final String ACTION_TASK_XPATH = "/XPathTask";
-    static final String ACTION_RESULT_XPATH = "/XPathRestult";
-    static final String ACTION_TASK_DTD = "/DTDTask";
-    static final String ACTION_RESULT_DTD = "/DTDRestult";
-    static final String ACTION_TASK_XMLSCHEMA = "/XSchemaTask";
-    static final String ACTION_RESULT_XMLSCHEMA = "/XSchemaRestult";
+    static final String ACTION_TASK = "/task/";
+    static final String ACTION_RESULT = "/restult/";
+    static final String ACTION_TASK_XQUERY = "/task/xquery";
+    static final String ACTION_RESULT_XQUERY = "/restult/xquery";
+    static final String ACTION_TASK_XPATH = "/task/xpath";
+    static final String ACTION_RESULT_XPATH = "/restult/xpath";
+    static final String ACTION_TASK_DTD = "/task/dtd";
+    static final String ACTION_RESULT_DTD = "/restult/dtd";
+    static final String ACTION_TASK_XMLSCHEMA = "/task/xschema";
+    static final String ACTION_RESULT_XMLSCHEMA = "/restult/xschema";
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
     static final String ATTRIBUTE_ERROR = "errormessage";
@@ -73,7 +73,7 @@ public class EvaluatorServlet extends HttpServlet {
     }
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String type = request.getServletPath().replace("/","").replace(ACTION_TASK, "").toLowerCase();
+        String type = request.getServletPath().replace(ACTION_TASK, "");
         List<String> tasks = Utils.scanDirectoryStructure(RESOURCES_DIR + type);
         Random randomGenerator = new Random();
         int id = Integer.parseInt(tasks.get(randomGenerator.nextInt(tasks.size())));
@@ -86,7 +86,7 @@ public class EvaluatorServlet extends HttpServlet {
     private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userSolution = request.getParameter("userSolution");
-        String type = request.getServletPath().replace("/","").replace(ACTION_RESULT, "").toLowerCase();
+        String type = request.getServletPath().replace(ACTION_RESULT, "");
         int id = Integer.parseInt(request.getParameter("id"));
 
         Evaluator evaluator = Utils.getEvaluator(type);
