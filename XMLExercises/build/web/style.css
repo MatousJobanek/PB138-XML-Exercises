@@ -1,0 +1,67 @@
+/* 
+    Document   : style
+    Created on : May 17, 2012, 7:04:03 PM
+    Author     : slaweet
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    font-family: Verdana,Arial,sans-serif;
+}
+textarea {
+    width:400px; 
+    height: 200px;
+    font-weight: normal;
+    font-size: 12px;
+}
+.data textarea {
+    padding: 5px; 
+    height: 250px;
+}
+.ui-widget textarea {  
+    font-size: 12px; 
+}
+h4 {
+    margin: 5px;
+    padding: 0px
+}
+.data {
+    margin-top: 10px; 
+    width: 450px; 
+    min-height: 200px; 
+    float:right;
+    border:1px solid #ccc;  
+    padding: 5px;
+}
+
+.rect {
+    margin-top: 10px; 
+    padding: 5px;
+    border:1px solid #ccc;  
+    width: 890px; 
+    float:right;
+}
+#tasktext {
+    padding: 5px;
+}
+.send {
+    cursor: pointer
+}
+#wraper { 
+    border:1px solid #ccc;  
+    text-align:left; 
+    width:900px; 
+    margin: 20px auto 0 auto;
+    padding: 10px;
+}
+td, th  { 
+    border:1px solid #ccc;
+}
+
+.ok {
+    background: green;
+}
+.nok {
+    background: red;
+}
