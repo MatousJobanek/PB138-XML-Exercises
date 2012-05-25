@@ -1,5 +1,5 @@
 
-package cz.fi.muni.PB138.XMLExercises;
+package xmlExercises.xslt;
 
 import nu.xom.Document;
 

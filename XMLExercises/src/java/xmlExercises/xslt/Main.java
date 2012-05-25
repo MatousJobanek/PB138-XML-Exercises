@@ -1,5 +1,5 @@
 
-package cz.fi.muni.PB138.XMLExercises;
+package xmlExercises.xslt;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -150,7 +150,7 @@ public class Main {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
 
-        } catch (ParsingException e) {
+        } catch (ParsingException e) { 
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
 

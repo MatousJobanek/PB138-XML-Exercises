@@ -4,3 +4,6 @@
 *.jar
 *.war
 *.ear
+/XMLExercises/nbproject/private/
+/XMLExercises/build/
+/XMLExercises/dist/
