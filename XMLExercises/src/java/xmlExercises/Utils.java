@@ -98,11 +98,15 @@ public class Utils {
         return assignments;
     }
     
-    static String getPathTo(String type, int id) {
+    public static String getPathTo(String type, int id) {
          return Utils.getPathTo(type) + File.separator + id + File.separator;
     }
     
-    static String getPathTo(String type) {
+    public static String getPathTo(String type, String id) {
+         return Utils.getPathTo(type) + File.separator + id + File.separator;
+    }
+    
+    public static String getPathTo(String type) {
          return System.getProperty("user.home") + File.separator + 
                  Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + type;
     }
