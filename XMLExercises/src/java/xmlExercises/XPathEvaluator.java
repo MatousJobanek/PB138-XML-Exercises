@@ -14,7 +14,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpressionException;
 
-public class XPathEvaluator {
+public class XPathEvaluator implements Evaluator{
     public String eval(String expression,String filename){
         
         String result = "";

@@ -40,15 +40,15 @@ public class EvaluatorServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     static final String ACTION_TASK = "/task/";
-    static final String ACTION_RESULT = "/restult/";
+    static final String ACTION_RESULT = "/result/";
     static final String ACTION_TASK_XQUERY = "/task/xquery";
-    static final String ACTION_RESULT_XQUERY = "/restult/xquery";
+    static final String ACTION_RESULT_XQUERY = "/result/xquery";
     static final String ACTION_TASK_XPATH = "/task/xpath";
-    static final String ACTION_RESULT_XPATH = "/restult/xpath";
+    static final String ACTION_RESULT_XPATH = "/result/xpath";
     static final String ACTION_TASK_DTD = "/task/dtd";
-    static final String ACTION_RESULT_DTD = "/restult/dtd";
+    static final String ACTION_RESULT_DTD = "/result/dtd";
     static final String ACTION_TASK_XMLSCHEMA = "/task/xmlschema";
-    static final String ACTION_RESULT_XMLSCHEMA = "/restult/xmlschema";
+    static final String ACTION_RESULT_XMLSCHEMA = "/result/xmlschema";
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
     static final String ATTRIBUTE_ERROR = "errormessage";
@@ -76,7 +76,7 @@ public class EvaluatorServlet extends HttpServlet {
         String type = request.getServletPath().replace(ACTION_TASK, "");
         List<String> tasks = Utils.scanDirectoryStructure(Utils.getPathTo(type));
         Random randomGenerator = new Random();
-        int id = Integer.parseInt(tasks.get(randomGenerator.nextInt(tasks.size())));
+        String id = tasks.get(randomGenerator.nextInt(tasks.size()));
         Task task = Utils.getTask(id, type);
         task.replaceTags();
         request.setAttribute(ATTRIBUTE_TASK, task);
@@ -87,7 +87,7 @@ public class EvaluatorServlet extends HttpServlet {
 
         String userSolution = request.getParameter("userSolution");
         String type = request.getServletPath().replace(ACTION_RESULT, "");
-        int id = Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id");
 
         Evaluator evaluator = Utils.getEvaluator(type);
         Task task = Utils.getTask(id, type);

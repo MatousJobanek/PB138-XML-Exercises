@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Task {
 
-    private int id;
+    private String id;
     private List<String> data;
     private String solution;
     private String text;
@@ -35,11 +35,11 @@ public class Task {
         this.data = data;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

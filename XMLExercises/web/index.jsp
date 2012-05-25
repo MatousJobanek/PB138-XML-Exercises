@@ -50,6 +50,7 @@
             <div  id="tasktext" ></div>
                 <textarea id="solution"></textarea>
                 <button class="send">Run</button>
+                <div id='stringoutput'></div>
             </div>
 
             <div class="rect ui-corner-all" >

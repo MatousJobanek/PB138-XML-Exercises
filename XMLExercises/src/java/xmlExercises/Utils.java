@@ -28,7 +28,7 @@ public class Utils {
         return s;
     }
 
-    static Task getTask(int id, String type) {
+    static Task getTask(String id, String type) {
         Task t = new Task();
         t.setId(id);
         t.setType(type);
@@ -55,6 +55,9 @@ public class Utils {
     static Evaluator getEvaluator(String type) {
         if ("xquery".equals(type)) {
             return new XQueryEvaluator();
+        }
+        if ("xpath".equals(type)) {
+            return new XPathEvaluator();
         }
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -98,6 +101,9 @@ public class Utils {
         return assignments;
     }
     
+    static String getPathTo(String type, String id) {
+         return Utils.getPathTo(type) + File.separator + id + File.separator;
+    }    
     static String getPathTo(String type, int id) {
          return Utils.getPathTo(type) + File.separator + id + File.separator;
     }
