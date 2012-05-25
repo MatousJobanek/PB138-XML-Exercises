@@ -66,7 +66,6 @@ public class Task {
         //data = Utils.replaceTags(data);
         List<String> data = new ArrayList<String>();
         for (String file : this.data) {
-            file = file.replace("\"", "\\\"");
             file = file.replace("\n", "\\n");
             data.add(file);
         }

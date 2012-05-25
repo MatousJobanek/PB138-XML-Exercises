@@ -4,5 +4,13 @@
 *.jar
 *.war
 *.ear
+<<<<<<< HEAD
 /schema/XMLSchema/nbproject/private/
 /schema/XMLSchema/build/
+=======
+*.js
+*/build/
+/XMLExercises/nbproject/private/
+/XMLExercises/build/
+/XMLExercises/dist/
+>>>>>>> 24b743bbe50fcf88a97f3bf680d6fad9ab8738c2
