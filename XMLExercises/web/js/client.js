@@ -6,7 +6,7 @@
 var XMLSolver = {
     // setting here
     serverUrl: 'http://localhost:8080/XMLExercises/',
-    evaluatorServletName: 'restult',
+    evaluatorServletName: 'result',
     taskServletName: 'task',
     init: function() {
         this.moveNumber = 0;
@@ -38,6 +38,10 @@ var XMLSolver = {
         this.task = eval("(" + task + ")");
         this.tabs(this.task.data)
         $("#tasktext").html(this.task.text.replace(/\n/g, "\n<br>"));
+        if (this.task.htmlOutput && this.task.htmlOutputAsString) {
+            $("#tasktext").append(this.task.htmlOutput);
+            $("#tasktext").append(this.task.htmlOutputAsString);
+        }
         $("#solution").focus();
         $(".send").click(function() {XMLSolver.send()});
     },
