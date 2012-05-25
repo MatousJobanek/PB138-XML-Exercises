@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+ <xsd:element name="kontakty" type="kontaktyTyp" >
+     <xsd:unique name="kontaktUnigue">
+         <xsd:selector xpath="./kontakt"/>
+         <xsd:field xpath="@rc"/>
+     </xsd:unique>
+ </xsd:element>
+
+
+ <xsd:complexType name="kontaktyTyp">
+     <xsd:sequence>
+        <xsd:element name="kontakt" type="kontaktTyp" minOccurs="0" maxOccurs="unbounded"/>
+     </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:complexType name="kontaktTyp">
+     <xsd:sequence>
+         <xsd:element name="jmeno" type="xsd:string" minOccurs="1"/>
+         <xsd:element name="narozeniny" type="narozeninyTyp" minOccurs="1" />
+         <xsd:element name="adresy" type="adresyTyp" minOccurs="0"/>
+         <xsd:element name="telefony" type="telefonyTyp" minOccurs="0"/>
+         <xsd:element name="emaily" type="emailyTyp" minOccurs="0"/>
+
+     </xsd:sequence>
+     <xsd:attribute name="rc" type="rcTyp"/>
+ </xsd:complexType>
+
+ <xsd:complexType name="telefonyTyp">
+    <xsd:sequence>
+       <xsd:element name="telefon" type="telefonTyp" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="adresyTyp">
+    <xsd:sequence>
+       <xsd:element name="adresa" type="adresaTyp" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+ </xsd:complexType>
+
+  <xsd:complexType name="emailyTyp">
+    <xsd:sequence>
+       <xsd:element name="email" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+ </xsd:complexType>
+
+<xsd:complexType name="telefonTyp">
+    <xsd:sequence>
+        <xsd:element name="popis" type="xsd:string" minOccurs="1"/>
+        <xsd:element name="cislo" minOccurs="1">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="\+[1-9][0-9]{11}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+
+ <xsd:complexType name="adresaTyp">
+    <xsd:sequence>
+
+        <xsd:element name="popis" minOccurs="1">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="trvaly pobyt|prechodny pobyt|dalsi"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+
+        <xsd:element name="ulice" type="xsd:string" minOccurs="0"/>
+
+        <xsd:element name="cislopopisne" minOccurs="1">
+            <xsd:simpleType>
+                 <xsd:restriction base="xsd:positiveInteger">
+                     <xsd:minInclusive value="1"/>
+                 </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+
+        <xsd:element name="cisloorientacni" minOccurs="0">
+            <xsd:simpleType>
+                 <xsd:restriction base="xsd:positiveInteger">
+                     <xsd:minInclusive value="1"/>
+                 </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+
+        <xsd:element name="obec" minOccurs="1">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value=".+"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+
+        <xsd:element name="psc" minOccurs="1">
+             <xsd:simpleType>
+                 <xsd:restriction base="xsd:positiveInteger">
+                     <xsd:maxExclusive value="80000"/>
+                     <xsd:minInclusive value="10000"/>
+                 </xsd:restriction>
+             </xsd:simpleType>
+         </xsd:element>
+
+         <xsd:element name="zeme" type="xsd:string" minOccurs="1" />
+
+    </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:complexType name="narozeninyTyp">
+     <xsd:sequence>
+         <xsd:element name="den" minOccurs="1">
+             <xsd:simpleType>
+                 <xsd:restriction base="xsd:positiveInteger">
+                     <xsd:maxInclusive value="31"/>
+                     <xsd:minInclusive value="1"/>
+                 </xsd:restriction>
+             </xsd:simpleType>
+         </xsd:element>
+
+         <xsd:element name="mesic" minOccurs="1">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="led|uno|bre|dub|kve|cer|cec|srp|zar|rij|lis|pro"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+
+         <xsd:element name="rok" minOccurs="1">
+             <xsd:simpleType>
+                 <xsd:restriction base="xsd:positiveInteger">
+                     <xsd:minInclusive value="1900"/>
+                 </xsd:restriction>
+             </xsd:simpleType>
+         </xsd:element>
+     </xsd:sequence>
+ </xsd:complexType>
+
+  <xsd:simpleType name="rcTyp">
+     <xsd:restriction base="xsd:string">
+         <xsd:pattern value="[0-9]{2}[0156][0-9][0-3][0-9][/][0-9]{4}"/>
+     </xsd:restriction>
+ </xsd:simpleType>
+
+</xsd:schema>

@@ -5,3 +5,4 @@
 *.war
 *.ear
 /schema/XMLSchema/nbproject/private/
+/schema/XMLSchema/build/
