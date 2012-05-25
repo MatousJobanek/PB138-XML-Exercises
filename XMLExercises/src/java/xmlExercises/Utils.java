@@ -99,8 +99,11 @@ public class Utils {
     }
     
     static String getPathTo(String type, int id) {
+         return Utils.getPathTo(type) + File.separator + id + File.separator;
+    }
+    
+    static String getPathTo(String type) {
          return System.getProperty("user.home") + File.separator + 
-                 Constants.ASSIGNMENTS_FOLDER_NAME + File.separator +
-                 type + File.separator + id + File.separator;
+                 Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + type;
     }
 }

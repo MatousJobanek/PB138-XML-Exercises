@@ -39,8 +39,8 @@ var XMLSolver = {
         this.tabs(this.task.data)
         $("#tasktext").html(this.task.text.replace(/\n/g, "\n<br>"));
         if (this.task.htmlOutput && this.task.htmlOutputAsString) {
-            $("#tasktext").html($("#tasktext").html() + this.task.htmlOutput);
-            $("#tasktext").html($("#tasktext").html() + this.task.htmlOutputAsString);
+            $("#htmloutput").html(this.task.htmlOutput);
+            $("#stringoutput").html(this.task.htmlOutputAsString);
         }
         $("#solution").focus();
         $(".send").click(function() {XMLSolver.send()});

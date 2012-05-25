@@ -74,7 +74,7 @@ public class EvaluatorServlet extends HttpServlet {
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String type = request.getServletPath().replace(ACTION_TASK, "");
-        List<String> tasks = Utils.scanDirectoryStructure(RESOURCES_DIR + type);
+        List<String> tasks = Utils.scanDirectoryStructure(Utils.getPathTo(type));
         Random randomGenerator = new Random();
         int id = Integer.parseInt(tasks.get(randomGenerator.nextInt(tasks.size())));
         Task task = Utils.getTask(id, type);
