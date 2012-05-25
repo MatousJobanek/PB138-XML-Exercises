@@ -325,12 +325,14 @@ public class XSLTServlet extends HttpServlet {
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
                 String htmlOuput = formatOutput(htmlOutput.toXML().trim());
+                System.err.println(assignmentBuffer.toString());
+                System.err.println(assignmentTextPath);
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
                         xmlDocument.toXML().replace("\n", "\\n"),
                         assignmentBuffer.toString().replace("\n", "\\n"),
-                        htmlOutput.toXML().replace("\n", "\\n"),
+                        getBodyContent(htmlOutput.toXML().replace("\n", "\\n")),
                         htmlOuput.replace("\n", "\\n"));
             }
 
@@ -352,6 +354,10 @@ public class XSLTServlet extends HttpServlet {
 
         }
         return null;
+    }
+
+    private static String getBodyContent(String html) {
+        return html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>"));
     }
 
     public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
