@@ -17,108 +17,65 @@ public class Assignment {
 
     private String assignmentText;
 
-    private Document htmlOutput;
+    private String htmlOutput;
 
-    /**
-     * @param name
-     * @param level
-     * @param xml
-     * @param assignmentText
-     * @param htmlOutput
-     */
+    private String htmlOutputAsString;
 
-    public Assignment(String name, String level, Document xml, String assignmentText, Document htmlOutput) {
-        super();
+    public Assignment(String name, String level, Document xml, String assignmentText, String htmlOutput, String htmlOutputAsString) {
         this.name = name;
         this.level = level;
         this.xml = xml;
         this.assignmentText = assignmentText;
         this.htmlOutput = htmlOutput;
+        this.htmlOutputAsString = htmlOutputAsString;
     }
-
-    /**
-     * @return the name
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *        the name to set
-     */
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the level
-     */
-
-    public String getLevel() {
-        return level;
-    }
-
-    /**
-     * @param level
-     *        the level to set
-     */
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    /**
-     * @return the xml
-     */
-
-    public Document getXml() {
-        return xml;
-    }
-
-    /**
-     * @param xml
-     *        the xml to set
-     */
-
-    public void setXml(Document xml) {
-        this.xml = xml;
-    }
-
-    /**
-     * @return the assignmentText
-     */
 
     public String getAssignmentText() {
         return assignmentText;
     }
 
-    /**
-     * @param assignmentText
-     *        the assignmentText to set
-     */
-
     public void setAssignmentText(String assignmentText) {
         this.assignmentText = assignmentText;
     }
 
-    /**
-     * @return the htmlOutput
-     */
-
-    public Document getHtmlOutput() {
+    public String getHtmlOutput() {
         return htmlOutput;
     }
 
-    /**
-     * @param htmlOutput
-     *        the htmlOutput to set
-     */
-
-    public void setHtmlOutput(Document htmlOutput) {
+    public void setHtmlOutput(String htmlOutput) {
         this.htmlOutput = htmlOutput;
     }
 
+    public String getHtmlOutputAsString() {
+        return htmlOutputAsString;
+    }
+
+    public void setHtmlOutputAsString(String htmlOutputAsString) {
+        this.htmlOutputAsString = htmlOutputAsString;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Document getXml() {
+        return xml;
+    }
+
+    public void setXml(Document xml) {
+        this.xml = xml;
+    }
+    
 }

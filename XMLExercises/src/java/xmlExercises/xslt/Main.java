@@ -1,4 +1,3 @@
-
 package xmlExercises.xslt;
 
 import java.io.BufferedReader;
@@ -27,33 +26,27 @@ import nu.xom.xslt.XSLTransform;
 /**
  * @author Matous Jobanek
  */
-
 public class Main {
 
     public static final String MY_LINE_SEPARATOR = "\n";
-
     public static final String MY_TAB = "\t";
-
     public static final String ASSIGNMENTS_FOLDER_NAME = "resources/";
-
     private static final Logger LOGGER = Logger.getLogger(Main.class.getPackage().toString());
 
     /**
      * @param args
      */
-
     public static void main(String[] args) throws TransformerConfigurationException {
         //        if (false) {
 
         Assignment assignment = getAssignment("beginner");
         if (assignment != null) {
-
             //            System.err.println("name: " + assignment.getName() + "\n" + "\n" + "xml:" + "\n"
             //                    + format(assignment.getXml()) + "\n" + "\n" + "html:" + "\n"
             //                    + formatOutput(assignment.getHtmlOutput().toXML().trim()));
-
-        } else
+        } else {
             System.err.println("Problem");
+        }
         //        } else {
         Result result = evaluate(getMyTestXslt(), "beginner", "1beginner");
         if (result == null) {
@@ -76,7 +69,9 @@ public class Main {
 
             if (!lastWasSlash && currentChar == '<'
                     && toFormat.substring(i + 1, toFormat.indexOf(">", i + 1)).contains("/")) {
-                if (tabsNum > 0) tabsNum--;
+                if (tabsNum > 0) {
+                    tabsNum--;
+                }
                 lastWasSlash = true;
             }
 
@@ -85,8 +80,9 @@ public class Main {
                 if (!lastWasSlash || (nextBracket > 0 && toFormat.charAt(nextBracket - 1) == '/')) {
                     tabsNum++;
                     lastWasSlash = false;
-                } else
+                } else {
                     lastWasSlash = false;
+                }
             }
 
             if ((lastChar == '>' && (currentChar == ' ' || currentChar == '\t' || currentChar == '\n'))
@@ -95,11 +91,12 @@ public class Main {
                 i--;
             } else if ((lastChar == '>') || (currentChar == '<' && lastChar != '>')) {
                 StringBuffer buffer = new StringBuffer("");
-                for (int j = 0; j < tabsNum - 1; j++)
+                for (int j = 0; j < tabsNum - 1; j++) {
                     buffer.append(MY_TAB);
+                }
                 toFormat =
                         toFormat.substring(0, i) + MY_LINE_SEPARATOR + buffer.toString()
-                                + toFormat.substring(i, toFormat.length());
+                        + toFormat.substring(i, toFormat.length());
                 lastChar = currentChar;
                 i += 1 + (tabsNum > 1 ? tabsNum : 0);
             } else {
@@ -133,7 +130,6 @@ public class Main {
      * @param level
      * @param name
      */
-
     private static Result evaluate(String newXSL, String level, String name) {
         Assignment assignment = scanDirectory(ASSIGNMENTS_FOLDER_NAME + level + File.separator + name);
 
@@ -141,8 +137,8 @@ public class Main {
             Document transformed = transform(assignment.getXml(), newXSL, false);
 
             boolean equal =
-                    testForEquality(formatOutput(assignment.getHtmlOutput().toXML()),
-                                    formatOutput(transformed.toXML()));
+                    testForEquality(formatOutput(assignment.getHtmlOutput()),
+                    formatOutput(transformed.toXML()));
 
             return new Result(assignment, equal, newXSL, formatOutput(transformed.toXML()));
 
@@ -150,7 +146,7 @@ public class Main {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
 
-        } catch (ParsingException e) { 
+        } catch (ParsingException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
 
@@ -169,13 +165,14 @@ public class Main {
      * @param xml
      * @param xml2
      */
-
     private static boolean testForEquality(String originalXml, String userXml) {
 
         String[] originalSplited = originalXml.split(MY_LINE_SEPARATOR);
         String[] userSplited = userXml.split(MY_LINE_SEPARATOR);
 
-        if (originalSplited.length != userSplited.length) return false;
+        if (originalSplited.length != userSplited.length) {
+            return false;
+        }
         for (int i = 0; i < userSplited.length; i++) {
             String regex = "[" + MY_TAB + "," + MY_LINE_SEPARATOR + "]";
             String originalLine = originalSplited[i].replaceAll(regex, "");
@@ -211,7 +208,6 @@ public class Main {
     /**
      * @param string
      */
-
     private static Assignment getAssignment(String level) {
 
         List<Assignment> assignments = scanDirectoryStructure(ASSIGNMENTS_FOLDER_NAME + level);
@@ -231,7 +227,6 @@ public class Main {
             public boolean accept(File pathname) {
                 return !pathname.isFile();
             }
-
         };
         File[] dirs = dir.listFiles(filter);
         if (dirs == null || dirs.length == 0) {
@@ -242,7 +237,9 @@ public class Main {
         ArrayList<Assignment> assignments = new ArrayList<Assignment>(dirs.length);
         for (int i = 0; i < dirs.length; i++) {
             Assignment assignment = scanDirectory(dirs[i].getPath());
-            if (assignment != null) assignments.add(assignment);
+            if (assignment != null) {
+                assignments.add(assignment);
+            }
         }
 
         return assignments;
@@ -266,10 +263,14 @@ public class Main {
                 xmlDoc = files[i].getPath();
             } else if (files[i].getPath().toLowerCase().endsWith("txt")) {
                 assignmentText = files[i].getPath();
-            } else if (files[i].getPath().toLowerCase().endsWith("xsl")) xsl = files[i].getPath();
+            } else if (files[i].getPath().toLowerCase().endsWith("xsl")) {
+                xsl = files[i].getPath();
+            }
         }
 
-        if (xmlDoc == null || assignmentText == null || xsl == null) return null;
+        if (xmlDoc == null || assignmentText == null || xsl == null) {
+            return null;
+        }
 
         return createAssignment(dirPath, xmlDoc, assignmentText, xsl);
 
@@ -282,11 +283,10 @@ public class Main {
      * @param xslPath
      * @return
      */
-
     private static Assignment createAssignment(String dirPath,
-                                               String xmlDocPath,
-                                               String assignmentTextPath,
-                                               String xslPath) {
+            String xmlDocPath,
+            String assignmentTextPath,
+            String xslPath) {
         try {
             String name = dirPath.substring(dirPath.lastIndexOf(File.separator) + 1);
 
@@ -305,11 +305,13 @@ public class Main {
             if (name != null && !"".equals(name) && xmlDocument != null && !"".equals(xmlDocument.toXML())
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
+                String htmlOuput = formatOutput(htmlOutput.toXML().trim());
                 return new Assignment(name,
-                                      dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
-                                      xmlDocument,
-                                      assignmentBuffer.toString(),
-                                      htmlOutput);
+                        dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
+                        xmlDocument,
+                        assignmentBuffer.toString(),
+                        htmlOutput.toXML(),
+                        htmlOuput.replace("\n", "\\n"));
             }
 
         } catch (ValidityException e) {
