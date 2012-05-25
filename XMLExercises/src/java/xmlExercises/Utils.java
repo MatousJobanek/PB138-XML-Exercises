@@ -34,7 +34,7 @@ public class Utils {
         t.setType(type);
 
         try {
-            String path = new java.io.File(".").getCanonicalPath() + "/" + type + "/" + id + "/";
+            String path = Utils.getPathTo(type, id);
             t.setSolution(readFile(path + "solution.xq"));
             t.setText(readFile(path + "text.txt"));
             List<String> data = new ArrayList<String>();
@@ -96,5 +96,11 @@ public class Utils {
         }
 
         return assignments;
+    }
+    
+    static String getPathTo(String type, int id) {
+         return System.getProperty("user.home") + File.separator + 
+                 Constants.ASSIGNMENTS_FOLDER_NAME + File.separator +
+                 type + File.separator + id + File.separator;
     }
 }

@@ -47,8 +47,8 @@ public class EvaluatorServlet extends HttpServlet {
     static final String ACTION_RESULT_XPATH = "/restult/xpath";
     static final String ACTION_TASK_DTD = "/task/dtd";
     static final String ACTION_RESULT_DTD = "/restult/dtd";
-    static final String ACTION_TASK_XMLSCHEMA = "/task/xschema";
-    static final String ACTION_RESULT_XMLSCHEMA = "/restult/xschema";
+    static final String ACTION_TASK_XMLSCHEMA = "/task/xmlschema";
+    static final String ACTION_RESULT_XMLSCHEMA = "/restult/xmlschema";
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
     static final String ATTRIBUTE_ERROR = "errormessage";
@@ -93,7 +93,7 @@ public class EvaluatorServlet extends HttpServlet {
         Task task = Utils.getTask(id, type);
         ServletContext context = getServletContext();
         //String path = context.getContextPath() + "/" + type + "/" + id + "/data.xml";
-        String path = RESOURCES_DIR + type+"/"+id+"/";
+        String path = Utils.getPathTo(type, id);
         List<Result> results = new ArrayList();
 
         try {
