@@ -22,17 +22,17 @@
     </tr>
     <tr>
         <td>
-            ${result.userSolution}
+            ${result.userHTML}
         </td>
         <td>
-            ${result.correctSolution}
+            ${result.correctHTML}
         </td>
         
         <td>
-            <c:out value="${result.userSolution}"/>
+            <c:out value="${result.userHTML}"/>
         </td>
         <td>
-            <c:out value="${result.correctSolution}"/>
+            <c:out value="${result.correctHTML}"/>
         </td>
         <td class="${result.isCorrect ? "ok":"nok"}">
             <c:out value='${result.isCorrect ? "OK":"X"}'/>
