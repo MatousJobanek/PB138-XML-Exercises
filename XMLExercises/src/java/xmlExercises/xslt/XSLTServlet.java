@@ -19,11 +19,12 @@ import javax.xml.transform.TransformerConfigurationException;
 import nu.xom.*;
 import nu.xom.xslt.XSLException;
 import nu.xom.xslt.XSLTransform;
+import xmlExercises.Constants;
 
 /**
  * @author Matous Jobanek
  */
-@WebServlet(name = "XSLTServlet", urlPatterns = {"/XSLTServlet"})
+@WebServlet(name = "XSLTServlet", urlPatterns = {Constants.URL_XSLT_TASK,Constants.URL_XSLT_RESULT})
 public class XSLTServlet extends HttpServlet {
 
     /**
@@ -42,15 +43,13 @@ public class XSLTServlet extends HttpServlet {
         
     }
     
-    public static final String MY_LINE_SEPARATOR = "\n";
-    public static final String MY_TAB = "\t";
-    public static final String ASSIGNMENTS_FOLDER_NAME = "resources/";
-    private static final Logger LOGGER = Logger.getLogger(XSLTServlet.class.getPackage().toString());
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) throws TransformerConfigurationException {
+    
+    private static final Logger LOGGER = Logger.getLogger(XSLTServlet.class.getPackage().toString());
+    
+    
+
+    
 //        //        if (false) {
 //
 //        Assignment assignment = getAssignment("beginner");
@@ -71,7 +70,7 @@ public class XSLTServlet extends HttpServlet {
 //            //                System.out.println("your output: " + result.getTransformed());
 //            //            }
 //        }
-    }
+    
 
     private static String formatOutput(String toFormat) {
         char lastChar = toFormat.charAt(0);
@@ -106,10 +105,10 @@ public class XSLTServlet extends HttpServlet {
             } else if ((lastChar == '>') || (currentChar == '<' && lastChar != '>')) {
                 StringBuffer buffer = new StringBuffer("");
                 for (int j = 0; j < tabsNum - 1; j++) {
-                    buffer.append(MY_TAB);
+                    buffer.append(Constants.MY_TAB);
                 }
                 toFormat =
-                        toFormat.substring(0, i) + MY_LINE_SEPARATOR + buffer.toString()
+                        toFormat.substring(0, i) + Constants.MY_LINE_SEPARATOR + buffer.toString()
                         + toFormat.substring(i, toFormat.length());
                 lastChar = currentChar;
                 i += 1 + (tabsNum > 1 ? tabsNum : 0);
@@ -145,7 +144,7 @@ public class XSLTServlet extends HttpServlet {
      * @param name
      */
     private static Result evaluate(String newXSL, String level, String name) {
-        Assignment assignment = scanDirectory(ASSIGNMENTS_FOLDER_NAME + level + File.separator + name);
+        Assignment assignment = scanDirectory(Constants.ASSIGNMENTS_FOLDER_NAME + level + File.separator + name);
 
         try {
             Document transformed = transform(assignment.getXml(), newXSL, false);
@@ -181,14 +180,14 @@ public class XSLTServlet extends HttpServlet {
      */
     private static boolean testForEquality(String originalXml, String userXml) {
 
-        String[] originalSplited = originalXml.split(MY_LINE_SEPARATOR);
-        String[] userSplited = userXml.split(MY_LINE_SEPARATOR);
+        String[] originalSplited = originalXml.split(Constants.MY_LINE_SEPARATOR);
+        String[] userSplited = userXml.split(Constants.MY_LINE_SEPARATOR);
 
         if (originalSplited.length != userSplited.length) {
             return false;
         }
         for (int i = 0; i < userSplited.length; i++) {
-            String regex = "[" + MY_TAB + "," + MY_LINE_SEPARATOR + "]";
+            String regex = "[" + Constants.MY_TAB + "," + Constants.MY_LINE_SEPARATOR + "]";
             String originalLine = originalSplited[i].replaceAll(regex, "");
             String userLine = userSplited[i].replaceAll(regex, "");
             if (!originalLine.equals(userLine)) {
@@ -224,7 +223,7 @@ public class XSLTServlet extends HttpServlet {
      */
     private static Assignment getAssignment(String level) {
 
-        List<Assignment> assignments = scanDirectoryStructure(ASSIGNMENTS_FOLDER_NAME + level);
+        List<Assignment> assignments = scanDirectoryStructure(Constants.ASSIGNMENTS_FOLDER_NAME + level);
         if (assignments.size() > 0) {
             Random randomGenerator = new Random();
             return assignments.get(randomGenerator.nextInt(assignments.size()));
