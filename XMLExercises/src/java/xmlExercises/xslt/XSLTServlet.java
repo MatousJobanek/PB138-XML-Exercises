@@ -324,7 +324,7 @@ public class XSLTServlet extends HttpServlet {
 
             Document htmlOutput = transform(xmlDocument, xslPath, true);
 
-            if (name != null && !"".equals(name) && xmlDocument != null && !"".equals(xmlDocument.toXML())
+            if (name != null && xmlDocument != null && !"".equals(xmlDocument.toXML())
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
                 String htmlOuput = formatOutput(htmlOutput.toXML().trim());

@@ -12,7 +12,7 @@ public class Constants {
 
     public static final String MY_LINE_SEPARATOR = "\n";
     public static final String MY_TAB = "\t";
-    public static final String ASSIGNMENTS_FOLDER_NAME = "xmlExercises";
+    public static final String ASSIGNMENTS_FOLDER_NAME = "xmlExercisesFiles";
     public static final String TASK = "task";
     public static final String RESULT = "result";
     public static final String URL_XSLT_TASK = "/" + TASK + "/xslt" ;

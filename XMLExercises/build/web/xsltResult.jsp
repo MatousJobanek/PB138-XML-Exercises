@@ -9,33 +9,31 @@
 <table>
     <tr>
         <th>
-            #
-        </th>
-        <th>
             Your result
         </th>
         <th>
             Correct result
         </th>
-        <th>
-        </th>
+        
+            <td class="${result.isCorrect ? "ok":"nok"}">
+            <c:out value='${result.isCorrect ? "OK":"X"}'/>
+        </td>
+        
     </tr>
     <tr>
         <td>
-            ${result.userHTML}
+            ${XSLTResult.userHTML}
         </td>
         <td>
-            ${result.correctHTML}
+            ${XSLTResult.correctHTML}
         </td>
-        
+    </tr>
+    <tr>
         <td>
-            <c:out value="${result.userHTML}"/>
+            <c:out value="${XSLTResult.userHTML}"/>
         </td>
         <td>
-            <c:out value="${result.correctHTML}"/>
-        </td>
-        <td class="${result.isCorrect ? "ok":"nok"}">
-            <c:out value='${result.isCorrect ? "OK":"X"}'/>
+            <c:out value="${XSLTResult.correctHTML}"/>
         </td>
     </tr>
 </table>
