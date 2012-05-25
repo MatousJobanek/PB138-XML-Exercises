@@ -66,9 +66,9 @@ public class XSLTServlet extends HttpServlet {
         ServletContext context = getServletContext();
         String id = request.getParameter("id");
         XSLTResult result = evaluate(userSolution, id);
-        
-            request.setAttribute(Constants.RESULT, result);
-            request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
+
+        request.setAttribute(Constants.RESULT, result);
+        request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
 
 //        } catch (SyntaxErorException ex) {
 //
@@ -77,26 +77,6 @@ public class XSLTServlet extends HttpServlet {
 //        }
     }
 
-//        //        if (false) {
-//
-//        Assignment assignment = getAssignment("beginner");
-//        if (assignment != null) {
-//            //            System.err.println("name: " + assignment.getName() + "\n" + "\n" + "xml:" + "\n"
-//            //                    + format(assignment.getXml()) + "\n" + "\n" + "html:" + "\n"
-//            //                    + formatOutput(assignment.getHtmlOutput().toXML().trim()));
-//        } else {
-//            System.err.println("Problem");
-//        }
-//        //        } else {
-//        Result result = evaluate(getMyTestXslt(), "beginner", "1beginner");
-//        if (result == null) {
-//            System.err.println("Problem");
-//        } else {
-//            System.out.println("succesful: " + result.getSuccessful());
-//            //                System.out.println("your xsl: " + result.getXsl());
-//            //                System.out.println("your output: " + result.getTransformed());
-//            //            }
-//        }
     private static String formatOutput(String toFormat) {
         char lastChar = toFormat.charAt(0);
         int tabsNum = 0;
@@ -177,7 +157,7 @@ public class XSLTServlet extends HttpServlet {
                     testForEquality(formatOutput(assignment.getHtmlOutput()),
                     formatOutput(transformed.toXML()));
 
-            return new XSLTResult(equal,formatOutput(transformed.toXML()), formatOutput(assignment.getHtmlOutputAsString()));
+            return new XSLTResult(equal, formatOutput(transformed.toXML()), formatOutput(assignment.getHtmlOutputAsString()));
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -247,7 +227,8 @@ public class XSLTServlet extends HttpServlet {
      */
     private static Assignment getAssignment() {
 
-        List<Assignment> assignments = scanDirectoryStructure(Constants.ASSIGNMENTS_FOLDER_NAME);
+        String homeFolder = System.getProperty("user.home");
+        List<Assignment> assignments = scanDirectoryStructure(homeFolder + File.separator + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + "xslt");
         if (assignments.size() > 0) {
             Random randomGenerator = new Random();
             return assignments.get(randomGenerator.nextInt(assignments.size()));
