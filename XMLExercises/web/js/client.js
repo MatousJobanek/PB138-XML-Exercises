@@ -77,7 +77,7 @@ var XMLSolver = {
         this.logInfo = $("#solution").val();
         this.moveNumber++;
 
-        $.get(this.serverUrl + this.evaluatorServletName + this.task.type, query, function(data) {
+        $.get(this.serverUrl + this.evaluatorServletName + this.type, query, function(data) {
             //XMLSolver.tutorLog();
             $('#result').html(data);
             if (data.indexOf('class="nok"') == -1) {
