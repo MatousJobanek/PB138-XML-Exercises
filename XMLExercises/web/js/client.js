@@ -23,9 +23,9 @@ var XMLSolver = {
         }
         this.type = type;
         var queryData = [];
-        queryData.push("type=" + type);
+        //queryData.push("type=" + type);
         var query = queryData.join('&');
-        $.get(this.serverUrl + this.taskServletName, query, function(data) {
+        $.get(this.serverUrl + type + this.taskServletName, query, function(data) {
             XMLSolver.taskLoaded(data);
         });
         $("#tasktext").html("Loading...");
@@ -69,7 +69,7 @@ var XMLSolver = {
         var queryData = []
         queryData.push("userSolution=" + $("#solution").val());
         //queryData.push("correctSolution=" + this.task.solution);
-        queryData.push("type=" + this.task.type);
+        //queryData.push("type=" + this.task.type);
         //queryData.push("data=" + this.task.data);
         queryData.push("id=" + this.task.id);
 
@@ -77,7 +77,7 @@ var XMLSolver = {
         this.logInfo = $("#solution").val();
         this.moveNumber++;
 
-        $.get(this.serverUrl + this.evaluatorServletName, query, function(data) {
+        $.get(this.serverUrl + this.task.type + this.evaluatorServletName, query, function(data) {
             //XMLSolver.tutorLog();
             $('#result').html(data);
             if (data.indexOf('class="nok"') == -1) {

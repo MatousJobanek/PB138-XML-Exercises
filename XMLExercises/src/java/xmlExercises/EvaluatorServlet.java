@@ -22,7 +22,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author slaweet
  */
 @WebServlet(name = "EvaluatorServlet",
-urlPatterns = {EvaluatorServlet.ACTION_RESULT, EvaluatorServlet.ACTION_TASK})
+urlPatterns = {EvaluatorServlet.ACTION_RESULT_XQUERY, EvaluatorServlet.ACTION_TASK_XQUERY,
+EvaluatorServlet.ACTION_RESULT_XPATH, EvaluatorServlet.ACTION_TASK_XPATH,
+EvaluatorServlet.ACTION_RESULT_DTD, EvaluatorServlet.ACTION_TASK_DTD,
+EvaluatorServlet.ACTION_RESULT_XMLSCHEMA, EvaluatorServlet.ACTION_TASK_XMLSCHEMA
+})
 public class EvaluatorServlet extends HttpServlet {
 
     /**
@@ -35,8 +39,16 @@ public class EvaluatorServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    static final String ACTION_TASK = "/Task";
-    static final String ACTION_RESULT = "/Restult";
+    static final String ACTION_TASK = "Task";
+    static final String ACTION_RESULT = "Restult";
+    static final String ACTION_TASK_XQUERY = "/XQueryTask";
+    static final String ACTION_RESULT_XQUERY = "/XQueryRestult";
+    static final String ACTION_TASK_XPATH = "/XPathTask";
+    static final String ACTION_RESULT_XPATH = "/XPathRestult";
+    static final String ACTION_TASK_DTD = "/DTDTask";
+    static final String ACTION_RESULT_DTD = "/DTDRestult";
+    static final String ACTION_TASK_XMLSCHEMA = "/XSchemaTask";
+    static final String ACTION_RESULT_XMLSCHEMA = "/XSchemaRestult";
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
     static final String ATTRIBUTE_ERROR = "errormessage";
@@ -49,9 +61,9 @@ public class EvaluatorServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        if (request.getServletPath().equals(ACTION_TASK)) {
+        if (request.getServletPath().contains(ACTION_TASK)) {
             task(request, response);
-        } else if (request.getServletPath().equals(ACTION_RESULT)) {
+        } else if (request.getServletPath().contains(ACTION_RESULT)) {
             result(request, response);
         } else {
             throw new RuntimeException("Unknown operation: " + request.getServletPath());
@@ -61,7 +73,7 @@ public class EvaluatorServlet extends HttpServlet {
     }
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String type = request.getParameter("type");
+        String type = request.getServletPath().replace("/","").replace(ACTION_TASK, "").toLowerCase();
         List<String> tasks = Utils.scanDirectoryStructure(RESOURCES_DIR + type);
         Random randomGenerator = new Random();
         int id = Integer.parseInt(tasks.get(randomGenerator.nextInt(tasks.size())));
@@ -74,7 +86,7 @@ public class EvaluatorServlet extends HttpServlet {
     private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userSolution = request.getParameter("userSolution");
-        String type = request.getParameter("type");
+        String type = request.getServletPath().replace("/","").replace(ACTION_RESULT, "").toLowerCase();
         int id = Integer.parseInt(request.getParameter("id"));
 
         Evaluator evaluator = Utils.getEvaluator(type);
