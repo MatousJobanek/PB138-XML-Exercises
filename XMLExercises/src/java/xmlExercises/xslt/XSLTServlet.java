@@ -316,7 +316,7 @@ public class XSLTServlet extends HttpServlet {
 
             StringBuffer assignmentBuffer = new StringBuffer("");
             while (reader.ready()) {
-                assignmentBuffer.append(reader.read());
+                assignmentBuffer.append(reader.readLine()).append("\n");
             }
 
             Document htmlOutput = transform(xmlDocument, xslPath, true);
@@ -332,7 +332,7 @@ public class XSLTServlet extends HttpServlet {
                         xmlDocument,
                         xmlDocument.toXML().replace("\n", "\\n"),
                         assignmentBuffer.toString().replace("\n", "\\n"),
-                        getBodyContent(htmlOutput.toXML().replace("\n", "\\n")),
+                        getBodyContent(htmlOutput.toXML()),
                         htmlOuput.replace("\n", "\\n"));
             }
 
@@ -357,7 +357,7 @@ public class XSLTServlet extends HttpServlet {
     }
 
     private static String getBodyContent(String html) {
-        return html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>"));
+        return html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
     }
 
     public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
