@@ -33,7 +33,7 @@
                     <option value="/xquery" > XQuery </option>
                     <option value="/xslt" > XSLT </option>
                     <option value="/xpath" > XPath </option>
-                    <option value="/xmlshema" > XML Schema </option>
+                    <option value="/xmlschema" > XML Schema </option>
                     <option value="/dtd" > DTD </option>
                 </select>
                 <button class="rand">Get random</button>
