@@ -35,16 +35,14 @@ public class Utils {
 
         List<String> data = new ArrayList<String>();
         try {
-            String path = Utils.getPathTo(type, id);
-            t.setSolution(readFile(path + "solution.xq"));
+            String path = getPathTo(type, id);
+            t.setSolution(readFile(path + "solution" + getSuffix(type)));
             t.setText(readFile(path + "text.txt"));
-            for (int i = 1; i < 5; i++) {
+            for (int i = 1; (new File(path + "data" + i + ".xml")).exists(); i++) {
                 data.add(readFile(path + "data" + i + ".xml"));
             }
         } catch (IOException ex) {
-            //t.setSolution("<table></table>");
             t.setText("No excercise found.");
-            //t.setData("<table>s</table>");
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
         t.setData(data);
@@ -104,11 +102,23 @@ public class Utils {
     }
 
     public static String getPathTo(String type, String id) {
-        return Utils.getPathTo(type) + File.separator + id + File.separator;
+        return getPathTo(type) + File.separator + id + File.separator;
     }
 
     public static String getPathTo(String type) {
         return System.getProperty("user.home") + File.separator
                 + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + type;
+    }
+
+    public static String getSuffix(String type) {
+        if ("xquery".equals(type)) {
+            return ".xq";
+        } else if ("xpath".equals(type)) {
+            return ".xp";
+        } else if ("dtd".equals(type)) {
+            return ".dtd";
+        } else {
+            return null;
+        }
     }
 }
