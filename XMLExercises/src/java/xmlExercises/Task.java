@@ -18,6 +18,15 @@ public class Task {
     private String solution;
     private String text;
     private String type;
+    private String initSolution;
+
+    public String getInitSolution() {
+        return initSolution;
+    }
+
+    public void setInitSolution(String initSolution) {
+        this.initSolution = initSolution;
+    }
 
     public String getType() {
         return type;
@@ -71,5 +80,7 @@ public class Task {
         }
         this.data = data;
         text = text.replace("\n", "\\n");
+        initSolution = initSolution.replace("\n", "\\n");
+        initSolution = initSolution.replace("\"", "\\\"");
     }
 }

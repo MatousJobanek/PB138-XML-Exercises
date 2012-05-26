@@ -42,6 +42,7 @@ var XMLSolver = {
             $("#htmloutput").html(this.task.htmlOutput);
             $("#stringoutput").html(this.task.htmlOutputAsString);
         }
+        $("#solution").val(this.task.initSolution);
         $("#solution").focus();
         $(".send").click(function() {XMLSolver.send()});
     },
@@ -71,7 +72,7 @@ var XMLSolver = {
         this.lastTime = time;
         $('#result').html("Probíhá vyhodnocování..");
         var queryData = []
-        queryData.push("userSolution=" + $("#solution").val());
+        queryData.push("userSolution=" + $("#solution").val().replace("\n", " \n"));
         //queryData.push("correctSolution=" + this.task.solution);
         //queryData.push("type=" + this.task.type);
         //queryData.push("data=" + this.task.data);

@@ -38,6 +38,11 @@ public class Utils {
             String path = getPathTo(type, id);
             t.setSolution(readFile(path + "solution" + getSuffix(type)));
             t.setText(readFile(path + "text.txt"));
+            if ((new File(path + "initsolution" + getSuffix(type))).exists()) {
+                t.setInitSolution(readFile(path + "initsolution" + getSuffix(type)));
+            } else {
+                t.setInitSolution("");
+            }
             for (int i = 1; (new File(path + "data" + i + ".xml")).exists(); i++) {
                 data.add(readFile(path + "data" + i + ".xml"));
             }

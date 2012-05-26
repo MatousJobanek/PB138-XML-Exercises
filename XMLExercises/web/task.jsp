@@ -9,6 +9,7 @@
  "id": "<c:out value="${task.id}"/>",
  "text": "<c:out value="${task.text}"/>",
  "type": "<c:out value="${task.type}"/>",
+ "initSolution": "${task.initSolution}",
  "data": { 
  <c:forEach items="${task.data}" var="file" varStatus="loopStatus">
      ${loopStatus.index == 0 ? "" : ","} "${loopStatus.index}": "<c:out value="${file}"/>"
