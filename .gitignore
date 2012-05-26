@@ -4,6 +4,8 @@
 *.jar
 *.war
 *.ear
+*.js
+*/build/
 /XMLExercises/nbproject/private/
 /XMLExercises/build/
 /XMLExercises/dist/

@@ -78,7 +78,7 @@ public class XSLTServlet extends HttpServlet {
 //        }
     }
 
-    private static String formatOutput(String toFormat) {
+    private String formatOutput(String toFormat) {
         char lastChar = toFormat.charAt(0);
         int tabsNum = 0;
         boolean lastWasSlash = false;
@@ -125,7 +125,7 @@ public class XSLTServlet extends HttpServlet {
         return toFormat;
     }
 
-    public static String format(Document document) {
+    public String format(Document document) {
 
         Serializer serializer;
         try {
@@ -148,8 +148,8 @@ public class XSLTServlet extends HttpServlet {
      * @param newXSL
      * @param name
      */
-    private static XSLTResult evaluate(String newXSL, String name) {
-        Assignment assignment = scanDirectory(Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + name);
+    private XSLTResult evaluate(String newXSL, String name) {
+        Assignment assignment = scanDirectory(Utils.getPathTo("xslt", name));
 
         try {
             Document transformed = transform(assignment.getXmlDocument(), newXSL, false);
@@ -158,6 +158,9 @@ public class XSLTServlet extends HttpServlet {
                     testForEquality(formatOutput(assignment.getHtmlOutput()),
                     formatOutput(transformed.toXML()));
 
+            System.err.println(transformed.toXML());
+            System.err.println(assignment.getHtmlOutputAsString());
+            
             return new XSLTResult(equal, formatOutput(transformed.toXML()), formatOutput(assignment.getHtmlOutputAsString()));
 
         } catch (XSLException e) {
@@ -183,7 +186,7 @@ public class XSLTServlet extends HttpServlet {
      * @param xml
      * @param xml2
      */
-    private static boolean testForEquality(String originalXml, String userXml) {
+    private boolean testForEquality(String originalXml, String userXml) {
 
         String[] originalSplited = originalXml.split(Constants.MY_LINE_SEPARATOR);
         String[] userSplited = userXml.split(Constants.MY_LINE_SEPARATOR);
@@ -204,7 +207,7 @@ public class XSLTServlet extends HttpServlet {
         return true;
     }
 
-    private static String getMyTestXslt() {
+    private String getMyTestXslt() {
         Builder builder = new Builder();
         try {
             return builder.build(new File("resources/beginner/1beginner/address-book.xslt")).toXML();
@@ -226,10 +229,10 @@ public class XSLTServlet extends HttpServlet {
     /**
      * @param string
      */
-    private static Assignment getAssignment() {
+    private Assignment getAssignment() {
 
         String homeFolder = System.getProperty("user.home");
-        List<Assignment> assignments = scanDirectoryStructure(homeFolder + File.separator + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + "xslt");
+        List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
         if (assignments.size() > 0) {
             Random randomGenerator = new Random();
             return assignments.get(randomGenerator.nextInt(assignments.size()));
@@ -237,7 +240,7 @@ public class XSLTServlet extends HttpServlet {
         return null;
     }
 
-    private static List<Assignment> scanDirectoryStructure(String path) {
+    private List<Assignment> scanDirectoryStructure(String path) {
 
         File dir = new File(path);
         FileFilter filter = new FileFilter() {
@@ -264,7 +267,7 @@ public class XSLTServlet extends HttpServlet {
         return assignments;
     }
 
-    private static Assignment scanDirectory(String dirPath) {
+    private Assignment scanDirectory(String dirPath) {
 
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
@@ -302,7 +305,7 @@ public class XSLTServlet extends HttpServlet {
      * @param xslPath
      * @return
      */
-    private static Assignment createAssignment(String dirPath,
+    private Assignment createAssignment(String dirPath,
             String xmlDocPath,
             String assignmentTextPath,
             String xslPath) {
@@ -356,11 +359,11 @@ public class XSLTServlet extends HttpServlet {
         return null;
     }
 
-    private static String getBodyContent(String html) {
+    private String getBodyContent(String html) {
         return html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
     }
 
-    public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
+    public Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
             ParsingException, IOException {
         Builder builder = new Builder();
         Document stylesheet = isFile ? builder.build(XSL) : builder.build(XSL, null);
