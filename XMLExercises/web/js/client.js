@@ -42,8 +42,10 @@ var XMLSolver = {
             $("#htmloutput").html(this.task.htmlOutput);
             $("#stringoutput").html(this.task.htmlOutputAsString);
         }
-        $("#solution").val(this.task.initSolution);
+        var cursorPosition = this.task.initSolution.indexOf("CURSOR");
+        $("#solution").val(this.task.initSolution.replace("CURSOR", ""));
         $("#solution").focus();
+        setCaretToPos(document.getElementById("solution"), cursorPosition);
         $(".send").click(function() {XMLSolver.send()});
     },
     tabs: function(data) {
@@ -70,7 +72,7 @@ var XMLSolver = {
             return
         }
         this.lastTime = time;
-        $('#result').html("Probíhá vyhodnocování..");
+        $('#result').html("Evaluating...");
         var queryData = []
         queryData.push("userSolution=" + $("#solution").val().replace("\n", " \n"));
         //queryData.push("correctSolution=" + this.task.solution);
@@ -102,4 +104,22 @@ var XMLSolver = {
         var q = "session_id="+session_id+"&session_hash="+check_hash+"&move_number="+this.moveNumber+"&move="+this.logInfo;
         sendDataToInterface(q);
     }
+}
+
+function setSelectionRange(input, selectionStart, selectionEnd) {
+  if (input.setSelectionRange) {
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
+  }
+  else if (input.createTextRange) {
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', selectionEnd);
+    range.moveStart('character', selectionStart);
+    range.select();
+  }
+}
+
+function setCaretToPos (input, pos) {
+  setSelectionRange(input, pos, pos);
 }

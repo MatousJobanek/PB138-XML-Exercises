@@ -65,3 +65,6 @@ td, th  {
 .nok {
     background: red;
 }
+#result table {
+    width: 100%;
+}
