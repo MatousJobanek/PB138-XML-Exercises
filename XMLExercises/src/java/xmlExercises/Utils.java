@@ -33,21 +33,21 @@ public class Utils {
         t.setId(id);
         t.setType(type);
 
+        List<String> data = new ArrayList<String>();
         try {
             String path = Utils.getPathTo(type, id);
             t.setSolution(readFile(path + "solution.xq"));
             t.setText(readFile(path + "text.txt"));
-            List<String> data = new ArrayList<String>();
             for (int i = 1; i < 5; i++) {
                 data.add(readFile(path + "data" + i + ".xml"));
             }
-            t.setData(data);
         } catch (IOException ex) {
             //t.setSolution("<table></table>");
-            t.setText("Not implemented yet");
+            t.setText("No excercise found.");
             //t.setData("<table>s</table>");
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
+        t.setData(data);
 
         return t;
     }
@@ -58,6 +58,9 @@ public class Utils {
         }
         if ("xpath".equals(type)) {
             return new XPathEvaluator();
+        }
+        if ("dtd".equals(type)) {
+            return new DTDEvaluator();
         }
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -75,7 +78,7 @@ public class Utils {
             stream.close();
         }
     }
-    
+
     static List<String> scanDirectoryStructure(String path) {
 
         File dir = new File(path);
@@ -85,7 +88,6 @@ public class Utils {
             public boolean accept(File pathname) {
                 return !pathname.isFile();
             }
-
         };
         File[] dirs = dir.listFiles(filter);
         if (dirs == null || dirs.length == 0) {
@@ -100,14 +102,13 @@ public class Utils {
 
         return assignments;
     }
-    
-   
+
     public static String getPathTo(String type, String id) {
-         return Utils.getPathTo(type) + File.separator + id + File.separator;
+        return Utils.getPathTo(type) + File.separator + id + File.separator;
     }
-    
+
     public static String getPathTo(String type) {
-         return System.getProperty("user.home") + File.separator + 
-                 Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + type;
+        return System.getProperty("user.home") + File.separator
+                + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator + type;
     }
 }

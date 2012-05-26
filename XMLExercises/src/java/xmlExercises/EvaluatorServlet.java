@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "EvaluatorServlet",
 urlPatterns = {EvaluatorServlet.ACTION_RESULT_XQUERY, EvaluatorServlet.ACTION_TASK_XQUERY,
-EvaluatorServlet.ACTION_RESULT_XPATH, EvaluatorServlet.ACTION_TASK_XPATH,
-EvaluatorServlet.ACTION_RESULT_DTD, EvaluatorServlet.ACTION_TASK_DTD,
-EvaluatorServlet.ACTION_RESULT_XMLSCHEMA, EvaluatorServlet.ACTION_TASK_XMLSCHEMA
+    EvaluatorServlet.ACTION_RESULT_XPATH, EvaluatorServlet.ACTION_TASK_XPATH,
+    EvaluatorServlet.ACTION_RESULT_DTD, EvaluatorServlet.ACTION_TASK_DTD,
+    EvaluatorServlet.ACTION_RESULT_XMLSCHEMA, EvaluatorServlet.ACTION_TASK_XMLSCHEMA
 })
 public class EvaluatorServlet extends HttpServlet {
 
@@ -52,7 +52,7 @@ public class EvaluatorServlet extends HttpServlet {
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
     static final String JSP_TASK = "/task.jsp";
-    static final String JSP_RESULT = "/result.jsp";    
+    static final String JSP_RESULT = "/result.jsp";
     static final String RESOURCES_DIR = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -73,10 +73,15 @@ public class EvaluatorServlet extends HttpServlet {
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String type = request.getServletPath().replace(ACTION_TASK, "");
         List<String> tasks = Utils.scanDirectoryStructure(Utils.getPathTo(type));
+
         Random randomGenerator = new Random();
-        String id = tasks.get(randomGenerator.nextInt(tasks.size()));
+        String id = null;
+        if (tasks != null) {
+            id = tasks.get(randomGenerator.nextInt(tasks.size()));
+        } 
         Task task = Utils.getTask(id, type);
         task.replaceTags();
+
         request.setAttribute(ATTRIBUTE_TASK, task);
         request.getRequestDispatcher(JSP_TASK).forward(request, response);
     }
@@ -97,7 +102,7 @@ public class EvaluatorServlet extends HttpServlet {
         try {
             for (int i = 1; i <= task.getData().size(); i++) {
                 Result result = new Result();
-                String file = path  + "data" + i +".xml";
+                String file = path + "data" + i + ".xml";
                 result.setCorrectSolution(evaluator.eval(task.getSolution(), file));
                 result.setUserSolution(evaluator.eval(userSolution, file));
                 result.setIsCorrect(evaluator.compare(result.getCorrectSolution(), result.getUserSolution()));
@@ -106,7 +111,7 @@ public class EvaluatorServlet extends HttpServlet {
             }
             request.setAttribute(ATTRIBUTE_RESULT, results);
             request.getRequestDispatcher(JSP_RESULT).forward(request, response);
-            
+
         } catch (SyntaxErorException ex) {
 
             request.setAttribute(Constants.ATTRIBUTE_ERROR, ex.getMessage());

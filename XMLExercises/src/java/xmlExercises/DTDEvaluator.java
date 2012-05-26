@@ -14,7 +14,7 @@ import org.xml.sax.SAXParseException;
  * @author vasekhodina
  */
 
-public class DTDEvaluator{
+public class DTDEvaluator implements Evaluator{
     boolean valid = true;
     int errOnLine = 0;
     public String eval(String expresion, String fileName){
