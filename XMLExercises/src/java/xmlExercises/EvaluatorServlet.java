@@ -51,10 +51,8 @@ public class EvaluatorServlet extends HttpServlet {
     static final String ACTION_RESULT_XMLSCHEMA = "/result/xmlschema";
     static final String ATTRIBUTE_TASK = "task";
     static final String ATTRIBUTE_RESULT = "results";
-    static final String ATTRIBUTE_ERROR = "errormessage";
     static final String JSP_TASK = "/task.jsp";
-    static final String JSP_RESULT = "/result.jsp";
-    static final String JSP_ERROR = "/syntaxerror.jsp";
+    static final String JSP_RESULT = "/result.jsp";    
     static final String RESOURCES_DIR = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -111,8 +109,8 @@ public class EvaluatorServlet extends HttpServlet {
             
         } catch (SyntaxErorException ex) {
 
-            request.setAttribute(ATTRIBUTE_ERROR, ex.getMessage());
-            request.getRequestDispatcher(JSP_ERROR).forward(request, response);
+            request.setAttribute(Constants.ATTRIBUTE_ERROR, ex.getMessage());
+            request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
         }
     }
 

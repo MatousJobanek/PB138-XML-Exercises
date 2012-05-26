@@ -16,10 +16,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.TransformerConfigurationException;
 import nu.xom.*;
 import nu.xom.xslt.XSLException;
 import nu.xom.xslt.XSLTransform;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 import xmlExercises.*;
 
 /**
@@ -55,7 +62,12 @@ public class XSLTServlet extends HttpServlet {
     }
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Assignment assignment = getAssignment();
+        Assignment assignment = null;
+        try {
+            assignment = getAssignment();
+        } catch (SyntaxErorException ex) {
+            returnError(request, response, "There has been occured some problem " + ex.getMessage());
+        }
 //        System.err.println();
         request.setAttribute(Assignment.class.getSimpleName(), assignment);
         request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
@@ -64,18 +76,30 @@ public class XSLTServlet extends HttpServlet {
     private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userSolution = request.getParameter("userSolution");
-        ServletContext context = getServletContext();
-        String id = request.getParameter("id");
-        XSLTResult result = evaluate(userSolution, id);
+        if (userSolution != null && !"".equals(userSolution)) {
+            try {
 
-        request.setAttribute(Constants.RESULT, result);
-        request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
+                ServletContext context = getServletContext();
+                String id = request.getParameter("id");
+                XSLTResult result;
 
-//        } catch (SyntaxErorException ex) {
-//
-//            request.setAttribute(ATTRIBUTE_ERROR, ex.getMessage());
-//            request.getRequestDispatcher(JSP_ERROR).forward(request, response);
-//        }
+                result = evaluate(userSolution, id);
+
+                request.setAttribute(Constants.RESULT, result);
+                request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
+
+            } catch (SyntaxErorException ex) {
+                returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+            }
+
+        } else {
+            returnError(request, response, "The input is empty");
+        }
+    }
+
+    private void returnError(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+        request.setAttribute(Constants.ATTRIBUTE_ERROR, message);
+        request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
     }
 
     private String formatOutput(String toFormat) {
@@ -148,7 +172,7 @@ public class XSLTServlet extends HttpServlet {
      * @param newXSL
      * @param name
      */
-    private XSLTResult evaluate(String newXSL, String name) {
+    private XSLTResult evaluate(String newXSL, String name) throws SyntaxErorException {
         Assignment assignment = scanDirectory(Utils.getPathTo("xslt", name));
 
         try {
@@ -160,7 +184,7 @@ public class XSLTServlet extends HttpServlet {
 
             System.err.println(transformed.toXML());
             System.err.println(assignment.getHtmlOutputAsString());
-            
+
             return new XSLTResult(equal, formatOutput(transformed.toXML()), formatOutput(assignment.getHtmlOutputAsString()));
 
         } catch (XSLException e) {
@@ -229,7 +253,7 @@ public class XSLTServlet extends HttpServlet {
     /**
      * @param string
      */
-    private Assignment getAssignment() {
+    private Assignment getAssignment() throws SyntaxErorException {
 
         String homeFolder = System.getProperty("user.home");
         List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
@@ -240,7 +264,7 @@ public class XSLTServlet extends HttpServlet {
         return null;
     }
 
-    private List<Assignment> scanDirectoryStructure(String path) {
+    private List<Assignment> scanDirectoryStructure(String path) throws SyntaxErorException {
 
         File dir = new File(path);
         FileFilter filter = new FileFilter() {
@@ -267,7 +291,7 @@ public class XSLTServlet extends HttpServlet {
         return assignments;
     }
 
-    private Assignment scanDirectory(String dirPath) {
+    private Assignment scanDirectory(String dirPath) throws SyntaxErorException {
 
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
@@ -308,7 +332,7 @@ public class XSLTServlet extends HttpServlet {
     private Assignment createAssignment(String dirPath,
             String xmlDocPath,
             String assignmentTextPath,
-            String xslPath) {
+            String xslPath) throws SyntaxErorException {
         try {
             String name = dirPath.substring(dirPath.lastIndexOf(File.separator) + 1);
 
@@ -324,12 +348,12 @@ public class XSLTServlet extends HttpServlet {
 
             Document htmlOutput = transform(xmlDocument, xslPath, true);
 
-            if (name != null && !"".equals(name) && xmlDocument != null && !"".equals(xmlDocument.toXML())
+            if (name != null && xmlDocument != null && !"".equals(xmlDocument.toXML())
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
                 String htmlOuput = formatOutput(htmlOutput.toXML().trim());
-                System.err.println(assignmentBuffer.toString());
-                System.err.println(assignmentTextPath);
+//                System.err.println(assignmentBuffer.toString());
+//                System.err.println(assignmentTextPath);
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
@@ -340,8 +364,8 @@ public class XSLTServlet extends HttpServlet {
             }
 
         } catch (ValidityException e) {
-            LOGGER.log(Level.SEVERE, "Problem", e);
-            e.printStackTrace();
+            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
+            throw new SyntaxErorException("the input is not valid \n" + e.getMessage());
 
         } catch (ParsingException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -364,11 +388,20 @@ public class XSLTServlet extends HttpServlet {
     }
 
     public Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
-            ParsingException, IOException {
-        Builder builder = new Builder();
-        Document stylesheet = isFile ? builder.build(XSL) : builder.build(XSL, null);
-        XSLTransform transform = new XSLTransform(stylesheet);
-        return XSLTransform.toDocument(transform.transform(xmlDocument));
+            ParsingException, IOException, SyntaxErorException {
+        try {
+            
+            Builder builder = new Builder(true);
+            Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
+            XSLTransform transform = new XSLTransform(stylesheet);
+
+            return XSLTransform.toDocument(transform.transform(xmlDocument));
+
+        } catch (XMLException e) {
+            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
+            throw new SyntaxErorException(e.getMessage());
+            
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
