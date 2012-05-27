@@ -74,7 +74,7 @@ public class Utils {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    static String readFile(String path) throws IOException {
+    public static String readFile(String path) throws IOException {
         FileInputStream stream = new FileInputStream(new File(path));
         try {
             FileChannel fc = stream.getChannel();
@@ -133,5 +133,76 @@ public class Utils {
         } else {
             return null;
         }
+    }
+
+    public static String formatOutputHtml(String toFormat) {
+        char lastChar = toFormat.charAt(0);
+        int tabsNum = 0;
+        boolean lastWasSlash = false;
+
+        for (int i = 1; i < toFormat.length(); i++) {
+            char currentChar = toFormat.charAt(i);
+
+            if (!lastWasSlash && currentChar == '<'
+                    && toFormat.substring(i + 1, toFormat.indexOf(">", i + 1)).contains("/")) {
+                if (tabsNum > 0) {
+                    tabsNum--;
+                }
+                lastWasSlash = true;
+            }
+
+            if (currentChar == '>') {
+                int nextBracket = toFormat.indexOf(">", i);
+                if (!lastWasSlash || (nextBracket > 0 && toFormat.charAt(nextBracket - 1) == '/')) {
+                    tabsNum++;
+                    lastWasSlash = false;
+                } else {
+                    lastWasSlash = false;
+                }
+            }
+
+            if ((lastChar == '>' && (currentChar == ' ' || currentChar == '\t' || currentChar == '\n'))
+                    || (currentChar == '\n')) {
+                toFormat = toFormat.substring(0, i) + toFormat.substring(i + 1, toFormat.length());
+                i--;
+            } else if ((lastChar == '>') || (currentChar == '<' && lastChar != '>')) {
+                StringBuffer buffer = new StringBuffer("");
+                for (int j = 0; j < tabsNum - 1; j++) {
+                    buffer.append(Constants.MY_TAB);
+                }
+                toFormat =
+                        toFormat.substring(0, i) + Constants.MY_LINE_SEPARATOR + buffer.toString()
+                        + toFormat.substring(i, toFormat.length());
+                lastChar = currentChar;
+                i += 1 + (tabsNum > 1 ? tabsNum : 0);
+            } else {
+                lastChar = currentChar;
+            }
+        }
+
+        String[] splited = toFormat.split(Constants.MY_LINE_SEPARATOR);
+        StringBuffer bufferedOutput = new StringBuffer("");
+        int pom = 2;
+        for (int i = 0; i < splited.length; i++) {
+
+            if (pom == 2) {
+                if (splited.length > i + 2 && splited.length > 1) {
+
+                    String first = splited[i].replace("\t", "");
+                    if ((first.substring(0, 1) + "/" + first.substring(1)).equals(splited[i + 2].replace("\t", ""))) {
+                        pom--;
+                    }
+                }
+            } else if (pom > 0) {
+                pom--;
+                splited[i] = splited[i].replace("\t", "");
+            } else {
+                pom = 2;
+                splited[i] = splited[i].replace("\t", "");
+            }
+            bufferedOutput.append(splited[i] + (pom == 2 ? "\\n" : ""));
+
+        }
+        return bufferedOutput.toString().replace(Constants.MY_TAB, "\\t");
     }
 }

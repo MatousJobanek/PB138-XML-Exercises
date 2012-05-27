@@ -9,6 +9,7 @@
  "id": "<c:out value="${Assignment.name}"/>",
  "text": "<c:out value="${Assignment.assignmentText}"/>",
  "type": "<c:out value="${Assignment.type}"/>",
+ "initSolution": "${Assignment.initSolution}",
  "htmlOutput": "${Assignment.htmlOutput}",
  "htmlOutputAsString": "<c:out value="${Assignment.htmlOutputAsString}"/>",
  "data": { "0": "<c:out value="${Assignment.xml}"/>"
