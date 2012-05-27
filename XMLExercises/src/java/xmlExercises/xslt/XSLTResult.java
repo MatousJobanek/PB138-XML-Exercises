@@ -11,25 +11,27 @@ package xmlExercises.xslt;
 public class XSLTResult {
     
 
-    private boolean correct;
+    private boolean isCorrect;
     
     private String userHTML;
 
     private String correctHTML;
 
-    public XSLTResult(boolean correct, String userHTML, String correctHTML) {
-        this.correct = correct;
+    public XSLTResult(boolean isCorrect, String userHTML, String correctHTML) {
+        this.isCorrect = isCorrect;
         this.userHTML = userHTML;
         this.correctHTML = correctHTML;
     }
 
-    public boolean isCorrect() {
-        return correct;
+    public boolean isIsCorrect() {
+        return isCorrect;
     }
 
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
     }
+
+   
 
     public String getCorrectHTML() {
         return correctHTML;

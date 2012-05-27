@@ -16,17 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.TransformerConfigurationException;
 import nu.xom.*;
 import nu.xom.xslt.XSLException;
 import nu.xom.xslt.XSLTransform;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 import xmlExercises.*;
 
 /**
@@ -62,15 +54,14 @@ public class XSLTServlet extends HttpServlet {
     }
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Assignment assignment = null;
+         
         try {
-            assignment = getAssignment();
+            Assignment assignment = getAssignment();
+            request.setAttribute(Assignment.class.getSimpleName(), assignment);
+            request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
         } catch (SyntaxErorException ex) {
             returnError(request, response, "There has been occured some problem " + ex.getMessage());
-        }
-//        System.err.println();
-        request.setAttribute(Assignment.class.getSimpleName(), assignment);
-        request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
+        }        
     }
 
     private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -84,6 +75,12 @@ public class XSLTServlet extends HttpServlet {
                 XSLTResult result;
 
                 result = evaluate(userSolution, id);
+                
+                System.err.println(result.isIsCorrect());
+                System.err.println(result.getCorrectHTML());
+                System.err.println(result.getUserHTML());
+//                System.err.println(result.);
+//                System.err.println(result);
 
                 request.setAttribute(Constants.RESULT, result);
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
@@ -146,7 +143,7 @@ public class XSLTServlet extends HttpServlet {
                 lastChar = currentChar;
             }
         }
-        return toFormat;
+        return toFormat.replace("\n", "\\n");
     }
 
     public String format(Document document) {
@@ -179,13 +176,13 @@ public class XSLTServlet extends HttpServlet {
             Document transformed = transform(assignment.getXmlDocument(), newXSL, false);
 
             boolean equal =
-                    testForEquality(formatOutput(assignment.getHtmlOutput()),
+                    testForEquality(assignment.getHtmlOutputAsString(),
                     formatOutput(transformed.toXML()));
 
-            System.err.println(transformed.toXML());
+            System.err.println(formatOutput(transformed.toXML()));
             System.err.println(assignment.getHtmlOutputAsString());
 
-            return new XSLTResult(equal, formatOutput(transformed.toXML()), formatOutput(assignment.getHtmlOutputAsString()));
+            return new XSLTResult(equal, formatOutput(transformed.toXML()), assignment.getHtmlOutputAsString());
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -223,8 +220,8 @@ public class XSLTServlet extends HttpServlet {
             String originalLine = originalSplited[i].replaceAll(regex, "");
             String userLine = userSplited[i].replaceAll(regex, "");
             if (!originalLine.equals(userLine)) {
-                System.err.println("original: " + originalSplited[i]);
-                System.err.println("user: " + userSplited[i]);
+//                System.err.println("original: " + originalSplited[i]);
+//                System.err.println("user: " + userSplited[i]);
                 return false;
             }
         }
@@ -360,7 +357,7 @@ public class XSLTServlet extends HttpServlet {
                         xmlDocument.toXML().replace("\n", "\\n"),
                         assignmentBuffer.toString().replace("\n", "\\n"),
                         getBodyContent(htmlOutput.toXML()),
-                        htmlOuput.replace("\n", "\\n"));
+                        htmlOuput);
             }
 
         } catch (ValidityException e) {
@@ -384,14 +381,16 @@ public class XSLTServlet extends HttpServlet {
     }
 
     private String getBodyContent(String html) {
-        return html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
+//        System.out.println("html: " +  html);
+        int indexOfBody = html.toLowerCase().indexOf("<body>");
+        return html.substring(html.indexOf(">", indexOfBody)+1, html.toLowerCase().indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
     }
 
     public Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
             ParsingException, IOException, SyntaxErorException {
         try {
             
-            Builder builder = new Builder(true);
+            Builder builder = new Builder();
             Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
             XSLTransform transform = new XSLTransform(stylesheet);
 
