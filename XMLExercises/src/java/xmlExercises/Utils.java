@@ -179,7 +179,6 @@ public class Utils {
         int pom = 2;
         for (int i = 0; i < splited.length; i++) {
 
-
             if (pom == 2) {
                 if (splited.length > i + 2 && splited.length > 1) {
 
@@ -198,8 +197,6 @@ public class Utils {
             bufferedOutput.append(splited[i] + (pom == 2 ? "\\n" : ""));
 
         }
-
-
         return bufferedOutput.toString().replace(Constants.MY_TAB, "\\t");
     }
 }

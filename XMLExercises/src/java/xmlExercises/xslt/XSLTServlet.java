@@ -83,11 +83,11 @@ public class XSLTServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 XSLTResult result;
 
-                System.err.println(userSolution);
+//                System.err.println(userSolution);
                 
                 result = evaluate(userSolution, id);
                 
-                System.err.println(result.isIsCorrect());
+//                System.err.println(result.isIsCorrect());
 //                System.err.println(result.getCorrectHTML());
 //                System.err.println(result.getUserHTML());
                 
@@ -220,7 +220,6 @@ public class XSLTServlet extends HttpServlet {
 
         String homeFolder = System.getProperty("user.home");
         List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
-        System.err.println("size: " + assignments.size());
         if (assignments.size() > 0) {
             Random randomGenerator = new Random();
             return assignments.get(randomGenerator.nextInt(assignments.size()));
@@ -317,7 +316,7 @@ public class XSLTServlet extends HttpServlet {
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
                 String htmlOuputAsString = Utils.formatOutputHtml(htmlOutput.toXML().trim());
 //                System.err.println(assignmentBuffer.toString());
-                System.err.println("htmlOutput: " + htmlOutput.toXML());
+//                System.err.println("htmlOutput: " + htmlOutput.toXML());
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
