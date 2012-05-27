@@ -1,0 +1,2 @@
+Write XQuery program that operates with html table in file "test.xml". 
+It should add to parameter "class" to all table rows. Value of this parameter is "odd" or "even" depending on whether it is odd or even row of the table.
