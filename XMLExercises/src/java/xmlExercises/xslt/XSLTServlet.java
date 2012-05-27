@@ -53,7 +53,7 @@ public class XSLTServlet extends HttpServlet {
 
     }
 
-    public void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
             Assignment assignment = XSLTUtils.getAssignment();
@@ -70,7 +70,7 @@ public class XSLTServlet extends HttpServlet {
         }
     }
 
-    public void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userSolution = request.getParameter("userSolution");
         if (userSolution != null && !"".equals(userSolution)) {
@@ -81,9 +81,6 @@ public class XSLTServlet extends HttpServlet {
                 XSLTResult result;
 
                 result = XSLTUtils.evaluate(userSolution, id);
-
-                System.err.println("user: " + result.getUserHTML());
-                System.err.println("correct: " + result.getCorrectHTML());
 
                 request.setAttribute(XSLTResult.class.getSimpleName(), result);
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);

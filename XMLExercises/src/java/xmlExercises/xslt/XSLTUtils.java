@@ -25,7 +25,7 @@ import xmlExercises.Utils;
  * @author jobas
  */
 public class XSLTUtils {
-    
+
     private static final Logger LOGGER = Logger.getLogger(XSLTUtils.class.getPackage().toString());
 
     /**
@@ -34,31 +34,31 @@ public class XSLTUtils {
      */
     public static XSLTResult evaluate(String newXSL, String name) throws SyntaxErorException, IOException, XSLException {
         Assignment assignment = scanDirectory(Utils.getPathTo("xslt", name));
-        
+
         try {
             Document transformed = transform(assignment.getXmlDocument(), newXSL, false);
-            
+
             boolean equal =
                     testForEquality(assignment.getHtmlOutputAsString(),
                     Utils.formatOutputHtml(transformed.toXML()));
-            
+
             String userHtml = Utils.formatOutputHtml(transformed.toXML());
             String correctHtml = assignment.getHtmlOutputAsString();
-            
+
             return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), userHtml, correctHtml);
-            
+
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
-            
+
         } catch (ParsingException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
-            
+
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
-            
+
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
@@ -71,10 +71,10 @@ public class XSLTUtils {
      * @param xml2
      */
     public static boolean testForEquality(String originalXml, String userXml) {
-        
+
         String[] originalSplited = originalXml.split(Constants.MY_LINE_SEPARATOR);
         String[] userSplited = userXml.split(Constants.MY_LINE_SEPARATOR);
-        
+
         if (originalSplited.length != userSplited.length) {
             return false;
         }
@@ -90,20 +90,22 @@ public class XSLTUtils {
         }
         return true;
     }
-    
-    public static String getMyTestXslt() {
+
+    public static String getMyTestXslt(String path) {
+
         Builder builder = new Builder();
         try {
-            return builder.build(new File("resources/beginner/1beginner/address-book.xslt")).toXML();
-        } catch (ValidityException e) {
-            LOGGER.log(Level.SEVERE, "Problem", e);
-            e.printStackTrace();
-            
-        } catch (ParsingException e) {
-            LOGGER.log(Level.SEVERE, "Problem", e);
-            e.printStackTrace();
-            
-        } catch (IOException e) {
+            FileFilter xslFilter = new FileFilter() {
+
+                @Override
+                public boolean accept(File pathname) {
+                    return pathname.isFile() && pathname.getName().toLowerCase().endsWith(".xsl");
+                }
+            };
+            File[] listFiles = new File(path).listFiles(xslFilter);
+
+            return builder.build(listFiles[0]).toXML();
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             e.printStackTrace();
         }
@@ -114,37 +116,37 @@ public class XSLTUtils {
      * @param string
      */
     public static Assignment getAssignment() throws SyntaxErorException, XSLException, IOException {
-        
-            
-            List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
-            Assignment assignment = null;
-            if (assignments.size() > 0) {
-                Random randomGenerator = new Random();
-                assignment = assignments.get(randomGenerator.nextInt(assignments.size()));
-            }
-            if (assignment == null) {
-                assignment = new Assignment();
-                assignment.setAssignmentText("No excercise found.");
-            }
-            String pathToInitSol = System.getProperty("user.home")
-                    + File.separator + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator
-                    + "xslt" + File.separator + "initSolution";
-            if ((new File(pathToInitSol)).exists()) {
-                assignment.setInitSolution(Utils.readFile(pathToInitSol).replace("\"", "\\\"").replace("\n", "\\n"));
-            } else {
-                assignment.setInitSolution("");
-            }
-            
-            return assignment;
-            
-        
+
+
+        List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
+        Assignment assignment = null;
+        if (assignments.size() > 0) {
+            Random randomGenerator = new Random();
+            assignment = assignments.get(randomGenerator.nextInt(assignments.size()));
+        }
+        if (assignment == null) {
+            assignment = new Assignment();
+            assignment.setAssignmentText("No excercise found.");
+        }
+        String pathToInitSol = System.getProperty("user.home")
+                + File.separator + Constants.ASSIGNMENTS_FOLDER_NAME + File.separator
+                + "xslt" + File.separator + "initSolution";
+        if ((new File(pathToInitSol)).exists()) {
+            assignment.setInitSolution(Utils.readFile(pathToInitSol).replace("\"", "\\\"").replace("\n", "\\n"));
+        } else {
+            assignment.setInitSolution("");
+        }
+
+        return assignment;
+
+
     }
-    
+
     public static List<Assignment> scanDirectoryStructure(String path) throws SyntaxErorException, IOException, XSLException {
-        
+
         File dir = new File(path);
         FileFilter filter = new FileFilter() {
-            
+
             @Override
             public boolean accept(File pathname) {
                 return !pathname.isFile();
@@ -155,7 +157,7 @@ public class XSLTUtils {
             LOGGER.log(Level.SEVERE, "There is no assignments on this path: " + path);
             return null;
         }
-        
+
         ArrayList<Assignment> assignments = new ArrayList<Assignment>(dirs.length);
         for (int i = 0; i < dirs.length; i++) {
             Assignment assignment = scanDirectory(dirs[i].getPath());
@@ -163,20 +165,27 @@ public class XSLTUtils {
                 assignments.add(assignment);
             }
         }
-        
+
         return assignments;
     }
-    
+
     public static Assignment scanDirectory(String dirPath) throws SyntaxErorException, IOException, XSLException {
-        
+System.out.println(dirPath);
         File dir = new File(dirPath);
-        File[] files = dir.listFiles();
-        
+        FileFilter filterFiles = new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isFile();
+            }
+        };
+        File[] files = dir.listFiles(filterFiles);
+
         if (files == null || files.length == 0) {
             LOGGER.log(Level.INFO, "There is no assignments on this path: " + dirPath);
             return null;
         }
-        
+
         String xmlDoc = null;
         String assignmentText = null;
         String xsl = null;
@@ -189,13 +198,14 @@ public class XSLTUtils {
                 xsl = files[i].getPath();
             }
         }
-        
+
         if (xmlDoc == null || assignmentText == null || xsl == null) {
             return null;
         }
+
         
         return createAssignment(dirPath, xmlDoc, assignmentText, xsl);
-        
+
     }
 
     /**
@@ -211,19 +221,19 @@ public class XSLTUtils {
             String xslPath) throws SyntaxErorException, IOException, XSLException {
         try {
             String name = dirPath.substring(dirPath.lastIndexOf(File.separator) + 1);
-            
+
             Builder builder = new Builder();
             Document xmlDocument = builder.build(new File(xmlDocPath));
-            
+
             BufferedReader reader = new BufferedReader(new FileReader(assignmentTextPath));
-            
+
             StringBuffer assignmentBuffer = new StringBuffer("");
             while (reader.ready()) {
                 assignmentBuffer.append(reader.readLine()).append("\n");
             }
-            
+
             Document htmlOutput = transform(xmlDocument, xslPath, true);
-            
+
             if (name != null && xmlDocument != null && !"".equals(xmlDocument.toXML())
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
@@ -236,28 +246,28 @@ public class XSLTUtils {
                         getBodyContent(htmlOutput.toXML()).replace("\\n", ""),
                         htmlOuputAsString);
             }
-                        
+
         } catch (ParsingException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             throw new SyntaxErorException(e.getMessage());
-            
+
         }
         return null;
     }
-    
+
     public static String getBodyContent(String html) {
         int indexOfBody = html.toLowerCase().indexOf("<body>");
         return html.substring(html.indexOf(">", indexOfBody) + 1, html.toLowerCase().indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
     }
-    
+
     public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
             ParsingException, IOException, SyntaxErorException {
-            
-            Builder builder = new Builder();
-            Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
-            XSLTransform transform = new XSLTransform(stylesheet);
-            
-            return XSLTransform.toDocument(transform.transform(xmlDocument));
-            
+
+        Builder builder = new Builder();
+        Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
+        XSLTransform transform = new XSLTransform(stylesheet);
+
+        return XSLTransform.toDocument(transform.transform(xmlDocument));
+
     }
 }
