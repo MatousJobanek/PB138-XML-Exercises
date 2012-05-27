@@ -119,9 +119,11 @@ public class Utils {
         if ("xquery".equals(type)) {
             return ".xq";
         } else if ("xpath".equals(type)) {
-            return ".xp";
+            return ".xpath";
         } else if ("dtd".equals(type)) {
             return ".dtd";
+        } else if ("xmlschema".equals(type)) {
+            return ".xsd";
         } else {
             return null;
         }

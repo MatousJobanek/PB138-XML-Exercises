@@ -46,7 +46,7 @@ var XMLSolver = {
         $("#solution").val(this.task.initSolution.replace("CURSOR", ""));
         $("#solution").focus();
         setCaretToPos(document.getElementById("solution"), cursorPosition);
-        $(".send").click(function() {XMLSolver.send()});
+        $(".send").click(function() {XMLSolver.sendResult()});
     },
     tabs: function(data) {
         var list = "";
@@ -65,7 +65,7 @@ var XMLSolver = {
         this.taskServletName = task;
         this.evaluatorServletName = evaluator;
     },
-    send: function() {
+    sendResult: function() {
         var time = (new Date()).getTime()/1000;
         if (this.lastTime != -1 && time < this.lastTime + 5) {
             $("#result").html("<b>You have to wait at least 5 seconds between two attempts.</b>"); 
@@ -73,18 +73,14 @@ var XMLSolver = {
         }
         this.lastTime = time;
         $('#result').html("Evaluating...");
-        var queryData = []
-        queryData.push("userSolution=" + $("#solution").val().replace("\n", " \n"));
-        //queryData.push("correctSolution=" + this.task.solution);
-        //queryData.push("type=" + this.task.type);
-        //queryData.push("data=" + this.task.data);
-        queryData.push("id=" + this.task.id);
-
-        var query = queryData.join('&');
+        var queryData = {
+            "id": this.task.id,
+            "userSolution": $("#solution").val().replace("\n", " \n")
+        }
         this.logInfo = $("#solution").val();
         this.moveNumber++;
 
-        $.get(this.serverUrl + this.evaluatorServletName + this.type, query, function(data) {
+        $.post(this.serverUrl + this.evaluatorServletName + this.type, queryData, function(data) {
             //XMLSolver.tutorLog();
             $('#result').html(data);
             if (data.indexOf('class="nok"') == -1) {
