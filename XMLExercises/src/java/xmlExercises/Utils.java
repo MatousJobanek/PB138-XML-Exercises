@@ -203,6 +203,6 @@ public class Utils {
             bufferedOutput.append(splited[i] + (pom == 2 ? "\\n" : ""));
 
         }
-        return bufferedOutput.toString().replace(Constants.MY_TAB, "\\t");
+        return bufferedOutput.toString();
     }
 }

@@ -58,11 +58,13 @@ public class XSLTServlet extends HttpServlet {
         try {
             Assignment assignment = XSLTUtils.getAssignment();
 
-            //            System.err.println(assignment.getHtmlOutputAsString());
-            //            System.err.println(assignment.getAssignmentText());
-
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
             request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
+            
+        } catch (XSLException ex) {
+            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, ex);
+            returnError(request, response, "There has been occured some problem " + ex.getMessage());
+            
         } catch (SyntaxErorException ex) {
             returnError(request, response, "There has been occured some problem " + ex.getMessage());
         }
@@ -78,19 +80,19 @@ public class XSLTServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 XSLTResult result;
 
-//                System.err.println(userSolution);
-
                 result = XSLTUtils.evaluate(userSolution, id);
 
-//                System.err.println(result.isIsCorrect());
-//                System.err.println(result.getCorrectHTML());
-//                System.err.println(result.getUserHTML());
-
+                System.err.println("user: " + result.getUserHTML());
+                System.err.println("correct: " + result.getCorrectHTML());
 
                 request.setAttribute(XSLTResult.class.getSimpleName(), result);
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
 
+            } catch (XSLException ex) {
+                 returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
             } catch (SyntaxErorException ex) {
+                returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+            } catch (RuntimeException ex) {
                 returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
             }
 

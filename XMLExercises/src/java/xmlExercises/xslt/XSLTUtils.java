@@ -32,7 +32,7 @@ public class XSLTUtils {
      * @param newXSL
      * @param name
      */
-    public static XSLTResult evaluate(String newXSL, String name) throws SyntaxErorException {
+    public static XSLTResult evaluate(String newXSL, String name) throws SyntaxErorException, IOException, XSLException {
         Assignment assignment = scanDirectory(Utils.getPathTo("xslt", name));
         
         try {
@@ -41,12 +41,11 @@ public class XSLTUtils {
             boolean equal =
                     testForEquality(assignment.getHtmlOutputAsString(),
                     Utils.formatOutputHtml(transformed.toXML()));
-
-//            System.err.println(formatOutput(transformed.toXML()));
-//            System.err.println(assignment.getHtmlOutputAsString());
-
             
-            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.formatOutputHtml(transformed.toXML()), assignment.getHtmlOutputAsString());
+            String userHtml = Utils.formatOutputHtml(transformed.toXML());
+            String correctHtml = assignment.getHtmlOutputAsString();
+            
+            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), userHtml, correctHtml);
             
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -114,9 +113,8 @@ public class XSLTUtils {
     /**
      * @param string
      */
-    public static Assignment getAssignment() throws SyntaxErorException {
+    public static Assignment getAssignment() throws SyntaxErorException, XSLException, IOException {
         
-        try {
             
             List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
             Assignment assignment = null;
@@ -139,13 +137,10 @@ public class XSLTUtils {
             
             return assignment;
             
-        } catch (IOException ex) {
-            Logger.getLogger(XSLTUtils.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SyntaxErorException("There is a problem with filesystem " + ex.getMessage());
-        }
+        
     }
     
-    public static List<Assignment> scanDirectoryStructure(String path) throws SyntaxErorException {
+    public static List<Assignment> scanDirectoryStructure(String path) throws SyntaxErorException, IOException, XSLException {
         
         File dir = new File(path);
         FileFilter filter = new FileFilter() {
@@ -172,7 +167,7 @@ public class XSLTUtils {
         return assignments;
     }
     
-    public static Assignment scanDirectory(String dirPath) throws SyntaxErorException {
+    public static Assignment scanDirectory(String dirPath) throws SyntaxErorException, IOException, XSLException {
         
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
@@ -213,7 +208,7 @@ public class XSLTUtils {
     public static Assignment createAssignment(String dirPath,
             String xmlDocPath,
             String assignmentTextPath,
-            String xslPath) throws SyntaxErorException {
+            String xslPath) throws SyntaxErorException, IOException, XSLException {
         try {
             String name = dirPath.substring(dirPath.lastIndexOf(File.separator) + 1);
             
@@ -252,14 +247,14 @@ public class XSLTUtils {
             LOGGER.log(Level.SEVERE, "Problem", e);
             throw new SyntaxErorException(e.getMessage());
             
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Problem", e);
-            throw new SyntaxErorException(e.getMessage());
-            
-        } catch (XSLException e) {
-            LOGGER.log(Level.SEVERE, "Problem", e);
-            throw new SyntaxErorException(e.getMessage());
-            
+//        } catch (IOException e) {
+//            LOGGER.log(Level.SEVERE, "Problem", e);
+//            throw new SyntaxErorException(e.getMessage());
+//            
+//        } catch (XSLException e) {
+//            LOGGER.log(Level.SEVERE, "Problem", e);
+//            throw new SyntaxErorException(e.getMessage());
+//            
         }
         return null;
     }
@@ -272,7 +267,7 @@ public class XSLTUtils {
     
     public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
             ParsingException, IOException, SyntaxErorException {
-        try {
+//        try {
             
             Builder builder = new Builder();
             Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
@@ -280,9 +275,9 @@ public class XSLTUtils {
             
             return XSLTransform.toDocument(transform.transform(xmlDocument));
             
-        } catch (XMLException e) {
-            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
-            throw new SyntaxErorException(e.getMessage());
-        }
+//        } catch (XMLException e) {
+//            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
+//            throw new SyntaxErorException(e.getMessage());
+//        }
     }
 }
