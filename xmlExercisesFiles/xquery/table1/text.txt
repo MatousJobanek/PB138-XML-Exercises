@@ -1,0 +1,2 @@
+Write XQuery program that operates with html table in file "test.xml". 
+It should create html table with only the first column of given one.
