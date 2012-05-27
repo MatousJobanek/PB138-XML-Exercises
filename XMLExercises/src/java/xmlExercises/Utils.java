@@ -28,6 +28,12 @@ public class Utils {
         return s;
     }
 
+    public static String replaceTagsAndIndent(String s) {
+        s = replaceTags(s);
+        s = s.replace("\n", "<br>\n");
+        s = s.replace(" ", "&nbsp;");
+        return s;
+    }
     static Task getTask(String id, String type) {
         Task t = new Task();
         t.setId(id);

@@ -12,6 +12,7 @@ var XMLSolver = {
         this.moveNumber = 0;
         this.lastTime = -1;
         $(".rand").click(function() {XMLSolver.loadTask()});
+        $(".send").click(function() {XMLSolver.sendResult()});
         //alert($('task').value);
     },
     loadTask: function(type) {
@@ -46,7 +47,6 @@ var XMLSolver = {
         $("#solution").val(this.task.initSolution.replace("CURSOR", ""));
         $("#solution").focus();
         setCaretToPos(document.getElementById("solution"), cursorPosition);
-        $(".send").click(function() {XMLSolver.sendResult()});
     },
     tabs: function(data) {
         var list = "";
