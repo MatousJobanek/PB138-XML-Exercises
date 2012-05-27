@@ -60,13 +60,13 @@ public class XSLTServlet extends HttpServlet {
 
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
             request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
-            
+
         } catch (XSLException ex) {
             Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, ex);
-            returnError(request, response, "There has been occured some problem " + ex.getMessage());
-            
+            returnError(request, response, "There has been occured some problem.");
+
         } catch (SyntaxErorException ex) {
-            returnError(request, response, "There has been occured some problem " + ex.getMessage());
+            returnError(request, response, "There has been occured some problem.");
         }
     }
 
@@ -89,15 +89,15 @@ public class XSLTServlet extends HttpServlet {
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
 
             } catch (XSLException ex) {
-                 returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+                returnError(request, response, "There is a problem with your input! Please correct it.");
             } catch (SyntaxErorException ex) {
-                returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+                returnError(request, response, "There is a problem with your input! Please correct it.");
             } catch (RuntimeException ex) {
-                returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+                returnError(request, response, "There is a problem with your input! Please correct it.");
             }
 
         } else {
-            returnError(request, response, "The input is empty");
+            returnError(request, response, "The input is empty!");
         }
     }
 
@@ -105,8 +105,8 @@ public class XSLTServlet extends HttpServlet {
         request.setAttribute(Constants.ATTRIBUTE_ERROR, message);
         request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
     }
-    
-        // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

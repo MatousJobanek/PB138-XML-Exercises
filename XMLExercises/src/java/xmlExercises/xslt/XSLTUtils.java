@@ -228,8 +228,6 @@ public class XSLTUtils {
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
                 String htmlOuputAsString = Utils.formatOutputHtml(htmlOutput.toXML().trim());
-//                System.err.println(assignmentBuffer.toString());
-//                System.err.println("htmlOutput: " + htmlOutput.toXML());
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
@@ -238,36 +236,22 @@ public class XSLTUtils {
                         getBodyContent(htmlOutput.toXML()).replace("\\n", ""),
                         htmlOuputAsString);
             }
-            
-        } catch (ValidityException e) {
-            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
-            throw new SyntaxErorException("the input is not valid \n" + e.getMessage());
-            
+                        
         } catch (ParsingException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
             throw new SyntaxErorException(e.getMessage());
             
-//        } catch (IOException e) {
-//            LOGGER.log(Level.SEVERE, "Problem", e);
-//            throw new SyntaxErorException(e.getMessage());
-//            
-//        } catch (XSLException e) {
-//            LOGGER.log(Level.SEVERE, "Problem", e);
-//            throw new SyntaxErorException(e.getMessage());
-//            
         }
         return null;
     }
     
     public static String getBodyContent(String html) {
-//        System.out.println("html: " +  html);
         int indexOfBody = html.toLowerCase().indexOf("<body>");
         return html.substring(html.indexOf(">", indexOfBody) + 1, html.toLowerCase().indexOf("</body>")).replace("\n", "\\n").replace("\"", "\\\"");
     }
     
     public static Document transform(Document xmlDocument, String XSL, boolean isFile) throws XSLException,
             ParsingException, IOException, SyntaxErorException {
-//        try {
             
             Builder builder = new Builder();
             Document stylesheet = isFile ? builder.build(XSL) : builder.build(new ByteArrayInputStream(XSL.getBytes()));
@@ -275,9 +259,5 @@ public class XSLTUtils {
             
             return XSLTransform.toDocument(transform.transform(xmlDocument));
             
-//        } catch (XMLException e) {
-//            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, e);
-//            throw new SyntaxErorException(e.getMessage());
-//        }
     }
 }
