@@ -25,6 +25,11 @@ public class Assignment {
 
     private String htmlOutputAsString;
 
+    public Assignment() {
+    }
+
+    
+    
     public Assignment(String name, String level, Document xmlDocument, String xml, String assignmentText, String htmlOutput, String htmlOutputAsString) {
         this.name = name;
         this.level = level;

@@ -58,8 +58,12 @@ public class XSLTServlet extends HttpServlet {
         try {
             Assignment assignment = getAssignment();
             
-            System.err.println(assignment.getHtmlOutputAsString());
-            System.err.println(assignment.getAssignmentText());
+            if (assignment == null){
+                assignment = new Assignment();
+                assignment.setAssignmentText("No excercise found.");
+            }
+//            System.err.println(assignment.getHtmlOutputAsString());
+//            System.err.println(assignment.getAssignmentText());
             
             
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
@@ -105,52 +109,7 @@ public class XSLTServlet extends HttpServlet {
         request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
     }
 
-    private String formatOutput(String toFormat) {
-        char lastChar = toFormat.charAt(0);
-        int tabsNum = 0;
-        boolean lastWasSlash = false;
-
-        for (int i = 1; i < toFormat.length(); i++) {
-            char currentChar = toFormat.charAt(i);
-
-            if (!lastWasSlash && currentChar == '<'
-                    && toFormat.substring(i + 1, toFormat.indexOf(">", i + 1)).contains("/")) {
-                if (tabsNum > 0) {
-                    tabsNum--;
-                }
-                lastWasSlash = true;
-            }
-
-            if (currentChar == '>') {
-                int nextBracket = toFormat.indexOf(">", i);
-                if (!lastWasSlash || (nextBracket > 0 && toFormat.charAt(nextBracket - 1) == '/')) {
-                    tabsNum++;
-                    lastWasSlash = false;
-                } else {
-                    lastWasSlash = false;
-                }
-            }
-
-            if ((lastChar == '>' && (currentChar == ' ' || currentChar == '\t' || currentChar == '\n'))
-                    || (currentChar == '\n')) {
-                toFormat = toFormat.substring(0, i) + toFormat.substring(i + 1, toFormat.length());
-                i--;
-            } else if ((lastChar == '>') || (currentChar == '<' && lastChar != '>')) {
-                StringBuffer buffer = new StringBuffer("");
-                for (int j = 0; j < tabsNum - 1; j++) {
-                    buffer.append(Constants.MY_TAB);
-                }
-                toFormat =
-                        toFormat.substring(0, i) + Constants.MY_LINE_SEPARATOR + buffer.toString()
-                        + toFormat.substring(i, toFormat.length());
-                lastChar = currentChar;
-                i += 1 + (tabsNum > 1 ? tabsNum : 0);
-            } else {
-                lastChar = currentChar;
-            }
-        }
-        return toFormat.replace("\n", "\\n").replace("\t", "\\t");
-    }
+    
 
     public String format(Document document) {
 
@@ -183,13 +142,13 @@ public class XSLTServlet extends HttpServlet {
 
             boolean equal =
                     testForEquality(assignment.getHtmlOutputAsString(),
-                    formatOutput(transformed.toXML()));
+                    Utils.formatOutputHtml(transformed.toXML()));
 
 //            System.err.println(formatOutput(transformed.toXML()));
 //            System.err.println(assignment.getHtmlOutputAsString());
 
             
-            return new XSLTResult(equal, transformed.toXML(),  assignment.getHtmlOutput(), formatOutput(transformed.toXML()), assignment.getHtmlOutputAsString());
+            return new XSLTResult(equal, transformed.toXML(),  assignment.getHtmlOutput(), Utils.formatOutputHtml(transformed.toXML()), assignment.getHtmlOutputAsString());
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -261,6 +220,7 @@ public class XSLTServlet extends HttpServlet {
 
         String homeFolder = System.getProperty("user.home");
         List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
+        System.err.println("size: " + assignments.size());
         if (assignments.size() > 0) {
             Random randomGenerator = new Random();
             return assignments.get(randomGenerator.nextInt(assignments.size()));
@@ -355,16 +315,16 @@ public class XSLTServlet extends HttpServlet {
             if (name != null && xmlDocument != null && !"".equals(xmlDocument.toXML())
                     && assignmentBuffer.toString() != null && !"".equals(assignmentBuffer.toString())
                     && htmlOutput != null && !"".equals(htmlOutput.toXML())) {
-                String htmlOuput = formatOutput(htmlOutput.toXML().trim());
+                String htmlOuputAsString = Utils.formatOutputHtml(htmlOutput.toXML().trim());
 //                System.err.println(assignmentBuffer.toString());
-//                System.err.println(assignmentTextPath);
+                System.err.println("htmlOutput: " + htmlOutput.toXML());
                 return new Assignment(name,
                         dirPath.substring(dirPath.lastIndexOf(File.separator) + 1),
                         xmlDocument,
                         xmlDocument.toXML().replace("\n", "\\n"),
                         assignmentBuffer.toString().replace("\n", "\\n"),
                         getBodyContent(htmlOutput.toXML()).replace("\\n", ""),
-                        htmlOuput);
+                        htmlOuputAsString);
             }
 
         } catch (ValidityException e) {
