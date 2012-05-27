@@ -15,6 +15,7 @@ import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpressionException;
 
 public class XPathEvaluator implements Evaluator{
+    @Override
     public String eval(String expression,String filename){
         
         String result = "";
@@ -37,8 +38,8 @@ public class XPathEvaluator implements Evaluator{
         
         return result;
     }
-    
+    @Override
     public boolean compare(String result1, String result2){
-        return false;
+        return result1.equals(result2);
     }
 }
