@@ -2,6 +2,7 @@
 package xmlExercises.xslt;
 
 import nu.xom.Document;
+import xmlExercises.Constants;
 
 /**
  * @author Matous Jobanek
@@ -24,6 +25,9 @@ public class Assignment {
     private String htmlOutput;
 
     private String htmlOutputAsString;
+    
+    private String initSolution;    
+    
 
     public Assignment() {
     }
@@ -103,6 +107,12 @@ public class Assignment {
     public void setXmlDocument(Document xmlDocument) {
         this.xmlDocument = xmlDocument;
     }
-   
-    
+
+    public String getInitSolution() {
+        return initSolution;
+    }
+
+    public void setInitSolution(String initSolution) {
+        this.initSolution = initSolution;
+    }
 }
