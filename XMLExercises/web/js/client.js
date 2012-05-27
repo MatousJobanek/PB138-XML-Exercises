@@ -40,7 +40,7 @@ var XMLSolver = {
         $("#tasktext").html(this.task.text.replace(/\n/g, "\n<br>"));
         if (this.task.htmlOutput && this.task.htmlOutputAsString) {
             $("#htmloutput").html(this.task.htmlOutput);
-            $("#stringoutput").html(this.task.htmlOutputAsString);
+            $("#stringoutput").html(this.task.htmlOutputAsString.replace(/\n/g, "\n<br>").replace(/\t/g, "\t&nbsp;&nbsp;&nbsp;&nbsp;"));
         }
         $("#solution").focus();
         $(".send").click(function() {XMLSolver.send()});

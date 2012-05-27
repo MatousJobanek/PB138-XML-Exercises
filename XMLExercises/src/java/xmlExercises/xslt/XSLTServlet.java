@@ -57,6 +57,11 @@ public class XSLTServlet extends HttpServlet {
          
         try {
             Assignment assignment = getAssignment();
+            
+            System.err.println(assignment.getHtmlOutputAsString());
+            System.err.println(assignment.getAssignmentText());
+            
+            
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
             request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
         } catch (SyntaxErorException ex) {
@@ -74,15 +79,16 @@ public class XSLTServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 XSLTResult result;
 
+                System.err.println(userSolution);
+                
                 result = evaluate(userSolution, id);
                 
                 System.err.println(result.isIsCorrect());
-                System.err.println(result.getCorrectHTML());
-                System.err.println(result.getUserHTML());
-//                System.err.println(result.);
-//                System.err.println(result);
+//                System.err.println(result.getCorrectHTML());
+//                System.err.println(result.getUserHTML());
+                
 
-                request.setAttribute(Constants.RESULT, result);
+                request.setAttribute(XSLTResult.class.getSimpleName(), result);
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
 
             } catch (SyntaxErorException ex) {
@@ -143,7 +149,7 @@ public class XSLTServlet extends HttpServlet {
                 lastChar = currentChar;
             }
         }
-        return toFormat.replace("\n", "\\n");
+        return toFormat.replace("\n", "\\n").replace("\t", "\\t");
     }
 
     public String format(Document document) {
@@ -179,10 +185,11 @@ public class XSLTServlet extends HttpServlet {
                     testForEquality(assignment.getHtmlOutputAsString(),
                     formatOutput(transformed.toXML()));
 
-            System.err.println(formatOutput(transformed.toXML()));
-            System.err.println(assignment.getHtmlOutputAsString());
+//            System.err.println(formatOutput(transformed.toXML()));
+//            System.err.println(assignment.getHtmlOutputAsString());
 
-            return new XSLTResult(equal, formatOutput(transformed.toXML()), assignment.getHtmlOutputAsString());
+            
+            return new XSLTResult(equal, transformed.toXML(),  assignment.getHtmlOutput(), formatOutput(transformed.toXML()), assignment.getHtmlOutputAsString());
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -356,7 +363,7 @@ public class XSLTServlet extends HttpServlet {
                         xmlDocument,
                         xmlDocument.toXML().replace("\n", "\\n"),
                         assignmentBuffer.toString().replace("\n", "\\n"),
-                        getBodyContent(htmlOutput.toXML()),
+                        getBodyContent(htmlOutput.toXML()).replace("\\n", ""),
                         htmlOuput);
             }
 
