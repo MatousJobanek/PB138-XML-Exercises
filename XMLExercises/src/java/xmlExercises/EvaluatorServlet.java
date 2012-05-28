@@ -104,8 +104,8 @@ public class EvaluatorServlet extends HttpServlet {
             for (int i = 1; i <= task.getData().size(); i++) {
                 Result result = new Result();
                 String file = path + "data" + i + ".xml";
-                result.setCorrectSolution(Utils.replaceTagsAndIndent(evaluator.eval(task.getSolution(), file)));
-                result.setUserSolution(Utils.replaceTagsAndIndent(evaluator.eval(userSolution, file)));
+                result.setCorrectSolution(Utils.replaceTagsAndIndent(evaluator.eval(task.getSolution(), file), false));
+                result.setUserSolution(Utils.replaceTagsAndIndent(evaluator.eval(userSolution, file), false));
                 result.setIsCorrect(evaluator.compare(result.getCorrectSolution(), result.getUserSolution()));
                 //result.replaceTags();
                 results.add(result);

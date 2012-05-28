@@ -28,10 +28,14 @@ public class Utils {
         return s;
     }
 
-    public static String replaceTagsAndIndent(String s) {
+    public static String replaceTagsAndIndent(String s, boolean useMyTab) {
         s = replaceTags(s);
         s = s.replace("\n", "<br>\n");
-        s = s.replace(" ", "&nbsp;");
+        if (!useMyTab){
+            s = s.replace(" ", "&nbsp;");
+        }else{
+            s = s.replace(Constants.MY_TAB, "&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
         return s;
     }
     static Task getTask(String id, String type) {

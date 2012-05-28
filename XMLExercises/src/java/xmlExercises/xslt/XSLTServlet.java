@@ -55,21 +55,22 @@ public class XSLTServlet extends HttpServlet {
 
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        Assignment assignment = null;
         try {
-
             String id = request.getParameter("id");
-            Assignment assignment = XSLTUtils.getAssignment(id);
-
-            request.setAttribute(Assignment.class.getSimpleName(), assignment);
-            request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
+            assignment = XSLTUtils.getAssignment(id);
 
         } catch (XSLException ex) {
             Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, ex);
-            returnError(request, response, "There has been occured some problem.");
+            assignment = new Assignment();
+            assignment.setAssignmentText("There has occured some problem.");
 
         } catch (SyntaxErorException ex) {
-            returnError(request, response, "There has been occured some problem.");
+            assignment = new Assignment();
+            assignment.setAssignmentText("There has occured some problem.");
         }
+        request.setAttribute(Assignment.class.getSimpleName(), assignment);
+        request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
     }
 
     private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
