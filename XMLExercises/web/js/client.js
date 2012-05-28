@@ -14,8 +14,14 @@ var XMLSolver = {
         $(".rand").click(function() {XMLSolver.loadTask()});
         $(".send").click(function() {XMLSolver.sendResult()});
         //alert($('task').value);
+        if (location.hash.indexOf("/")!= -1) {
+            var taskArray = location.hash.substring(1).split("/");
+            if (taskArray.length == 2) {
+                this.loadTask("/" + taskArray[0],taskArray[1]);
+            }
+        }
     },
-    loadTask: function(type) {
+    loadTask: function(type, id) {
         if (type === undefined && this.type !== undefined) {
             type = this.type;
         }
@@ -24,7 +30,9 @@ var XMLSolver = {
         }
         this.type = type;
         var queryData = [];
-        //queryData.push("type=" + type);
+        if (id !== undefined) {
+            queryData.push("id=" + id);
+        }
         var query = queryData.join('&');
         $.get(this.serverUrl + this.taskServletName + type, query, function(data) {
             XMLSolver.taskLoaded(data);
@@ -42,6 +50,9 @@ var XMLSolver = {
         if (this.task.htmlOutput && this.task.htmlOutputAsString) {
             $("#htmloutput").html(this.task.htmlOutput);
             $("#stringoutput").html(this.task.htmlOutputAsString.replace(/\n/g, "\n<br>").replace(/\t/g, "\t&nbsp;&nbsp;&nbsp;&nbsp;"));
+        } else {
+            $("#htmloutput").html("");
+            $("#stringoutput").html("");
         }
         var cursorPosition = this.task.initSolution.indexOf("CURSOR");
         $("#solution").val(this.task.initSolution.replace("CURSOR", ""));

@@ -36,7 +36,7 @@
                     <option value="/xmlschema" > XML Schema </option>
                     <option value="/dtd" > DTD </option>
                 </select>
-                <button class="rand">Get random</button>
+                <button class="rand">Get random assignment</button>
             </div>
             <div class="data ui-corner-all" > 
                 <h4>Testing data:</h4>
