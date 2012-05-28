@@ -42,10 +42,10 @@ public class XSLTUtils {
                     testForEquality(assignment.getHtmlOutputAsString(),
                     Utils.formatOutputHtml(transformed.toXML()));
 
-            String userHtml = Utils.formatOutputHtml(transformed.toXML());
-            String correctHtml = assignment.getHtmlOutputAsString();
+            String userHtml = Utils.formatOutputHtml(transformed.toXML()).replace("\\n", "\n");
+            String correctHtml = assignment.getHtmlOutputAsString().replace("\\n", "\n");
 
-            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), userHtml, correctHtml);
+            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.replaceTagsAndIndent(userHtml), Utils.replaceTagsAndIndent(correctHtml));
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -115,15 +115,22 @@ public class XSLTUtils {
     /**
      * @param string
      */
-    public static Assignment getAssignment() throws SyntaxErorException, XSLException, IOException {
-
-
-        List<Assignment> assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
+    public static Assignment getAssignment(String name) throws SyntaxErorException, XSLException, IOException {
+        List<Assignment> assignments = null;
         Assignment assignment = null;
-        if (assignments.size() > 0) {
-            Random randomGenerator = new Random();
-            assignment = assignments.get(randomGenerator.nextInt(assignments.size()));
+
+        if (name != null && !"".equals(name)) {
+            assignment = scanDirectory(Utils.getPathTo("xslt") + File.separator + name);
+
+        } else {
+            assignments = scanDirectoryStructure(Utils.getPathTo("xslt"));
+            if (assignments.size() > 0) {
+                Random randomGenerator = new Random();
+                assignment = assignments.get(randomGenerator.nextInt(assignments.size()));
+            }
         }
+
+
         if (assignment == null) {
             assignment = new Assignment();
             assignment.setAssignmentText("No excercise found.");
@@ -170,7 +177,7 @@ public class XSLTUtils {
     }
 
     public static Assignment scanDirectory(String dirPath) throws SyntaxErorException, IOException, XSLException {
-System.out.println(dirPath);
+//System.out.println(dirPath);
         File dir = new File(dirPath);
         FileFilter filterFiles = new FileFilter() {
 
@@ -203,7 +210,7 @@ System.out.println(dirPath);
             return null;
         }
 
-        
+
         return createAssignment(dirPath, xmlDoc, assignmentText, xsl);
 
     }

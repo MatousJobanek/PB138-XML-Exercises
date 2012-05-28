@@ -56,7 +56,9 @@ public class XSLTServlet extends HttpServlet {
     private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
-            Assignment assignment = XSLTUtils.getAssignment();
+
+            String id = request.getParameter("id");
+            Assignment assignment = XSLTUtils.getAssignment(id);
 
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
             request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
