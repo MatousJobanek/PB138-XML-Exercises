@@ -41,7 +41,7 @@ public class TempFileHandler{
             throw new IOException("Directory does not exist");
         }
         
-        tempPath = tempPathName + "/" + fileType;
+        tempPath = tempPathName + File.separator + fileType;
         tempDir =  new File(rootTempPath, fileType);        
         if(!tempDir.isDirectory()){
             tempDir.mkdir();
@@ -63,21 +63,25 @@ public class TempFileHandler{
      * TODO> better exceptions. Maybe split methods for easier catching? New exception handler?
      */
     public String addDirectory(String exercise, String DTDname, File xmlFile) throws IOException, OverflowException{
-        String result;        
+        String result = "NOPE";        
         File foundDir;
-        File DTDEx = new File(exercise);
+        File DTDFile;
         
-        String rootDir = findDirName();
+        String rootDir = findDirName(); //temp/dtd/0
         
-        foundDir = new File(rootDir);
+        foundDir = new File(rootDir); //temp/dtd/0
         File xmlCopy = new File(foundDir, xmlFile.getName());
+        DTDFile = new File(rootDir+File.separator+DTDname);
         if(foundDir.mkdir()){
-
-            FileWriter fw = new FileWriter(rootDir+DTDname);
+            System.out.println("Wat is dis"+rootDir+File.separator+DTDname);
+            if(!DTDFile.createNewFile()){
+                throw new IOException("Neslo vytvorit DTD");
+            }
+            FileWriter fw = new FileWriter(DTDFile);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(exercise);
+            bw.close();
             fw.close();
-            
             if(xmlCopy.createNewFile()){
                 copy(xmlFile, xmlCopy);            
             }else{
@@ -148,19 +152,18 @@ public class TempFileHandler{
         for(int i = 0; i<list.length; i++){
             boolean taken = false;
             for(int j = 0; j<list.length; j++){
-                if(Integer.parseInt(list[j].split("\\.")[0])==i) taken = true;
-                System.out.println("testuju "+ i + "jestli tam neni" + j + "konkretne" + list[j]);
+                if(Integer.parseInt(list[j].split("\\.")[0])==i) taken = true;                
             }
             if(!taken){
                 found = true;
-                resPath = tempPath + "/"+i+"."+ type;
+                resPath = tempPath + File.separator +i+"."+ type;
                 break;
             }
         }
         if(!found){
             if(list.length<9000){                
                 int n = (list.length);
-                resPath = tempPath + "/"+n+"."+ type;                
+                resPath = tempPath + File.separator+n+"."+ type;                
             }else{
                 throw new OverflowException("Prilis mnoho souboru.");
             }
@@ -182,7 +185,7 @@ public class TempFileHandler{
                 if(Integer.parseInt(list[j])==i) taken = true;
             }
             if(!taken){
-                resPath = tempPath;
+                resPath = tempPath + File.separator +i;
                 found = true;
 
                 break;
@@ -191,12 +194,13 @@ public class TempFileHandler{
         if(!found){
             if(list.length<127){                
                 int n = (list.length);
-                resPath = tempPath + "/"+n+"."+ type;                
+                resPath = tempPath + File.separator +n;                
             }else{
                 throw new OverflowException("Prilis mnoho adresaru.");
             }
         }
         if(resPath.equals("NOPE!")) throw new OverflowException("Tohle se vůbec nemělo stát");
+        System.out.println("Vytvarim dir" + resPath);
         return resPath;
     }
     private void copy(File original, File copy) throws IOException{
