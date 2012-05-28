@@ -1,0 +1,1 @@
+Write XQuery program that counts total prices for all the Items, and places them into element "TotalPrice" with attribute "id", which is ID of the Item.
