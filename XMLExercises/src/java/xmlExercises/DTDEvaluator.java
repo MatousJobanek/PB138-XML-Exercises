@@ -25,10 +25,10 @@ public class DTDEvaluator implements Evaluator{
         Document doc = null;
         String pathToXml = null;
         TempFileHandler tempFileHandler = null;
-        try {tempFileHandler = new TempFileHandler(System.getProperty("user.home") + File.separator + "xmlExerciseFiles"
+        try {tempFileHandler = new TempFileHandler(System.getProperty("user.home") + File.separator + "xmlExercisesFiles"
         + File.separator + "temp","dtd");
         
-        pathToXml = tempFileHandler.addDirectory(expresion, "solution", new File(fileName));
+        pathToXml = tempFileHandler.addDirectory(expresion, "solution.dtd", new File(fileName));
         }
         catch(Exception ex){ 
             System.out.println(ex.getMessage());
@@ -62,6 +62,8 @@ public class DTDEvaluator implements Evaluator{
         try {doc = dBuilder.parse(pathToXml);}
         catch (SAXException se){}
         catch(IOException ioe){}
+        try {tempFileHandler.deleteDirectory(new File(pathToXml).getParent());}
+        catch(IOException uhh){}
         if (valid == true)
             return "Valid!";
         else
