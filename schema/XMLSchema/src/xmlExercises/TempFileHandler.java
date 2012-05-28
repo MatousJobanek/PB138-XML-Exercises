@@ -34,6 +34,7 @@ public class TempFileHandler{
      */
     public TempFileHandler(String tempPathName, String fileType) throws IOException{
         File rootTempPath = new File(tempPathName);
+        type = fileType;
         
         if(!rootTempPath.isDirectory()){
             System.out.println("invalid dir: "+rootTempPath);
@@ -104,7 +105,7 @@ public class TempFileHandler{
         
         result = findFileName();
         
-        foundDir = new File(result);
+        foundDir = new File(result+type);
         if(foundDir.createNewFile()){
             FileWriter fw = new FileWriter(foundDir);
             BufferedWriter bw = new BufferedWriter(fw);
