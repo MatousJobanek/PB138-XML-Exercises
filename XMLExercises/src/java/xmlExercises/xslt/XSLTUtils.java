@@ -45,7 +45,7 @@ public class XSLTUtils {
             String userHtml = Utils.formatOutputHtml(transformed.toXML()).replace("\\n", "\n");
             String correctHtml = assignment.getHtmlOutputAsString().replace("\\n", "\n");
 
-            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.replaceTagsAndIndent(userHtml), Utils.replaceTagsAndIndent(correctHtml));
+            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.replaceTagsAndIndent(userHtml, true), Utils.replaceTagsAndIndent(correctHtml, true));
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
