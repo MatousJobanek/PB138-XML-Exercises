@@ -22,7 +22,7 @@ import xmlExercises.Utils;
 
 /**
  *
- * @author jobas
+ * @author Matous Jobanek
  */
 public class XSLTUtils {
 
