@@ -19,9 +19,12 @@ import java.util.logging.Logger;
  * @author Zlej robočlověk
  */
 public class main {
+    
+    
     public static void main(String[] args){
-      
-        Evaluator eve = new SchemaEvaluator();
+        String tempPath = "./temp";
+        Evaluator eve = null;
+        
         String result = "nicsenestalo";
         File file = new File("./kontakty.xsd");
         String expresion = "chyba";
@@ -37,6 +40,7 @@ public class main {
             MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
             
             expresion = Charset.defaultCharset().decode(bb).toString();
+            eve = new SchemaEvaluator(tempPath);
         }
         catch (IOException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,10 +53,15 @@ public class main {
         }
 
         try {
-            result = eve.eval(expresion,"./priklady/oukol/");
+            if(eve != null) result = eve.eval(expresion,"./priklady/oukol/");
         } catch (SyntaxErorException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ie){
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ie);        
+        } catch (OverflowException io){
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, io);
         }
+        
         System.out.println(result);
     }
     
