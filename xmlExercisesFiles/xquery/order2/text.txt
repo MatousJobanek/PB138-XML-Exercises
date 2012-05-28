@@ -1,0 +1,1 @@
+Write XQuery program that computes sum of Quantities of all Items and places the sum into "TotalQuantity" element.
