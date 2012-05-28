@@ -8,6 +8,14 @@ var XMLSolver = {
     serverUrl: 'http://localhost:8080/XMLExercises/',
     evaluatorServletName: 'result',
     taskServletName: 'task/',
+    types: {
+          "none": "Choose type",
+          "xquery": "XQuery",
+          "xslt": "XSLT",
+          "xpath": "XPath",
+          "xmlschema": "XML Schema",
+          "dtd": "DTD"
+    },
     init: function() {
         this.moveNumber = 0;
         this.lastTime = -1;
@@ -20,6 +28,16 @@ var XMLSolver = {
                 this.loadTask(taskArray[1],taskArray[2]);
             }
         }
+        this.initTypeSelect();
+    },
+    initTypeSelect: function() {
+        var typeSelect = "";
+        for(var i in this.types) {
+            typeSelect += '<option '+ (this.type == i ? 'selected' : '') +
+                ' value="'+ i +'" >' + this.types[i] + '</option>';
+        }
+        $("#type").html(typeSelect);
+        
     },
     loadTask: function(type, id) {
         if (type === undefined && this.type !== undefined) {
@@ -58,7 +76,7 @@ var XMLSolver = {
         $("#solution").val(this.task.initSolution.replace("CURSOR", ""));
         $("#solution").focus();
         setCaretToPos(document.getElementById("solution"), cursorPosition);
-        location.hash = this.type + "/" + this.task.id;
+        location.hash = "/" + this.type + "/" + this.task.id;
     },
     tabs: function(data) {
         var list = "";
