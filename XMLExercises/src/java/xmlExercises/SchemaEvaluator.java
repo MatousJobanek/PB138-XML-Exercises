@@ -6,6 +6,8 @@ package xmlExercises;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,8 +25,11 @@ public class SchemaEvaluator implements Evaluator{
     TempFileHandler tfh = null;
     
     // Recieves directory name, as tarballing would be unnecessary
-    public SchemaEvaluator(String tempDir) throws IOException{
-        tfh = new TempFileHandler(tempDir, "xsd");
+    public SchemaEvaluator(String tempDir){
+        try{tfh = new TempFileHandler(tempDir, "xsd");}
+        catch( IOException iox){
+            Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, iox);
+        }
         factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(true);
         factory.setAttribute(
@@ -86,11 +91,11 @@ public class SchemaEvaluator implements Evaluator{
     }
     
     @Override
-    public String eval(String expresion, String dirName) throws SyntaxErorException, IOException, OverflowException{
+    public String eval(String expresion, String dirName) throws SyntaxErorException{
   
         String result;
         
-        String path = tfh.addFile(expresion);
+        try{String path = tfh.addFile(expresion);
         
         factory.setAttribute(
           "http://java.sun.com/xml/jaxp/properties/schemaSource",
@@ -102,6 +107,13 @@ public class SchemaEvaluator implements Evaluator{
         
         tfh.deleteFile(path);
         return result;
+        }
+        catch(Exception e){
+            System.out.println("something went horribly wrong> " + e.getMessage());
+            Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, e);
+            return "It did not work!";
+        }
+        
     }
     
     @Override
