@@ -6,7 +6,7 @@
 var XMLSolver = {
     // setting here
     serverUrl: 'http://localhost:8080/XMLExercises/',
-    evaluatorServletName: 'result',
+    evaluatorServletName: 'result/',
     taskServletName: 'task/',
     types: {
           "none": "Choose type",
@@ -24,7 +24,9 @@ var XMLSolver = {
         //alert($('task').value);
         if (location.hash.indexOf("/")!= -1) {
             var taskArray = location.hash.split("/");
-            if (taskArray.length == 3) {
+            if (taskArray.length == 2 || taskArray[2].length == 0) {
+                this.loadTask(taskArray[1]);
+            }else if (taskArray.length == 3) {
                 this.loadTask(taskArray[1],taskArray[2]);
             }
         }
@@ -59,6 +61,8 @@ var XMLSolver = {
         $("#xmldata").html("Loading...");
         $('#result').html("");
         $("#solution").html("");
+        $(".rand").removeAttr("disabled");
+        $(".send").removeAttr("disabled");
     },
     taskLoaded: function(task) {
         //alert(task)
