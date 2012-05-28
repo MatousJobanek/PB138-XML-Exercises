@@ -105,7 +105,7 @@ public class TempFileHandler{
         
         result = findFileName();
         
-        foundDir = new File(result+type);
+        foundDir = new File(result);
         if(foundDir.createNewFile()){
             FileWriter fw = new FileWriter(foundDir);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -114,6 +114,8 @@ public class TempFileHandler{
         }else{
             throw new IOException("Soubor jiz existuje.");
         }
+        
+        System.out.println("File created at " + result);
         return result;       
     }
     
@@ -141,24 +143,28 @@ public class TempFileHandler{
         String list[] = tempDir.list();        
         boolean found = false;
         
-        if(list.length == 0){
-            resPath = tempPath + "/0."+ type;
-            found = true;
-        }
         //check whether name is taken
         
         for(int i = 0; i<list.length; i++){
             boolean taken = false;
             for(int j = 0; j<list.length; j++){
                 if(Integer.parseInt(list[j].split("\\.")[0])==i) taken = true;
+                System.out.println("testuju "+ i + "jestli tam neni" + j + "konkretne" + list[j]);
             }
             if(!taken){
                 found = true;
-                resPath = tempPath + "/"+i+"."+ type;               
+                resPath = tempPath + "/"+i+"."+ type;
                 break;
             }
         }
-        if(!found) throw new OverflowException("Doslo k preteceni buferu docasnych souboru");
+        if(!found){
+            if(list.length<9000){                
+                int n = (list.length);
+                resPath = tempPath + "/"+n+"."+ type;                
+            }else{
+                throw new OverflowException("Prilis mnoho souboru.");
+            }
+        }
         if(resPath.equals("NOPE!")) throw new OverflowException("Tohle se vůbec nemělo stát");
         return resPath;
     }
@@ -168,10 +174,6 @@ public class TempFileHandler{
         String list[] = tempDir.list();        
         boolean found = false;
         
-        if(list.length == 0){
-            resPath = tempPath + "/0."+ type;
-            found = true;
-        }
         //check whether name is taken
         
         for(int i = 0; i<list.length; i++){
@@ -186,7 +188,14 @@ public class TempFileHandler{
                 break;
             }
         }
-        if(!found) throw new OverflowException("Doslo k preteceni buferu docasnych Adresaru");
+        if(!found){
+            if(list.length<127){                
+                int n = (list.length);
+                resPath = tempPath + "/"+n+"."+ type;                
+            }else{
+                throw new OverflowException("Prilis mnoho adresaru.");
+            }
+        }
         if(resPath.equals("NOPE!")) throw new OverflowException("Tohle se vůbec nemělo stát");
         return resPath;
     }

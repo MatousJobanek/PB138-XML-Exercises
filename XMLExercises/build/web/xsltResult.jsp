@@ -15,8 +15,8 @@
             Correct result
         </th>
         
-            <td class="${result.isCorrect ? "ok":"nok"}">
-            <c:out value='${result.isCorrect ? "OK":"X"}'/>
+            <td class="${XSLTResult.isCorrect ? "ok":"nok"}">
+            <c:out value='${XSLTResult.isCorrect ? "OK":"X"}'/>
         </td>
         
     </tr>
@@ -30,10 +30,10 @@
     </tr>
     <tr>
         <td>
-            <c:out value="${XSLTResult.userHTML}"/>
+            ${XSLTResult.userHTMLAsString}
         </td>
         <td>
-            <c:out value="${XSLTResult.correctHTML}"/>
+            ${XSLTResult.correctHTMLAsString}
         </td>
     </tr>
 </table>

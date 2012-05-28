@@ -71,8 +71,9 @@ public class SchemaEvaluator implements Evaluator{
         String[] dirList = TestDir.list();
         for (int i = 0; i < dirList.length; i++)  {
         try{
-                System.out.println("lol"+i+"wat"+(dirList[i].split("_")).length);
+                System.out.println("Prochazim soubor "+i+">"+(dirList[i]));
                 if((dirList[i].split("_"))[0].equalsIgnoreCase("cor")){
+                    System.out.println("Testuju zadani "+i+">"+(dirList[i]));
                     DocumentBuilder parser = factory.newDocumentBuilder();
                     doc = parser.parse(dirName.concat(dirList[i]));
                 }
@@ -105,7 +106,7 @@ public class SchemaEvaluator implements Evaluator{
         result = checkCorrect(dirName, doc);        
         if(result.equals(victoryMessage)) result = checkWrong(dirName, doc);
         
-        tfh.deleteFile(path);
+        //tfh.deleteFile(path);
         return result;
         }
         catch(Exception e){
