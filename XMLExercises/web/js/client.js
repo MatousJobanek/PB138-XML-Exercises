@@ -7,7 +7,7 @@ var XMLSolver = {
     // setting here
     serverUrl: 'http://localhost:8080/XMLExercises/',
     evaluatorServletName: 'result',
-    taskServletName: 'task',
+    taskServletName: 'task/',
     init: function() {
         this.moveNumber = 0;
         this.lastTime = -1;
@@ -15,9 +15,9 @@ var XMLSolver = {
         $(".send").click(function() {XMLSolver.sendResult()});
         //alert($('task').value);
         if (location.hash.indexOf("/")!= -1) {
-            var taskArray = location.hash.substring(1).split("/");
-            if (taskArray.length == 2) {
-                this.loadTask("/" + taskArray[0],taskArray[1]);
+            var taskArray = location.hash.split("/");
+            if (taskArray.length == 3) {
+                this.loadTask(taskArray[1],taskArray[2]);
             }
         }
     },
@@ -58,6 +58,7 @@ var XMLSolver = {
         $("#solution").val(this.task.initSolution.replace("CURSOR", ""));
         $("#solution").focus();
         setCaretToPos(document.getElementById("solution"), cursorPosition);
+        location.hash = this.type + "/" + this.task.id;
     },
     tabs: function(data) {
         var list = "";
