@@ -1,5 +1,6 @@
 package xmlExercises;
 
+import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,10 +18,23 @@ import org.xml.sax.SAXParseException;
 public class DTDEvaluator implements Evaluator{
     boolean valid = true;
     int errOnLine = 0;
+    
     public String eval(String expresion, String fileName){
 
         DocumentBuilder dBuilder = null;
         Document doc = null;
+        String pathToXml = null;
+        TempFileHandler tempFileHandler = null;
+        try {tempFileHandler = new TempFileHandler(System.getProperty("user.home") + File.separator + "xmlExerciseFiles"
+        + File.separator + "temp","dtd");
+        
+        pathToXml = tempFileHandler.addDirectory(expresion, "solution", new File(fileName));
+        }
+        catch(Exception ex){ 
+            System.out.println(ex.getMessage());
+        }
+        
+        System.out.println(pathToXml);
         
         DocumentBuilderFactory docBuildFac = DocumentBuilderFactory.newInstance();
         docBuildFac.setValidating(true);
@@ -43,7 +57,9 @@ public class DTDEvaluator implements Evaluator{
             throws SAXParseException {valid = false;errOnLine = e.getLineNumber();}
         });
         
-        try {doc = dBuilder.parse(fileName);}
+        
+        
+        try {doc = dBuilder.parse(pathToXml);}
         catch (SAXException se){}
         catch(IOException ioe){}
         if (valid == true)
@@ -53,7 +69,7 @@ public class DTDEvaluator implements Evaluator{
     }
     
     public boolean compare(String result1, String result2){
-        return true;
+        return result1.equals(result2);
     }
     
 }
