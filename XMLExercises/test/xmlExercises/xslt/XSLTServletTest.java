@@ -44,12 +44,6 @@ public class XSLTServletTest {
      */
     @Test
     public void testProcessRequest() throws Exception {
-//        System.out.println("processRequest");
-//        HttpServletRequest request = null;
-//        HttpServletResponse response = null;
-//        XSLTServlet instance = new XSLTServlet();
-//        instance.processRequest(request, response);
-        // TODO review the generated test code and remove the default call to fail.
 
         List<Assignment> assignments = XSLTUtils.scanDirectoryStructure(Utils.getPathTo("xslt"));
         String homeFolder = System.getProperty("user.home");
