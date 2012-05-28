@@ -1,0 +1,2 @@
+Write XQuery program that operates with html table in file "test.xml". 
+It should add one row to the top of the table with head cells (th) containing text "column <number _of_column>". Number of Columnt is an integer starting from 1.

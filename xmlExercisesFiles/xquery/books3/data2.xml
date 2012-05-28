@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <title>TCP/IP Illustrated</title>
+        <source>expensive.store.com</source>
+        <price>65.95</price>
+    </book>
+    <book>
+        <title>Advanced Programming in the Unix environment</title>
+        <source>cheapest.store.com</source>
+        <price>59.95</price>
+    </book>
+</books>

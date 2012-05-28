@@ -1,0 +1,2 @@
+Write XQuery program that operates with html table in file "test.xml". 
+It should transform the table into html list with items made of table cells content in row order.
