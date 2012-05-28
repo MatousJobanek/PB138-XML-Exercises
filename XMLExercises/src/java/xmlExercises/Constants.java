@@ -21,6 +21,8 @@ public class Constants {
     public static final String JSP_XSLT_RESULT = "/xsltResult.jsp";
     public static final String ATTRIBUTE_ERROR = "errormessage";
     public static final String JSP_ERROR = "/syntaxerror.jsp";
-    
+    public static final String XML_FILE_SUFFIX = "xml";
+    public static final String XSL_FILE_SUFFIX = "xsl";
+    public static final String ASSIGNMENT_FILE_SUFFIX = "txt";
 
 }
