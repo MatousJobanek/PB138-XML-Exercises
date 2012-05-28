@@ -53,22 +53,24 @@ public class XSLTServlet extends HttpServlet {
 
     }
 
-    public void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void task(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
             Assignment assignment = XSLTUtils.getAssignment();
 
-            //            System.err.println(assignment.getHtmlOutputAsString());
-            //            System.err.println(assignment.getAssignmentText());
-
             request.setAttribute(Assignment.class.getSimpleName(), assignment);
             request.getRequestDispatcher(Constants.JSP_ASSIGNMENT).forward(request, response);
+
+        } catch (XSLException ex) {
+            Logger.getLogger(XSLTServlet.class.getName()).log(Level.SEVERE, null, ex);
+            returnError(request, response, "There has been occured some problem.");
+
         } catch (SyntaxErorException ex) {
-            returnError(request, response, "There has been occured some problem " + ex.getMessage());
+            returnError(request, response, "There has been occured some problem.");
         }
     }
 
-    public void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void result(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userSolution = request.getParameter("userSolution");
         if (userSolution != null && !"".equals(userSolution)) {
@@ -78,24 +80,21 @@ public class XSLTServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 XSLTResult result;
 
-//                System.err.println(userSolution);
-
                 result = XSLTUtils.evaluate(userSolution, id);
-
-//                System.err.println(result.isIsCorrect());
-//                System.err.println(result.getCorrectHTML());
-//                System.err.println(result.getUserHTML());
-
 
                 request.setAttribute(XSLTResult.class.getSimpleName(), result);
                 request.getRequestDispatcher(Constants.JSP_XSLT_RESULT).forward(request, response);
 
+            } catch (XSLException ex) {
+                returnError(request, response, "There is a problem with your input! Please correct it.");
             } catch (SyntaxErorException ex) {
-                returnError(request, response, "Problem with the syntax in your input \n" + ex.getMessage());
+                returnError(request, response, "There is a problem with your input! Please correct it.");
+            } catch (RuntimeException ex) {
+                returnError(request, response, "There is a problem with your input! Please correct it.");
             }
 
         } else {
-            returnError(request, response, "The input is empty");
+            returnError(request, response, "The input is empty!");
         }
     }
 
@@ -103,8 +102,8 @@ public class XSLTServlet extends HttpServlet {
         request.setAttribute(Constants.ATTRIBUTE_ERROR, message);
         request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
     }
-    
-        // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

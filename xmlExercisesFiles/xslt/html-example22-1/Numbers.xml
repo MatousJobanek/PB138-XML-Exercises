@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="Numbers.xsl"?>
+<NumberList>
+        <Number>23</Number>
+        <Number>41</Number>
+        <Number>70</Number>
+        <Number>103</Number>
+        <Number>99</Number>
+        <Number>6</Number>
+</NumberList>
