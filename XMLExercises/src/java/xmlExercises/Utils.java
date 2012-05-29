@@ -75,6 +75,9 @@ public class Utils {
         if ("dtd".equals(type)) {
             return new DTDEvaluator();
         }
+        if ("xmlschema".equals(type)) {
+            return new SchemaEvaluator();
+        }
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
