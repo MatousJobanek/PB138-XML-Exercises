@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+ <xsd:element name="zakaznici" type="zakazniciTyp" >
+<!-- kazdy zakaznik musi mit unikatni atribut "id" -->
+ </xsd:element>
+   
+ 
+ <xsd:complexType name="zakazniciTyp">
+        <!-- Definujte strukturu tak, ze zakazniku bude neomezene mnozstvi-->          
+ </xsd:complexType>
+ 
+ <xsd:complexType name="zakaznikTyp">
+     <xsd:sequence>
+         <xsd:element name="jmeno" type="jmenoTyp"/>
+         <xsd:element name="prijmeni" type="jmenoTyp"/>
+         <xsd:element name="pohlavi" type="pohlaviTyp"/>
+         <xsd:element name="miry" type="miryTyp"/>
+         <xsd:element name="cena">
+            <!-- Definujte tak, ze cena bude uvedena vzdy na dve desetinna mista (15.00 ; 1543.15) -->
+         </xsd:element>
+     </xsd:sequence>
+     <xsd:attribute name="id"/>
+        <!-- Definujte typ atributu, aby id byl vzdy kladnym celym cislem -->
+ </xsd:complexType>
+ 
+ <xsd:complexType name="miryTyp">
+    <!-- Definujte miryTyp, aby umoznoval pouziti jak typu muzskeMiryTyp, tak zenskeMiryTyp -->
+ </xsd:complexType>
+ 
+ <xsd:group name="muzskeMiryTyp">
+    <!-- Obsahuje povinne vsechny polozky "krk" "pas" "delka" -->
+ </xsd:group>
+ 
+ <xsd:group name="zenskeMiryTyp">
+    <!-- Obsahuje povinne vsechny polozky "hrudnik" "pas" "boky"-->
+ </xsd:group>
+ 
+ <xsd:simpleType name="pohlaviTyp">
+  <!-- pohlavi smi mit hodnotu "Z" nebo "M" -->
+ </xsd:simpleType>
+ 
+ <xsd:simpleType name="jmenoTyp">
+  <!-- Jmeno smi obshaovat jen velka a mala pismena-->
+ </xsd:simpleType>
+ 
+</xsd:schema>

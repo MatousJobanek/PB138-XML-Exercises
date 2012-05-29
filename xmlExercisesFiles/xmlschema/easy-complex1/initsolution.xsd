@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.fi.muni.cz/~bar"
+    xmlns="http://www.fi.muni.cz/~bar"
+    elementFormDefault="qualified">
+        <xsd:element name="person" type="persontype"/>
+        
+        <xsd:complexType name="persontype">
+            <!--
+            
+            Dodefinujte komplexni typ persontype
+            
+            -->
+        </xsd:complexType>
+
+</xsd:schema>

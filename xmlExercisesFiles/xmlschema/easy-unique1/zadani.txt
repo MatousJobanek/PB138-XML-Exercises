@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Převzato z vyukovych materiálů PB138-->
+<lide  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'><!-- Jednotlivých lidi muze byt libovolne mnozstvi -->
+
+    <clovek id="1">A</clovek> <!-- Jejich Id musi byt vsak unikatni--> 
+    <clovek id="2">B</clovek>
+</lide>

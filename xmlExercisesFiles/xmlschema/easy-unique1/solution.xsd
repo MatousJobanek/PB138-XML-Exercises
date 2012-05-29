@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+<xsd:element name="lide" type="lidetype">
+    <xsd:unique name="clovekunige">
+        <xsd:selector xpath="./clovek"/>
+        <xsd:field xpath="./@id"/>
+    </xsd:unique>
+</xsd:element>
+
+<xsd:complexType name="lidetype">
+    <xsd:sequence>
+        <xsd:element name="clovek" maxOccurs="unbounded">
+            <xsd:complexType>
+                <xsd:simpleContent>
+                    <xsd:extension base="xsd:string">
+                        <xsd:attribute name="id" type="xsd:integer"/>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

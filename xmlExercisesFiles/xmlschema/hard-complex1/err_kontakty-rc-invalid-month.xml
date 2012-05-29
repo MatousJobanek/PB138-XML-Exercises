@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kontakty  xmlns=""
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+       <!-- kontakt, atribut rc je jednoznacny retezec ve tvaru 6 cislic nasledovanych znakem
+            / nasledovany 4 cislicemi  -->
+       <!-- druha moznost pro rodne cislo je :
+               - 2 cislice
+               - 0|1|5|6
+               - cislice
+               - 0|1|2|3
+               - cislice
+               - '/'
+               - 4 cislice -->
+    <kontakt rc="773511/8399">
+	<!-- kontaktu muze byt libovolny pocet -->
+        <jmeno>Jan Novák</jmeno> <!-- Libovolny retezec-->
+        <narozeniny><!-- povinny element -->
+            <den>11</den> <!-- cislo z intervalu 1-31 -->
+            <mesic>kve</mesic>
+            <!-- jedna z hodnot led, uno, bre, dub, kve, cer, cec, srp
+                 zar, rij, lis, pro -->
+            <rok>1977</rok><!-- cele cislo >= 1900 -->
+        </narozeniny>
+        <adresy><!-- pokud nemame adresu na dany kontakt, tak se nevyskytuje, jinak vzdy musi obsahovat aspon jednu adresu. -->
+            <adresa><!--adresa musi byt alespon jedna-->
+		<popis>trvaly pobyt</popis> <!--
+						jedna z hodnot:
+						- trvaly pobyt
+						- prechodny pobyt
+                                                - dalsi
+					    -->
+                <ulice>Jana Nováka</ulice> <!-- retezec, ale ulice nemusi byt uvedena vubec -->
+                <cislopopisne>1</cislopopisne> <!-- cele cislo > 0 -->
+                <cisloorientacni>1</cisloorientacni> <!-- nepovinny element, obsahuje cele cislo > 0 -->
+                <obec>Brno</obec> <!-- libovolny neprazdny retezec -->
+                <psc>60000</psc> <!-- cele cislo z intervalu <10000,80000) -->
+                <zeme>Česká republika</zeme> <!-- libovolny retezec -->
+            </adresa>
+        </adresy>
+        <telefony><!-- nepovinny element-->
+            <telefon><!--telefonu muze byt vice-->
+                <popis>domů</popis> <!-- libovolny retezec -->
+                <cislo>+420543245145</cislo> <!-- znak "+" nasledovany 12 cislicemi, kde 1. cislice musi byt
+                                                  1-9 -->
+            </telefon>
+            <telefon>
+                <popis>mobil</popis>
+                <cislo>+420601601601</cislo>
+            </telefon>
+        </telefony>
+        <emaily><!-- nepovinny element -->
+            <email>nikdo@nikde.cz</email><!--e-mailu muze byt uvedeno vice-->
+        </emaily>
+    </kontakt>
+    
+    <kontakt rc="665511/9889">
+        <jmeno>Jana Nováková</jmeno>
+        <narozeniny>
+            <den>11</den>
+            <mesic>kve</mesic>
+            <rok>1966</rok>
+        </narozeniny>
+        <adresy>
+            <adresa>
+                <popis>prechodny pobyt</popis>
+                <ulice>Jana Nováka</ulice>
+                <cislopopisne>1</cislopopisne>
+                <cisloorientacni>1</cisloorientacni>
+                <obec>Brno</obec>
+                <psc>60000</psc>
+                <zeme>Česká republika</zeme>
+            </adresa>
+        </adresy>
+        <telefony>
+            <telefon>
+                <popis>domů</popis>
+                <cislo>+420543245145</cislo>
+            </telefon>
+        </telefony>
+    </kontakt>
+    <kontakt rc="501105/7889">
+        <jmeno>Jan Bezdomovec</jmeno>
+        <narozeniny>
+            <den>5</den>
+            <mesic>lis</mesic>
+            <rok>1950</rok>
+        </narozeniny>
+    </kontakt>    
+</kontakty>

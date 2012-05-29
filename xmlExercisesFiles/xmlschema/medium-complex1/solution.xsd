@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+ <xsd:element name="zakaznici" type="zakazniciTyp" >
+     <xsd:unique name="zakaznikUnigue">
+         <xsd:selector xpath="./zakaznik"/>
+         <xsd:field xpath="@id"/>
+     </xsd:unique>
+ </xsd:element>
+   
+ 
+ <xsd:complexType name="zakazniciTyp">
+     <xsd:sequence>
+        <xsd:element name="zakaznik" type="zakaznikTyp" maxOccurs="unbounded"/>
+     </xsd:sequence>
+     
+ </xsd:complexType>
+ <xsd:complexType name="zakaznikTyp">
+     <xsd:sequence>
+         <xsd:element name="jmeno" type="jmenoTyp"/>
+         <xsd:element name="prijmeni" type="jmenoTyp"/>
+         <xsd:element name="pohlavi" type="pohlaviTyp"/>
+         <xsd:element name="miry" type="miryTyp"/>
+         <xsd:element name="cena">
+             <xsd:simpleType>
+                 <xsd:restriction base="xsd:decimal">
+                     <xsd:fractionDigits value="2"/>
+                     <xsd:minInclusive value="1"/>
+                 </xsd:restriction>
+             </xsd:simpleType>
+         </xsd:element>
+     </xsd:sequence>
+     <xsd:attribute name="id" type="xsd:positiveInteger"/>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="miryTyp">
+     <xsd:choice>
+         <xsd:group ref="muzskeMiryTyp"/>
+         <xsd:group ref="zenskeMiryTyp"/>
+     </xsd:choice>
+ </xsd:complexType>
+ 
+ <xsd:group name="muzskeMiryTyp">
+     <xsd:sequence>
+         <xsd:element name="krk" type="xsd:positiveInteger" minOccurs="1"/>
+         <xsd:element name="pas" type="xsd:positiveInteger" minOccurs="1"/>
+         <xsd:element name="delka" type="xsd:positiveInteger" minOccurs="1"/>
+     </xsd:sequence>
+ </xsd:group>
+ 
+ <xsd:group name="zenskeMiryTyp">
+     <xsd:sequence>
+         <xsd:element name="hrudnik" type="xsd:positiveInteger" />
+         <xsd:element name="pas" type="xsd:positiveInteger"/>
+         <xsd:element name="boky" type="xsd:positiveInteger"/>
+     </xsd:sequence>
+ </xsd:group>
+ 
+ <xsd:simpleType name="pohlaviTyp">
+     <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="M"/>
+         <xsd:enumeration value="Z"/>
+     </xsd:restriction>
+ </xsd:simpleType>
+ 
+ <xsd:simpleType name="jmenoTyp">
+     <xsd:restriction base="xsd:string">
+         <xsd:pattern value="[A-Z][a-z]+"/>
+     </xsd:restriction>
+ </xsd:simpleType>
+ 
+</xsd:schema>

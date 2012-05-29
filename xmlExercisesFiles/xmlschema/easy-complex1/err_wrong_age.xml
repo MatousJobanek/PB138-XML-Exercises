@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : sampleinvalid.xml.xml
+    Created on : 16. březen 2010, 7:49
+    Author     : bar
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns1:person  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns1='http://www.fi.muni.cz/~bar'>
+    <ns1:name>a</ns1:name>
+    <ns1:sname>a</ns1:sname>
+    <ns1:age>a</ns1:age>
+</ns1:person>

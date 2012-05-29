@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : complexsample.xml
+    Created on : 13. březen 2010, 17:17
+    Author     : bar
+    Description:
+        Purpose of the document follows.
+-->
+
+<people:person  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:people='http://www.fi.muni.cz/~bar'>
+    <people:name>A</people:name>
+    <people:sname>A</people:sname>
+    <people:age>100</people:age>
+</people:person>

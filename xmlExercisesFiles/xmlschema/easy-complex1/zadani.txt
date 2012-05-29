@@ -1,0 +1,7 @@
+Definujte kopmlexni typ polozky person, aby kazdy zaznam odpovidal posloupnosti:
+
+<people:person>
+    <people:name>A</people:name>
+    <people:sname>A</people:sname>
+    <people:age>100</people:age>
+</people:person>

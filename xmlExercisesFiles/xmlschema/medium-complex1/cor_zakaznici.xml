@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<zakaznici xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <zakaznik id="1">
+        <jmeno>Jan</jmeno>
+        <prijmeni>Novak</prijmeni>
+        <pohlavi>M</pohlavi>
+        <miry>
+            <krk>54</krk>
+            <pas>80</pas>
+            <delka>90</delka>
+        </miry>
+        <cena>1050.00</cena>
+    </zakaznik>
+    <zakaznik id="2">
+        <jmeno>Jana</jmeno>
+        <prijmeni>Novakova</prijmeni>
+        <pohlavi>Z</pohlavi>
+        <miry>
+            <hrudnik>90</hrudnik>
+            <pas>60</pas>
+            <boky>90</boky>
+        </miry>
+        <cena>3000.00</cena>
+    </zakaznik>
+    
+</zakaznici>
