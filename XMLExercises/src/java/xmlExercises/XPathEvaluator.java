@@ -5,14 +5,13 @@ package xmlExercises;
  * @author vasekhodina
  */
 
-import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-
-import org.xml.sax.InputSource;
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.xml.sax.InputSource;
 
 public class XPathEvaluator implements Evaluator{
     @Override
