@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<company>
+  <employee shift="8">
+    <name>Dylan</name>
+    <salary_per_hour>15.00</salary_per_hour>
+    <salary_daily earned="false">120.00</salary_daily>
+    <importance>medium</importance>
+  </employee>
+</company>
