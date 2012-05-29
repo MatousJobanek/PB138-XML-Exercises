@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+  <AAA>
+    <BBB/>
+  </AAA>
+  <DDD>
+    <CCC>
+      CCC
+    </CCC>
+  </DDD>
+  <DDD>
+    <EEE>
+      <BBB/>
+    </EEE>
+  </DDD>
+  <AAA>
+    <BBB>
+      BBB
+    </BBB>
+  </AAA>
+</root>
