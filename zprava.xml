@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xml:id="simple_book" xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <title>Podpůrný nástroj pro výuku značkovacích jazyků
+Projekt do předmětu Moderní značkovací jazyky a jejich aplikace (PB138)</title>
+   <chapter xml:id="chapter_1">
+     <title>Řešitelé:</title>
+     <para>Václav Hodina, učo: 373865
+Matouš Jobánek, učo: 211800
+Vít Stanislav, učo: 373843
+Alexandr Toptygin, učo: 374030</para>
+   </chapter>
+   <chapter xml:id="chapter_2">
+     <title>Základní popis:</title>
+     <para>Jedná se o program, který je určený jako podpůrný nástroj pro výuku značkovacích jazyků. Uživatelé se mohou procvičit v psaní DTD, XQuery, XPath, XSL transformace a XML schématu. Účelem této aplikace není uživatele naučit teoretické znalosti v oblasti značkovacích jazyků, ale pomoci mu procvičit se na praktických příkladech. </para>
+   </chapter>
+   <chapter xml:id="chapter_3">
+     <title>Uživatelské rozhraní:</title>
+<figure>
+       <title>Ovládání je pomerně jednoduché. Uživatele uvítá domácí stránka, kde si může zvolit oblast cvičení:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+     <para>Po vybrání oblasti, ve které se chce uživatel procvičit, se náhodně vybere nějaké dostupné cvičení v dané oblasti. Více viz. další kapitoly.</para>
+   </chapter>
+   <chapter xml:id="chapter_4">
+     <title>Administrace:</title>
+     <para>Nástroj nemá žádné rozhraní pro administrátory ke správě. Přidávaní nových příkladů je na úrovni souborového systémů, kdy administrátor může přidávat do složky “xmlExercisesFiles” která se nachází v domovském adresáři. Tato složka je následně rozdělena na další podsložky nazvané podle jednotlivých cvicení(xslt, xquery,xpath...).
+Název složky je možné změnit na úrovni Java kódu a to ve třídě ”Constants” změnou hodnoty konstanty “ASSIGNMENTS_FOLDER_NAME”. Pravidla pro obsah jednotlivých složek jsou dále popsány v kapitolách zabývajících se jednotlivými cvičeními. </para>
+     <para>Cvičeních může být libovolný počet. Když není nalezeno žádné cvičení, tak aplikace upozorní uživatele. Naopak, pokud je ve složce nalezeno více cvičení, jedno určité je vybráno náhodně. K jednomu specifickému cvičení lze dojít přes URL tvaru: “server/#/oblast_cvičení/název_cvičení”.</para>
+   </chapter>
+   <chapter xml:id="chapter_5">
+     <title>UML diagramy</title>
+    <figure>
+       <title>Use Case diagram:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+    <figure>
+       <title>Component diagram:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+    <figure>
+       <title>Deployment diagram:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+   </chapter>
+   <chapter xml:id="chapter_6">
+     <title>Implementace</title>
+     <para>Bezstavová webová aplikace postavená na dvouvrstvé klient-server architektuře, která od sebe striktně odděluje prezentační a aplikační vrstvu.</para>
+     <para>Serverová část aplikace je naprogramovaná v objektovém jazyce JAVA, klient pak v JavaScriptu.</para>
+     <para>Použité externí Java knihovny: Saxon, XOM.
+Použité externí JavaScript knihovny: jquery, jquery-ui
+Použité frameworky: JUnit
+Vývojové nástroje: GIT, NetBeans
+Aplikační server: Apache Tomcat</para>
+     <para>Komunikace:
+Klient komunikuje se serverem pres HTTP požadavky, které jsou na straně serveru zpracovávány servlety. Jednotlivé “HTTP patterny”, na kterých servlety naslouchají, jsou definovány v anotaci každého servletu.
+</para>
+     <para>Loggování:
+Vyjímečnější operace aplikace jsou loggovány Apache Tomcatem do konsole pomocí knihovny “java.util.logging”. Jednotlivé logy jsou rozlišeny podle důležitosti. </para>
+     <para>Testování:
+Jsou vytvořeny jednotkové testy pomocí frameworku JUnit.</para>
+   </chapter>
+   <chapter xml:id="chapter_7">
+     <title>Výhled do budoucna</title>
+     <para>Možné začlenění programu do výuky předmětu Moderní značkovací jazyky a jejich aplikace (PB138). </para>
+     <para>Dalším výhledem pro vývoj je začlenit aplikaci do projektu PROblem SOlving Tutor (http://tutor.fi.muni.cz/). Doc. Pelánek předběžně vyjádřil souhlas se zavedením úloh daného typu do Tutora za předpokladu kvalitního zpracování. Napojením na Tutora aplikace získá především správu uživatelů, jejich výsledků a lepší přístup k jednotlivým zadáním pro uživatele.   </para>
+     <para>V oblasti vývoje je plánem lokalizace do anglického a českého jazyka. </para>
+   </chapter>
+   <chapter xml:id="chapter_8">
+     <title>XSL transformace</title>
+     <para>Aplikace, mimo jiné, také nabízí možnost procvičení v oblasti XSL transformace. Uživatel se cvičením začne jednoduchým vybráním položky “XSLT” v kombo-boxu “Choose type”. Po kliknutí na tuto položku aplikace prozkoumá adresářovou strukturu, zjistí dostupná cvičení, náhodně jedno vybere a vrátí ho uživateli. Na obrazovce se poté zobrazí text zadaní, XML na kterém má být XSL transformace provedena a očekávaný výstup. Tento výstup má být vždy HTML stránka a zobrazena je jednak její “přeložená” verze, tak i “čisté” HTML:</para>
+     <para>Úkolem uživatele je následně napsat XSL transformaci, která z uvedeného XML vytvoří stejné HTML. pokud si uživatel myslí, že vše již správně napsal, nechá si to skontrolovat kliknutím na tlačítko “Run”.  Aplikace použije jeho XSL transformaci a skontroluje výsledné HTML. Uživateli pak zobrazí, zda byl uspěsný či nikoliv a jeho a očekávaný výstup.</para>
+    <figure>
+       <title>Při vyplnění správného XSLT:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+    <figure>
+       <title>Při vyplnění špatného XSLT:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+    <figure>
+       <title>Při vyplnění úplně špatného XSLT:</title>
+       <graphic fileref="images/file"></graphic>
+    </figure>
+     <para>Administrace:
+Přidávání nových cvičení, nebo editace současných, probíhá na úrovni souborového systému v hlavním adresáři tohoto cvičení: “.../homeFolder/ASSIGNMENTS_FOLDER_NAME/xslt/”.
+Jednotlivá cvičení se skládají ze tří souborů: 
+Vzorového XSL souboru, který má příponu definovanou konstantou: XSL_FILE_SUFFIX
+XML souboru, který má příponu definovanou konstantou: XML_FILE_SUFFIX
+Souboru obsahující text zadání, který má příponu definovanou konstantou: ASSIGNMENT_FILE_SUFFIX
+Všechny konstanty se nachází ve třídě “Constants”.
+Všechny soubory se musí nacházet v jednom samostatném adresáři jehož jméno je pak použito jako název daného cvičení.</para>
+     <para>Do okýnka, kam uživatel zadává své XSLT, se může předvyplnit nějaký text. Tento text se nachází v souboru “initSolution” v hlavním adresáři tohoto cvičení. </para>
+   </chapter>
+   <chapter xml:id="chapter_9">
+     <title>XQuery</title>
+     <para>Při vybání XQuery se do levého panelu načte slovní popis zadání a obecná část řešení. V pravém panelu je pak v tabech zobrazen obsah jednotlivých souborů, na kterých se bude řešení spouštět. Obecná představa je taková, že uživateli většinou stačí vidět jeden soubor a ostatní si může “rozkliknout” v případě, že mu některý neprojde testováním.  </para>
+     <para>Při spuštění výše uvedeného stavu dostane uživatel jen hlášení o chybě, kterou musí opravit.
+Pokud je kód syntakticky správně, spustí se už testy nad jednotlivými soubory.</para>
+     <para>Výsledky testů se vypíší do tabulky s jasnou barevnou indikací, co je správně a co ne. Cílem je samozřejmě mít všechna políčka zelená.  </para>
+   </chapter>
+   <chapter xml:id="chapter_10">
+     <title>XPath</title>
+     <para>Další z možných procvičování je procvičování Xpath. Je velmi podobné cvičení obsahující XQuery. Opět se spoušťí vybráním z nabídky v levém horním rohu. Opět je k dispozici více souborů k řešení a opět by měl stačit pouze první.</para>
+     <para>Přidávání úloh se řeší obdobně jako u ostatních oblastí. Je řešeno na úrovni filesystému a složka pro přidávání je následující: “.../homeFolder/ASSIGNMENTS_FOLDER_NAME/xpath/”</para>
+     <para>Pozor, XPath v této implementaci neumí iterovat přes více uzlů. Při odeslání výrazu se zobrazí výstupy od uživatele a výstupy vzorového řešení. Ty jsou pak porovnány a cílem je opět mít zelená políčka v pravé části u výsledků.</para>
+   </chapter>
+   <chapter xml:id="chapter_11">
+     <title>DTD</title>
+     <para>DTD je dalším z možných procvičování.  Po vybrání v levém horním menu se uživateli zobrazí náhodně vybrané zadání. K dispozici je i více testovaných souborů. Při řešení je třeba postupovat tak aby výsledky od uživatele byly stejné jako výsledky od  vzorového řešení. Tj. DTD podle kterého jsou soubory nevalidní může být správným řešením.</para>
+     <para>Přidávání nových úloh je řešeno přes souborový systém, cesta ke složce je následující: “.../homeFolder/ASSIGNMENTS_FOLDER_NAME/dtd/”
+Všechny XML dokumenty musí mít jako DTD soubor solution.dtd. Toto je nutnost kvůli použitému API.
+</para>
+     <para>Ve výsledných výpisech, pokud je XML dokument nevalidní se zobrazuje číslo řádku na kterém je chyba a zároveň i původ chyby. Toto je příhodnější pro řešitele, rozbití formátu je jen drobná nepříjemnost oproti výhodám při řešení.</para>
+   </chapter>
+</book>
+
+
+
+
+
+
+
+ 
