@@ -15,6 +15,12 @@ import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpressionException;
 
 public class XPathEvaluator implements Evaluator{
+    /*
+     * @param String expression - xpath expression to evaluate
+     * @param String filename - path to XML file to evaluate XPath on
+     * 
+     * @return String with node content selected by XPath
+     */
     @Override
     public String eval(String expression,String filename){
         
@@ -38,6 +44,13 @@ public class XPathEvaluator implements Evaluator{
         
         return result;
     }
+    
+    /*
+     * @param String result1 - result from User
+     * @param String result2 - result from solution
+     * 
+     * @return Boolean true if results are the same
+     */
     @Override
     public boolean compare(String result1, String result2){
         return result1.equals(result2);

@@ -20,6 +20,14 @@ public class DTDEvaluator implements Evaluator{
     int errOnLine = 0;
     String error = "";
     
+    /*
+     * @param String expression - string containing DTD to validate XML with
+     * @param String fileName - string containing path to XML document
+     * 
+     * @return String with information if XML document is valid or with 
+     *         information about mistakes
+     */
+    @Override
     public String eval(String expresion, String fileName){
 
         DocumentBuilder dBuilder = null;
@@ -72,6 +80,11 @@ public class DTDEvaluator implements Evaluator{
             return "Not Valid! Error on line: " + errOnLine + "\n" + getFormated(error) ;
     }
     
+    /*
+     * @param String string - string to format
+     * 
+     * @return formatted String
+     */
     private String getFormated(String string){
         String[] splited = string.split(" ");
         StringBuffer buffered = new StringBuffer("");
@@ -88,6 +101,13 @@ public class DTDEvaluator implements Evaluator{
         }
         return buffered.toString();    }
     
+    /*
+     * @param String result1 - result from User
+     * @param String result2 - result from solution
+     * 
+     * @return Boolean true if results are the same
+     */
+    @Override
     public boolean compare(String result1, String result2){
         return result1.equals(result2);
     }
