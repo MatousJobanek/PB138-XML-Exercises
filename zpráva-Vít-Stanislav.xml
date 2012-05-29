@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xml:id="simple_book" xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <title>PB138 XML Exercises - Závěrečná zpráva Vít Stanislav</title>
+   <chapter xml:id="chapter_1">
+     <title>Hlavní myšlenky</title>
+     <para>Inspirován úlohami na codingbat.com jsem přišel na myšlenku, že podobný model by šel využít i na procvičování látky probírané v tomto předmětu. Tým sdílel mé nadšení z tématu projektu s perspektivou praktického využití, takže to byla jasná volba.</para>
+   </chapter>
+   <chapter xml:id="chapter_2">
+     <title>index.jsp</title>
+     <para>Rozvržení prvků uživatelského rozhraní. Základní chování aplikace. Vytvoření vzhledu pomocí kaskádových stylů.</para>
+   </chapter>
+   <chapter xml:id="chapter_3">
+     <title>client.js</title>
+     <para>Javascriptový program obsluhující základní operace s uživatelským rozhraním. 2 Základní operace jsou:
+- výběr zadání, odeslání požadavku na server, obdržení zadání a umístění jednotlivých částí zadání do patřičných elementů.
+- spuštění uživatelem napsaného programu. tzn. odeslání řešení na server a obdržení výsledků a jejich vykreslení.
+Klient využívá javascriptové kihovny jquery a jquery-ui.</para>
+   </chapter>
+   <chapter xml:id="chapter_4">
+     <title>EvaluatorServlet</title>
+     <para>Servlet obsluhující výše popsané požadavky klienta pro XQuery, DTD, XPath a XML Schema. Získávání zadání je pro všechny společné, liší se jen názvem složky s zadáními.
+Vyhodnocování uživatelského vstupu vytvoří instanci konkrétního "vyhodnocovače" a dále už také se všemi pracuje.</para>
+   </chapter>
+   <chapter xml:id="chapter_5">
+     <title>XQueryEvaluator</title>
+     <para>Zadání instruují uživatele k praní řešení nad souborem "test.xml" Ve vyhodnocovači je tedy pořeba toto nahrazovat za cestu ke konkrétnímu testovacímu souboru. Samotné vyhodnocování obstará metoda compileQuery třídy StaticQueryContext a další z knihovny Saxon. Výstup je natolik jednotné xml(bílé znaky, odsazení apod.), že pro porovnání výsledků stačí porovnávat na úrovni Stringu.
+     </para>
+   </chapter>
+   <chapter xml:id="chapter_6">
+     <title>Xquery zadání</title>
+     <para>Obsah jednotlivých zadání procvičuje základní práci s FLOWR, indentifikace pomocí XPath, práce s čísly v elementech (sčítání, násobení, suma), vnořené cykly... </para>
+   </chapter>
+</book>
