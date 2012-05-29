@@ -37,8 +37,7 @@ public class TempFileHandler{
         type = fileType;
         
         if(!rootTempPath.isDirectory()){
-            System.out.println("invalid dir: "+rootTempPath);
-            throw new IOException("Directory does not exist");
+            throw new IOException("Directory"+rootTempPath.getPath()+" does not exist");
         }
         
         tempPath = tempPathName + File.separator + fileType;
@@ -47,7 +46,6 @@ public class TempFileHandler{
             tempDir.mkdir();
         }
         if(!rootTempPath.isDirectory()){
-            System.out.println("invalid root/dir");
             throw new IOException("Directory/"+fileType+" does not exist");
         }
     }
@@ -73,7 +71,6 @@ public class TempFileHandler{
         File xmlCopy = new File(foundDir, xmlFile.getName());
         DTDFile = new File(rootDir+File.separator+DTDname);
         if(foundDir.mkdir()){
-            System.out.println("Wat is dis"+rootDir+File.separator+DTDname);
             if(!DTDFile.createNewFile()){
                 throw new IOException("Neslo vytvorit DTD");
             }
@@ -111,21 +108,21 @@ public class TempFileHandler{
         
         foundDir = new File(result);
         if(foundDir.createNewFile()){
+            
             FileWriter fw = new FileWriter(foundDir);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(exercise);
+            bw.close();
             fw.close();            
         }else{
             throw new IOException("Soubor jiz existuje.");
         }
-        
-        System.out.println("File created at " + result);
         return result;       
     }
     
     public void deleteFile(String delPath) throws IOException{
-        File delFile = new File(delPath);
-        if(!delFile.delete()) throw new IOException("Failed to delete file");
+        File delFile = new File("."+File.separator+delPath);
+        if(!delFile.delete()) throw new IOException("Failed to delete file: "+delPath);
     }
     
     
@@ -200,7 +197,6 @@ public class TempFileHandler{
             }
         }
         if(resPath.equals("NOPE!")) throw new OverflowException("Tohle se vůbec nemělo stát");
-        System.out.println("Vytvarim dir" + resPath);
         return resPath;
     }
     private void copy(File original, File copy) throws IOException{
