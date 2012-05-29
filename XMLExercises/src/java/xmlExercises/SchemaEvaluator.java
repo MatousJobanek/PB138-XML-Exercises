@@ -28,7 +28,8 @@ public class SchemaEvaluator implements Evaluator{
     boolean initError;
     
     // Recieves directory name, as tarballing would be unnecessary
-    public SchemaEvaluator(String tempDir){
+    public SchemaEvaluator(){
+        String tempDir = System.getProperty("user.home") + File.separator + "xmlExercisesFiles" + File.separator + "temp";
         initError = false;
         try{tfh = new TempFileHandler(tempDir, "xsd");}
         catch( IOException iox){
@@ -79,6 +80,7 @@ public class SchemaEvaluator implements Evaluator{
         File TestDir = new File(dirName);
         String result = victoryMessage;
         String[] dirList = TestDir.list();
+        
         for (int i = 0; i < dirList.length; i++)  {
         try{                
                 if((dirList[i].split("_"))[0].equalsIgnoreCase("cor")){                    
@@ -102,30 +104,28 @@ public class SchemaEvaluator implements Evaluator{
     }
     
     @Override
-    public String eval(String expresion, String dirName) throws SyntaxErorException{
+    public String eval(String expresion, String fileName) throws SyntaxErorException{
         if(initError) return "Kontaktuj admina, docasne uloziste je spatne nastaveno.";
         String result;
+        String dirName = new File(fileName).getParent();
         
         try{
+            String path = tfh.addFile(expresion);
+            factory.setAttribute(
+            "http://java.sun.com/xml/jaxp/properties/schemaSource",
+            ".."+File.separator+".."+File.separator+path);
+            Document doc = null;
+            result = checkCorrect(dirName, doc);
+            
+            if(result.equals(victoryMessage)) result = checkWrong(dirName, doc);
         
-        String path = tfh.addFile(expresion);
-        //tfh.addDirectory("hnus", "solution.dtd", new File("build.xml"));
-        factory.setAttribute(
-          "http://java.sun.com/xml/jaxp/properties/schemaSource",
-          ".."+File.separator+".."+File.separator+path);
-        Document doc = null;
-        
-        result = checkCorrect(dirName, doc);
-        if(result.equals(victoryMessage)) result = checkWrong(dirName, doc);
-        
-        tfh.deleteFile(path);
-        return result;
+            tfh.deleteFile(path);
+            return result;
         }
         catch(Exception e){
             Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, e);
             return "It did not work!" + e.getMessage();
         }
-        
     }
     
     @Override
