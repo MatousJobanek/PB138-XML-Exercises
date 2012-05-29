@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 
@@ -20,17 +21,21 @@ import org.xml.sax.SAXException;
  * @author Alexandr Toptygin
  */
 public class SchemaEvaluator implements Evaluator{
-    String victoryMessage = "Winrar is You!";
+    String victoryMessage = "Odpoved prosla vsemi testy! Hura!";
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     TempFileHandler tfh = null;
+    ErrorHandler eh = new MyErrorHandler();
+    boolean initError;
     
     // Recieves directory name, as tarballing would be unnecessary
     public SchemaEvaluator(String tempDir){
+        initError = false;
         try{tfh = new TempFileHandler(tempDir, "xsd");}
         catch( IOException iox){
             Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, iox);
+            initError = true;
         }
-        factory = DocumentBuilderFactory.newInstance();
+        factory = DocumentBuilderFactory.newInstance();        
         factory.setValidating(true);
         factory.setAttribute(
           "http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
@@ -44,19 +49,24 @@ public class SchemaEvaluator implements Evaluator{
         for (int i = 0; i < dirList.length; i++)  {
         try{
                 if((dirList[i].split("_"))[0].equalsIgnoreCase("err")){
+                    
                     DocumentBuilder parser = factory.newDocumentBuilder();
+                    parser.setErrorHandler(eh);
                     CorrectlyInvalid = false;
-                    doc = parser.parse(dirName.concat(dirList[i]));                    
+                    doc = parser.parse(dirName.concat(dirList[i]));
+                    if(!CorrectlyInvalid){
+                        result = "Chyba> Test " + (dirList[i].split("_"))[1] + " nemel vubec projit.";
+                    }
                 }
            }
         catch (ParserConfigurationException e){
-             result = e.getMessage();
+             result = "Parseru se neco nelibi> "+e.getMessage();
            }
         catch (SAXException e){
              CorrectlyInvalid = true;
            }
         catch (IOException e){
-             result = "Something's wrong. Call an admin!";
+             result = "Something's wrong. Call an admin! Tell him that: " + e.getMessage();
            }
          }
         if(CorrectlyInvalid) return victoryMessage;
@@ -70,48 +80,50 @@ public class SchemaEvaluator implements Evaluator{
         String result = victoryMessage;
         String[] dirList = TestDir.list();
         for (int i = 0; i < dirList.length; i++)  {
-        try{
-                System.out.println("lol"+i+"wat"+(dirList[i].split("_")).length);
-                if((dirList[i].split("_"))[0].equalsIgnoreCase("cor")){
+        try{                
+                if((dirList[i].split("_"))[0].equalsIgnoreCase("cor")){                    
                     DocumentBuilder parser = factory.newDocumentBuilder();
+                    parser.setErrorHandler(eh);
                     doc = parser.parse(dirName.concat(dirList[i]));
                 }
            }
         catch (ParserConfigurationException e){
              result = e.getMessage();
+             
            }
         catch (SAXException e){
-             result = ("Parsing XML failed due to a " + e.getClass().getName() + ":\n" +e.getMessage());
+             result = ("Parsing XML failed in "+dirList[i]+" due to a " + e.getClass().getName() + ":\n\t" +e.getMessage());             
            }
         catch (IOException e){
-             result = "Something's wrong. Call an admin!";
+             result = "Something's wrong. Call an admin! Tell him that: " + e.getMessage();
            }
-         }
+         }        
         return result;
     }
     
     @Override
     public String eval(String expresion, String dirName) throws SyntaxErorException{
-  
+        if(initError) return "Kontaktuj admina, docasne uloziste je spatne nastaveno.";
         String result;
         
-        try{String path = tfh.addFile(expresion);
+        try{
         
+        String path = tfh.addFile(expresion);
+        //tfh.addDirectory("hnus", "solution.dtd", new File("build.xml"));
         factory.setAttribute(
           "http://java.sun.com/xml/jaxp/properties/schemaSource",
-          path);
+          ".."+File.separator+".."+File.separator+path);
         Document doc = null;
         
-        result = checkCorrect(dirName, doc);        
+        result = checkCorrect(dirName, doc);
         if(result.equals(victoryMessage)) result = checkWrong(dirName, doc);
         
         tfh.deleteFile(path);
         return result;
         }
         catch(Exception e){
-            System.out.println("something went horribly wrong> " + e.getMessage());
             Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, e);
-            return "It did not work!";
+            return "It did not work!" + e.getMessage();
         }
         
     }
