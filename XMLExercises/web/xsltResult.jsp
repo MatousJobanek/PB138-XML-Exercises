@@ -30,10 +30,10 @@
     </tr>
     <tr>
         <td>
-            <c:out value="${XSLTResult.userHTMLAsString}"/>
+            ${XSLTResult.userHTMLAsString}
         </td>
         <td>
-            <c:out value="${XSLTResult.correctHTMLAsString}"/>
+            ${XSLTResult.correctHTMLAsString}
         </td>
     </tr>
 </table>

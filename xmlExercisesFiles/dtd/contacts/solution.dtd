@@ -1,0 +1,14 @@
+<!ELEMENT contacts (people)>
+<!ELEMENT people (person*)>
+<!ELEMENT person ANY>
+<!ATTLIST  person 
+    name CDATA #REQUIRED 
+    id CDATA #REQUIRED>
+<!ELEMENT phones ANY>
+<!ATTLIST  mobile 
+    code CDATA #REQUIRED
+    number CDATA #REQUIRED>
+<!ELEMENT mobile ANY>
+<!ELEMENT address ANY>
+<!ELEMENT street ANY>
+<!ELEMENT full_address ANY>

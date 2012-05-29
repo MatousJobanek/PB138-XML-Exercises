@@ -4,9 +4,7 @@
  */
 package xmlExercises;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,49 +21,15 @@ import org.xml.sax.SAXException;
  */
 public class SchemaEvaluator implements Evaluator{
     String victoryMessage = "Winrar is You!";
-    File temp = null;
-    String TempPath = "./temp";
-    File TempDir = new File(TempPath);
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    TempFileHandler tfh = null;
     
-    private void CreateTempXSD(String s){        
-        System.out.println(TempPath);
-        String[] list = TempDir.list();
-        
-        int n = list.length;
-        
-        boolean found = false;
-        while(!found){
-            System.out.println("seresetotu?" + n);
-            
-            for (int i = 0; i < n; i++){
-                String[] FName = (list[i]).split("\\.");
-                System.out.println("sereseto " + FName.length +" whatthe "+list[i]+" wut "+FName[1]);
-                if (Integer.parseInt(FName[0]) != i){
-                    temp = new File(TempDir,Integer.toString(i-1).concat(".xsd"));
-                    System.out.println("Wat" + i + FName[i]);
-                    found = !temp.exists();
-                    if(found) break;
-                }
-            }
-            if(!found&&(n<9000)){
-                temp = new File(TempDir,Integer.toString(n+1).concat(".xsd"));
-                found = true;
-            }
-        }
-        
-        try {
-            temp.createNewFile();
-            FileWriter fw = new FileWriter(temp);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(s);
-        } catch (IOException ex) {
-            Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("create is done");
-    }
     // Recieves directory name, as tarballing would be unnecessary
-    public SchemaEvaluator(){
+    public SchemaEvaluator(String tempDir){
+        try{tfh = new TempFileHandler(tempDir, "xsd");}
+        catch( IOException iox){
+            Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, iox);
+        }
         factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(true);
         factory.setAttribute(
@@ -107,8 +71,9 @@ public class SchemaEvaluator implements Evaluator{
         String[] dirList = TestDir.list();
         for (int i = 0; i < dirList.length; i++)  {
         try{
-                System.out.println("lol"+i+"wat"+(dirList[i].split("_")).length);
+                System.out.println("Prochazim soubor "+i+">"+(dirList[i]));
                 if((dirList[i].split("_"))[0].equalsIgnoreCase("cor")){
+                    System.out.println("Testuju zadani "+i+">"+(dirList[i]));
                     DocumentBuilder parser = factory.newDocumentBuilder();
                     doc = parser.parse(dirName.concat(dirList[i]));
                 }
@@ -122,26 +87,34 @@ public class SchemaEvaluator implements Evaluator{
         catch (IOException e){
              result = "Something's wrong. Call an admin!";
            }
-         }        
-        return result;    
+         }
+        return result;
     }
     
     @Override
     public String eval(String expresion, String dirName) throws SyntaxErorException{
   
         String result;
-        CreateTempXSD(expresion);
+        
+        try{String path = tfh.addFile(expresion);
         
         factory.setAttribute(
           "http://java.sun.com/xml/jaxp/properties/schemaSource",
-          temp.getAbsolutePath());
+          path);
         Document doc = null;
         
         result = checkCorrect(dirName, doc);        
         if(result.equals(victoryMessage)) result = checkWrong(dirName, doc);
         
-        temp.delete();
+        //tfh.deleteFile(path);
         return result;
+        }
+        catch(Exception e){
+            System.out.println("something went horribly wrong> " + e.getMessage());
+            Logger.getLogger(SchemaEvaluator.class.getName()).log(Level.SEVERE, null, e);
+            return "It did not work!";
+        }
+        
     }
     
     @Override

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE company SYSTEM "solution.dtd">
+<company>
+  <employee shift="8">
+    <name></name>
+    <salary_per_hour></salary_per_hour>
+    <salary_daily earned="true"></salary_daily>
+    <importance></importance>
+  </employee>
+  <employee shift="8">
+    <name></name>
+    <salary_per_hour></salary_per_hour>
+    <salary_daily></salary_daily>
+    <importance></importance>
+  </employee >
+  <employee shift="8">
+    <name></name>
+    <salary_per_hour></salary_per_hour>
+    <salary_daily earned="false"></salary_daily>
+    <importance></importance>
+  </employee>
+  <employee shift="8">
+    <name></name>
+    <salary_per_hour></salary_per_hour>
+    <salary_daily></salary_daily>
+    <importance></importance>
+  </employee>
+  <employee shift="8">
+    <name></name>
+    <salary_per_hour></salary_per_hour>
+    <salary_daily earned="true"></salary_daily>
+    <importance></importance>
+  </employee>
+</company>
+

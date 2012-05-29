@@ -22,7 +22,7 @@ import xmlExercises.Utils;
 
 /**
  *
- * @author jobas
+ * @author Matous Jobanek
  */
 public class XSLTUtils {
 
@@ -45,7 +45,7 @@ public class XSLTUtils {
             String userHtml = Utils.formatOutputHtml(transformed.toXML()).replace("\\n", "\n");
             String correctHtml = assignment.getHtmlOutputAsString().replace("\\n", "\n");
 
-            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.replaceTagsAndIndent(userHtml), Utils.replaceTagsAndIndent(correctHtml));
+            return new XSLTResult(equal, transformed.toXML(), assignment.getHtmlOutput(), Utils.replaceTagsAndIndent(userHtml, true), Utils.replaceTagsAndIndent(correctHtml, true));
 
         } catch (XSLException e) {
             LOGGER.log(Level.SEVERE, "Problem", e);
@@ -197,11 +197,11 @@ public class XSLTUtils {
         String assignmentText = null;
         String xsl = null;
         for (int i = 0; i < files.length; i++) {
-            if (files[i].getPath().toLowerCase().endsWith("xml")) {
+            if (files[i].getPath().toLowerCase().endsWith(Constants.XML_FILE_SUFFIX)) {
                 xmlDoc = files[i].getPath();
-            } else if (files[i].getPath().toLowerCase().endsWith("txt")) {
+            } else if (files[i].getPath().toLowerCase().endsWith(Constants.ASSIGNMENT_FILE_SUFFIX)) {
                 assignmentText = files[i].getPath();
-            } else if (files[i].getPath().toLowerCase().endsWith("xsl")) {
+            } else if (files[i].getPath().toLowerCase().endsWith(Constants.XSL_FILE_SUFFIX)) {
                 xsl = files[i].getPath();
             }
         }

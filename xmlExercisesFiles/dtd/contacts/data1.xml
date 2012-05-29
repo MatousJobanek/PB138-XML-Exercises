@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE contacts SYSTEM "solution.dtd">
+
+<contacts> 
+   <people>
+    <person name="Petr Ivanovič Soljušin" id="1">
+      <phones>
+        <mobile code="+420" number="777222006"/>
+        <mobile code="+420" number="777222004"/>
+      </phones>
+      <!-- street or full_address -->
+      <street>Red Square 48</street>
+    </person>
+
+    <person name="Miroslav Kovář" id="2">
+      <phones>
+        <mobile code="+420" number="773222000"/>
+        <mobile code="+420" number="773222002"/>
+      </phones>
+      <street>Novoměstská 55</street>
+      <street>Zahradní 18</street>
+    </person>
+        
+    <person name="Billy Cooper"  id="3">
+      <phones>
+        <mobile code="+421" number="645879811"/>
+      </phones>
+      <street>Zahlá 24, Brno</street>
+      <full_address>10250 Constellation Boulevard, Los Angeles</full_address>
+    </person>
+   </people>
+</contacts>
+<?--Toto zadání bylo převzato a upraveno ze cvičení PB138-->

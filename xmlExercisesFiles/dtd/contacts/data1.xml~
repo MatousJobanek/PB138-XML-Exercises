@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE contacts SYSTEM "solution.dtd">
+
+<contacts> 
+   <people>
+    <person name="Petr Ivanovič Soljušin" id="1">
+      <phones>
+        <mobile code="+420" number="777222006"/>
+        <mobile code="+420" number="777222004"/>
+      </phones>
+      <!-- street or full_address -->
+      <street>Red Square</street>
+      <html_name><![CDATA[<b>Petr Ivanovič Soljušin</b>]]></html_name>
+    </person>
+
+    <person name="Miroslav Kovář" id="2">
+      <phones>
+        <mobile code="+420" number="773222000"/>
+        <mobile code="+420" number="773222002"/>
+      </phones>
+      <street>Novoměstská 55</street>
+      <street>Zahradní 18</street>
+      <html_name>&lt;b&gt;Miroslav Kovář&lt;/b&gt;</html_name>
+    </person>
+        
+    <person name="Billy Cooper"  id="3">
+      <phones>
+        <mobile code="+421" number="645879811"/>
+      </phones>
+      <street>Zahlá 24, Brno</street>
+      <full_address>10250 Constellation Boulevard, Los Angeles</full_address>
+      <html_name>&lt;b&gt;Billy Cooper&lt;/b&gt;</html_name>
+    </person>
+   </people>
+</contacts>

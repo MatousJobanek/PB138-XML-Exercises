@@ -26,10 +26,10 @@
             ${loopStatus.index+1}
         </td>
         <td>
-            <c:out value="${result.userSolution}"/>
+            ${result.userSolution}
         </td>
         <td>
-            <c:out value="${result.correctSolution}"/>
+            ${result.correctSolution}
         </td>
         <td class="${result.isCorrect ? "ok":"nok"}">
             <c:out value='${result.isCorrect ? "OK":"X"}'/>

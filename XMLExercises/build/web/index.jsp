@@ -28,15 +28,10 @@
     <body>
         <div id="wraper" class="ui-corner-all" >
             <div id="header">
-                <select onchange="XMLSolver.loadTask(this.options[this.selectedIndex].value)">
-                    <option selected value="none" > Choose type </option>
-                    <option value="/xquery" > XQuery </option>
-                    <option value="/xslt" > XSLT </option>
-                    <option value="/xpath" > XPath </option>
-                    <option value="/xmlschema" > XML Schema </option>
-                    <option value="/dtd" > DTD </option>
+                <select onchange="XMLSolver.loadTask(this.options[this.selectedIndex].value)" id="type">
+
                 </select>
-                <button class="rand">Get random</button>
+                <button class="rand"  disabled="disabled">Get random assignment</button>
             </div>
             <div class="data ui-corner-all" > 
                 <h4>Testing data:</h4>
@@ -49,7 +44,8 @@
                 <h4>Assignment:</h4>
             <div  id="tasktext" ></div>
                 <textarea id="solution"></textarea>
-                <button class="send">Run</button>
+                <button class="send" disabled="disabled">Run</button>
+                <div id='stringoutput'></div>
             </div>
 
             <div class="rect ui-corner-all" >

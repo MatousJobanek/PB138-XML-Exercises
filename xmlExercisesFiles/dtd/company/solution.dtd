@@ -1,0 +1,8 @@
+<!ELEMENT company (employee*)>
+<!ELEMENT employee (name, salary_per_hour, salary_daily, importance)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT salary_per_hour (#PCDATA)>
+<!ELEMENT salary_daily (#PCDATA)>
+<!ELEMENT importance (#PCDATA)>
+<!ATTLIST employee shift CDATA #REQUIRED>
+<!ATTLIST salary_daily earned (true|false) #IMPLIED>

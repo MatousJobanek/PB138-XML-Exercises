@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ARTICLES SYSTEM "solution.dtd">
+<ARTICLES>
+  <ARTICLE>
+    <ARTICLEDATA>
+      <TITLE>XML Demystified</TITLE>
+      <AUTHOR>Jaidev</AUTHOR>
+    </ARTICLEDATA>
+  </ARTICLE>
+  <ARTICLE>
+    <ARTICLEDATA>
+      <TITLE>Hardcore Hardware</TITLE>
+      <AUTHOR>Janett</AUTHOR>
+    </ARTICLEDATA>
+  </ARTICLE>
+  <ARTICLE>
+    <ARTICLEDATA>
+      <TITLE>Cooking for Dummies</TITLE>
+      <AUTHOR>Tobias Cook</AUTHOR>
+    </ARTICLEDATA>
+  </ARTICLE>
+  <ARTICLE>
+    <ARTICLEDATA>
+      <TITLE>Feminism basics</TITLE>
+      <AUTHOR>Julia Roscow</AUTHOR>
+    </ARTICLEDATA>
+    <ARTICLEDATA>
+      <TITLE>Strong women among us</TITLE>
+      <AUTHOR>Catherine Smith</AUTHOR>
+    </ARTICLEDATA>
+  </ARTICLE>
+</ARTICLES>
+
