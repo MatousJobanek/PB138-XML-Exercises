@@ -18,7 +18,16 @@ import org.xml.sax.SAXParseException;
 public class DTDEvaluator implements Evaluator{
     boolean valid = true;
     int errOnLine = 0;
+    String error = "";
     
+    /*
+     * @param String expression - string containing DTD to validate XML with
+     * @param String fileName - string containing path to XML document
+     * 
+     * @return String with information if XML document is valid or with 
+     *         information about mistakes
+     */
+    @Override
     public String eval(String expresion, String fileName){
 
         DocumentBuilder dBuilder = null;
@@ -40,21 +49,21 @@ public class DTDEvaluator implements Evaluator{
         docBuildFac.setValidating(true);
         
         try {dBuilder = docBuildFac.newDocumentBuilder();}
-        catch (ParserConfigurationException pce){valid = false;}
+        catch (ParserConfigurationException pce){}
         
         dBuilder.setErrorHandler(new org.xml.sax.ErrorHandler() {
             
             @Override
-            public void fatalError(SAXParseException exception)
-            throws SAXException {valid = false;errOnLine = exception.getLineNumber();}
+            public void fatalError(SAXParseException e)
+            throws SAXException {valid = false;errOnLine = e.getLineNumber();error=e.getMessage();}
             
             @Override
-            public void error(SAXParseException exc)
-            throws SAXParseException {valid = false;errOnLine = exc.getLineNumber();}
+            public void error(SAXParseException e)
+            throws SAXParseException {valid = false;errOnLine = e.getLineNumber();error=e.getMessage();}
             
             @Override
             public void warning(SAXParseException e)
-            throws SAXParseException {valid = false;errOnLine = e.getLineNumber();}
+            throws SAXParseException {valid = false;errOnLine = e.getLineNumber();error=e.getMessage();}
         });
         
         
@@ -67,9 +76,38 @@ public class DTDEvaluator implements Evaluator{
         if (valid == true)
             return "Valid!";
         else
-            return "Not Valid! Error on line:" + errOnLine;
+            
+            return "Not Valid! Error on line: " + errOnLine + "\n" + getFormated(error) ;
     }
     
+    /*
+     * @param String string - string to format
+     * 
+     * @return formatted String
+     */
+    private String getFormated(String string){
+        String[] splited = string.split(" ");
+        StringBuffer buffered = new StringBuffer("");
+        int count = 0;
+        for (String s : splited){
+            if (count < 5){
+                
+                count++;
+            } else {
+                count = 0;
+                buffered.append("\n");
+            }
+            buffered.append(s + " ");
+        }
+        return buffered.toString();    }
+    
+    /*
+     * @param String result1 - result from User
+     * @param String result2 - result from solution
+     * 
+     * @return Boolean true if results are the same
+     */
+    @Override
     public boolean compare(String result1, String result2){
         return result1.equals(result2);
     }

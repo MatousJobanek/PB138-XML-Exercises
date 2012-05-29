@@ -5,4 +5,4 @@
 <!ELEMENT salary_daily (#PCDATA)>
 <!ELEMENT importance (#PCDATA)>
 <!ATTLIST employee shift CDATA #REQUIRED>
-<!ATTLIST salary_daily CDATA #IMPLIED>
+<!ATTLIST salary_daily earned (true|false) #IMPLIED>
